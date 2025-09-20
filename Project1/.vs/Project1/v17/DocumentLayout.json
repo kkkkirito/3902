@@ -1,0 +1,281 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\shiha\\source\\repos\\Project1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\sprites\\basesprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:sprites\\basesprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\sprites\\movinganimatedsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:sprites\\movinganimatedsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\sprites\\movingstaticsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:sprites\\movingstaticsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\controllers\\mouseinputcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:controllers\\mouseinputcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\controllers\\keyboardinputcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:controllers\\keyboardinputcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\commands\\quitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:commands\\quitcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\commands\\setspritecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:commands\\setspritecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\sprites\\staticsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:sprites\\staticsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\sprites\\animatedsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:sprites\\animatedsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\interfaces\\icommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:interfaces\\icommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\sprites\\textsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:sprites\\textsprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\interfaces\\isprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:interfaces\\isprite.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\interfaces\\icontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:interfaces\\icontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|c:\\users\\shiha\\source\\repos\\project1\\project1.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{647557ED-F5FF-4433-9A83-6D7BC37F5D08}|Project1.csproj|solutionrelative:project1.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "QuitCommand.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Commands\\QuitCommand.cs",
+              "RelativeDocumentMoniker": "Commands\\QuitCommand.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Commands\\QuitCommand.cs",
+              "RelativeToolTip": "Commands\\QuitCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:23:48.088Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "KeyboardInputController.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Controllers\\KeyboardInputController.cs",
+              "RelativeDocumentMoniker": "Controllers\\KeyboardInputController.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Controllers\\KeyboardInputController.cs",
+              "RelativeToolTip": "Controllers\\KeyboardInputController.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwAUAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:25:40.377Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "MouseInputController.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Controllers\\MouseInputController.cs",
+              "RelativeDocumentMoniker": "Controllers\\MouseInputController.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Controllers\\MouseInputController.cs",
+              "RelativeToolTip": "Controllers\\MouseInputController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:26:37.64Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BaseSprite.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\BaseSprite.cs",
+              "RelativeDocumentMoniker": "Sprites\\BaseSprite.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\BaseSprite.cs",
+              "RelativeToolTip": "Sprites\\BaseSprite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:27:41.338Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MovingAnimatedSprite.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\MovingAnimatedSprite.cs",
+              "RelativeDocumentMoniker": "Sprites\\MovingAnimatedSprite.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\MovingAnimatedSprite.cs",
+              "RelativeToolTip": "Sprites\\MovingAnimatedSprite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:29:38.516Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MovingStaticSprite.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\MovingStaticSprite.cs",
+              "RelativeDocumentMoniker": "Sprites\\MovingStaticSprite.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\MovingStaticSprite.cs",
+              "RelativeToolTip": "Sprites\\MovingStaticSprite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:29:18.142Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Game1.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Game1.cs",
+              "RelativeDocumentMoniker": "Game1.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Game1.cs",
+              "RelativeToolTip": "Game1.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwCYAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:21:03.385Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SetSpriteCommand.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Commands\\SetSpriteCommand.cs",
+              "RelativeDocumentMoniker": "Commands\\SetSpriteCommand.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Commands\\SetSpriteCommand.cs",
+              "RelativeToolTip": "Commands\\SetSpriteCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:24:39.927Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "StaticSprite.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\StaticSprite.cs",
+              "RelativeDocumentMoniker": "Sprites\\StaticSprite.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\StaticSprite.cs",
+              "RelativeToolTip": "Sprites\\StaticSprite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:28:20.929Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AnimatedSprite.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\AnimatedSprite.cs",
+              "RelativeDocumentMoniker": "Sprites\\AnimatedSprite.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\AnimatedSprite.cs",
+              "RelativeToolTip": "Sprites\\AnimatedSprite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:28:48.724Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ICommand.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Interfaces\\ICommand.cs",
+              "RelativeDocumentMoniker": "Interfaces\\ICommand.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Interfaces\\ICommand.cs",
+              "RelativeToolTip": "Interfaces\\ICommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:22:31.871Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "TextSprite.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\TextSprite.cs",
+              "RelativeDocumentMoniker": "Sprites\\TextSprite.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Sprites\\TextSprite.cs",
+              "RelativeToolTip": "Sprites\\TextSprite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:30:29.632Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:30:59.184Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "IController.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Interfaces\\IController.cs",
+              "RelativeDocumentMoniker": "Interfaces\\IController.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Interfaces\\IController.cs",
+              "RelativeToolTip": "Interfaces\\IController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:21:23.833Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ISprite.cs",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Interfaces\\ISprite.cs",
+              "RelativeDocumentMoniker": "Interfaces\\ISprite.cs",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Interfaces\\ISprite.cs",
+              "RelativeToolTip": "Interfaces\\ISprite.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T03:20:52.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Project1.csproj",
+              "DocumentMoniker": "C:\\Users\\shiha\\source\\repos\\Project1\\Project1.csproj",
+              "RelativeDocumentMoniker": "Project1.csproj",
+              "ToolTip": "C:\\Users\\shiha\\source\\repos\\Project1\\Project1.csproj",
+              "RelativeToolTip": "Project1.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-09-14T03:19:49.828Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

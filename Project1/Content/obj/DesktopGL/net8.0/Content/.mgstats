@@ -1,0 +1,3 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/shiha/source/repos/Project1/Content/DefaultSpriteFont.spritefont","C:/Users/shiha/source/repos/Project1/Content/bin/DesktopGL/Content/DefaultSpriteFont.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21529,0.1018794
+"C:/Users/shiha/source/repos/Project1/Content/mario.png","C:/Users/shiha/source/repos/Project1/Content/bin/DesktopGL/Content/mario.xnb","TextureProcessor","Texture2DContent",6584,304645,0.0603727
