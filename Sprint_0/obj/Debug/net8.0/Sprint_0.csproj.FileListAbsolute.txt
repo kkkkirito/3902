@@ -1,0 +1,6 @@
+C:\Users\shiha\Documents\GitHub\3902_Game\Sprint_0\obj\Debug\net8.0\Sprint_0.csproj.AssemblyReference.cache
+C:\Users\shiha\Documents\GitHub\3902_Game\Sprint_0\obj\Debug\net8.0\Sprint_0.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\shiha\Documents\GitHub\3902_Game\Sprint_0\obj\Debug\net8.0\Sprint_0.AssemblyInfoInputs.cache
+C:\Users\shiha\Documents\GitHub\3902_Game\Sprint_0\obj\Debug\net8.0\Sprint_0.AssemblyInfo.cs
+C:\Users\shiha\Documents\GitHub\3902_Game\Sprint_0\obj\Debug\net8.0\Sprint_0.csproj.CoreCompileInputs.cache
+C:\Users\shiha\Documents\GitHub\3902_Game\Sprint_0\obj\Debug\net8.0\Sprint_0.sourcelink.json

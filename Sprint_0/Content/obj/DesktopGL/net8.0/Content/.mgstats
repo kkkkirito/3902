@@ -1,0 +1,6 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/gameFont.spritefont","C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/bin/DesktopGL/Content/gameFont.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21529,0.107045
+"C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/MarioSprites.gif","C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/bin/DesktopGL/Content/MarioSprites.xnb","TextureProcessor","Texture2DContent",23602,822937,0.0711102
+"C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/Zelda_2_Items.png","C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/bin/DesktopGL/Content/Zelda_2_Items.xnb","TextureProcessor","Texture2DContent",7725,193621,0.0060942
+"C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/Zelda_2_Palace_Blocks.png","C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/bin/DesktopGL/Content/Zelda_2_Palace_Blocks.xnb","TextureProcessor","Texture2DContent",47051,1654185,0.032243
+"C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/Zelda_2_Palace_Enemies.png","C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/bin/DesktopGL/Content/Zelda_2_Palace_Enemies.xnb","TextureProcessor","Texture2DContent",71720,1569193,0.024404

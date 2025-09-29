@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/gameFont.spritefont</File>
+    <File>C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/MarioSprites.gif</File>
+    <File>C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/Zelda_2_Items.png</File>
+    <File>C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/Zelda_2_Palace_Blocks.png</File>
+    <File>C:/Users/shiha/Documents/GitHub/3902_Game/Sprint_0/Content/Zelda_2_Palace_Enemies.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>
