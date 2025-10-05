@@ -1,0 +1,22 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Sprint_0.EnemyStateMachine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Sprint_0.Enemies
+{
+    public class StalfosEnemy : Enemy
+    {
+        public StalfosEnemy(Texture2D spriteSheet, Vector2 startPos)
+           : base(SpriteFactory.CreateStalfosAnimations(spriteSheet), startPos)
+
+        {
+            this.Position = startPos;
+            ChangeState(new StalfosSpawnState());
+        }
+    }
+}
