@@ -15,6 +15,9 @@ namespace Sprint_0
 {
     public class Game1 : Game
     {
+        private bool gameStarted = false;
+        private KeyboardState previousMenuKeyState;
+
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -186,6 +189,20 @@ namespace Sprint_0
 
         protected override void Update(GameTime gameTime)
         {
+            // Menu logic - check for Enter to start game
+            if (!gameStarted)
+            {
+                var currentKeyState = Keyboard.GetState();
+                if (currentKeyState.IsKeyDown(Keys.Enter) && !previousMenuKeyState.IsKeyDown(Keys.Enter))
+                {
+                    gameStarted = true;
+                }
+                previousMenuKeyState = currentKeyState;
+                base.Update(gameTime);
+                return; // Don't update game logic until started
+            }
+
+
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
@@ -223,7 +240,23 @@ namespace Sprint_0
             GraphicsDevice.Clear(Color.CornflowerBlue);
             //string credits = "Credits\nProgram Made By: Team 4\nSprites from: \nhttps://www.mariouniverse.com/wp-content/img/sprites/nes/smb/characters.gif";
 
+         
+
             _spriteBatch.Begin();
+
+            // Draw menu if game hasn't started
+            if (!gameStarted)
+            {
+                string menuText = "Press ENTER to start";
+                Vector2 screenCenter = new Vector2(
+                    GraphicsDevice.Viewport.Width / 2f - 100, // 简单居中
+                    GraphicsDevice.Viewport.Height / 2f
+                );
+                _spriteBatch.DrawString(font, menuText, screenCenter, Color.White);
+                _spriteBatch.End();
+                base.Draw(gameTime);
+                return; // Don't draw game until started
+            }
 
             //drawnSprite.Draw(_spriteBatch, spritePosition);
 
