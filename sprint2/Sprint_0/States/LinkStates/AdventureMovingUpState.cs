@@ -5,7 +5,7 @@ using Sprint_0.Interfaces;
 
 
 
-    namespace Sprint_0.States.LinkStates
+namespace Sprint_0.States.LinkStates
 {
     public class AdventureMovingUpState : IPlayerState
     {

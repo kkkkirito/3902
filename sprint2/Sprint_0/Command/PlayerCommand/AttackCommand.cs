@@ -1,6 +1,5 @@
-﻿using Sprint_0.Interfaces;
-using Sprint_0.States.LinkStates;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.Command.PlayerCommand
 {

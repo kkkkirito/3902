@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Interfaces;
 
 namespace Sprint_0.States.LinkStates
-{ 
+{
     public class AttackState : IPlayerState
     {
         private readonly AttackMode _mode;
@@ -11,7 +11,7 @@ namespace Sprint_0.States.LinkStates
         private float attackTimer;
         private InputState state = new InputState();
         private const int totalFrames = 2; // matches SpriteFactory.GetAttackingSprite count
-        public AttackState(): this(AttackMode.Normal) { }
+        public AttackState() : this(AttackMode.Normal) { }
 
         public AttackState(AttackMode mode)
         {
@@ -64,7 +64,7 @@ namespace Sprint_0.States.LinkStates
                 case AttackMode.Crouch:
 
                     source = SpriteFactory.GetCrouchAttackSprite(player.FacingDirection, player.CurrentFrame); // TODO: implement
-                    
+
                     break;
                 default:
                     source = SpriteFactory.GetAttackingSprite(player.FacingDirection, player.CurrentFrame);

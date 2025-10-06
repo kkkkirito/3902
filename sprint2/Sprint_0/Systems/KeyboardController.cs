@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Versioning;
+﻿using Microsoft.Xna.Framework.Input;
 using Sprint_0.Interfaces;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
-using Sprint_0.States.LinkStates;
+using System.Collections.Generic;
 
 
 namespace Sprint_0
@@ -27,17 +23,17 @@ namespace Sprint_0
 
             this.game = game;
             this.player = player; // Store player reference
-            _prev = Keyboard.GetState(); 
+            _prev = Keyboard.GetState();
         }
 
         public void Press(Keys key, ICommand command)
         {
-                pressed[key] = command;
+            pressed[key] = command;
         }
 
         public void BindHold(Keys key, ICommand command)
         {
-                held[key] = command;
+            held[key] = command;
         }
         public void BindRelease(Keys key, ICommand command)
         {
@@ -67,7 +63,8 @@ namespace Sprint_0
                 }
             }
 
-            foreach (var (key, cmd) in released) {
+            foreach (var (key, cmd) in released)
+            {
                 if (_prev.IsKeyDown(key) && currentState.IsKeyUp(key))
                     cmd.Execute();
             }

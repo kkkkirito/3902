@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using Sprint_0.Interfaces;
 using Sprint_0.Enemies;
+using Sprint_0.Interfaces;
+using System;
 
 namespace Sprint_0.EnemyStateMachine
 {
@@ -64,7 +64,7 @@ namespace Sprint_0.EnemyStateMachine
                 enemy.Facing = FacingDirection.Right;
                 enemy.ChangeState(new MoveState());
             }
-            else if (enemy.Position.X > 800) 
+            else if (enemy.Position.X > 800)
             {
                 enemy.Facing = FacingDirection.Left;
                 enemy.ChangeState(new MoveState());

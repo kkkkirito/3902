@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.EnemyStateMachine;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sprint_0.Enemies
 {
@@ -18,5 +13,5 @@ namespace Sprint_0.Enemies
             ChangeState(new OverworldIdleState());
         }
     }
-    
+
 }

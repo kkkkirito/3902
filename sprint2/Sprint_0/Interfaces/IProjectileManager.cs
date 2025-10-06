@@ -1,7 +1,6 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Sprint_0;
 
 public enum ProjectileType { SwordBeam, Fireball }
 

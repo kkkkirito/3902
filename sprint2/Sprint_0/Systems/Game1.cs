@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sprint_0.Blocks;
@@ -11,12 +9,19 @@ using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
 using Sprint_0.Player_Namespace;
 
+using System;
+using System.Collections.Generic;
+
+using Sprint_0.States;
+using Sprint_0.Command.GameCommand;
+
+
 namespace Sprint_0
 {
     public class Game1 : Game
     {
-        private bool gameStarted = false;
-        private KeyboardState previousMenuKeyState;
+        // ===== Add state manager =====
+        private GameStateManager stateManager;
 
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
@@ -41,6 +46,8 @@ namespace Sprint_0
         private Texture2D overworldEnemyTextures;
 
         private ItemSelector itemSelector;
+        private EnemySelector enemySelector;
+
 
         private IPlayer player;
 
@@ -52,6 +59,9 @@ namespace Sprint_0
 
         private IProjectileManager projectileManager;
 
+        // ===== Add Q and R command handling =====
+        private Dictionary<Keys, ICommand> gameCommands;
+        private KeyboardState previousGameKeyState;
 
         public Game1()
         {
@@ -69,13 +79,14 @@ namespace Sprint_0
 
             spritePosition = new Vector2(viewport.Width / 2, viewport.Height / 2);
 
+            // ===== Add: Initialize state manager =====
+            stateManager = new GameStateManager();
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             keyboardController = new KeyboardController(this);
@@ -93,7 +104,10 @@ namespace Sprint_0
             player = new Player(linkTextures, new Vector2(100, 100), keyboardController);
 
             projectileManager = new ProjectileManager(linkTextures);
-            
+
+
+
+
 
             ((KeyboardController)keyboardController).BindHold(Keys.W, new MoveUpCommand(player));
             ((KeyboardController)keyboardController).BindHold(Keys.S, new MoveDownOrCrouchOnCommand(player));
@@ -110,19 +124,16 @@ namespace Sprint_0
             ((KeyboardController)keyboardController).Press(Keys.Y, new NextBlockCommand(blockSelector));
             ((KeyboardController)keyboardController).Press(Keys.X, new SwordBeamCommand(player, projectileManager));
             ((KeyboardController)keyboardController).Press(Keys.C, new FireballCommand(player, projectileManager));
-            
+
+
+
 
 
 
 
 
             // Enemy initialization
-            botEnemy = new BotEnemy(enemyTextures, new Vector2(500, 100));
-            stalfosEnemy = new StalfosEnemy(enemyTextures, new Vector2(500, 0));
-            octorokEnemy = new OctorokEnemy(overworldEnemyTextures, enemyTextures, new Vector2(500, 200));
-            overworldBotEnemy = new OverworldBotEnemy(overworldEnemyTextures, new Vector2(500, 300));
-            overworldManEnemy = new OverworldManEnemy(overworldEnemyTextures, new Vector2(500, 300));
-            stalfosEnemy = new StalfosEnemy(enemyTextures, new Vector2(500, 0));
+            enemySelector = new EnemySelector(enemyTextures, overworldEnemyTextures);
 
             // Items
             var itemAnimations = SpriteFactory.CreateItemAnimations(itemTextures);
@@ -143,8 +154,6 @@ namespace Sprint_0
                 new Rectangle(153, 20, 17, 17),
                 new Rectangle(170, 20, 17, 17)
             };
-
-
 
             var items = new List<Rectangle>
             {
@@ -172,10 +181,7 @@ namespace Sprint_0
                 new Rectangle(238, 10, 17, 17),
                 new Rectangle(255, 10, 17, 17),
                 new Rectangle(272, 10, 17, 17)
-
             };
-
-
 
             Rectangle standing = new Rectangle(276, 43, 13, 17);
 
@@ -183,40 +189,56 @@ namespace Sprint_0
             font = Content.Load<SpriteFont>("gameFont");
             fontPosition = new Vector2(viewport.Width / 2, (viewport.Height / 2) + 50);
 
-            
 
+
+
+            // ===== Add: Setup state manager =====
+            SetupStateManager();
+
+
+            // ===== Add: Initialize Q and R commands =====
+            gameCommands = new Dictionary<Keys, ICommand>();
+            gameCommands[Keys.Q] = new QuitCommand(this);
+            gameCommands[Keys.R] = new ResetCommand(new GameplayResetHandler(this, player, blockSelector, blockPosition));
         }
 
-        protected override void Update(GameTime gameTime)
+        // ===== Add new method: Setup state manager =====
+        private void SetupStateManager()
         {
-            // Menu logic - check for Enter to start game
-            if (!gameStarted)
+            // Create menu state
+            var menuState = new MenuState(this, font, stateManager);
+
+            // Create gameplay state (use wrapper to delegate to Game1's existing logic)
+            var gameplayState = new GameplayStateDelegate(this);
+
+            // Add states
+            stateManager.AddState("menu", menuState);
+            stateManager.AddState("gameplay", gameplayState);
+
+            // Start with menu
+            stateManager.ChangeState("menu");
+        }
+
+        // ===== Add new method: Game logic update (called by GameplayStateDelegate) =====
+        public void UpdateGameplay(GameTime gameTime)
+        {
+            // Handle Q and R keys
+            KeyboardState currentKeyState = Keyboard.GetState();
+            foreach (var kvp in gameCommands)
             {
-                var currentKeyState = Keyboard.GetState();
-                if (currentKeyState.IsKeyDown(Keys.Enter) && !previousMenuKeyState.IsKeyDown(Keys.Enter))
+                if (currentKeyState.IsKeyDown(kvp.Key) && !previousGameKeyState.IsKeyDown(kvp.Key))
                 {
-                    gameStarted = true;
+                    kvp.Value.Execute();
                 }
-                previousMenuKeyState = currentKeyState;
-                base.Update(gameTime);
-                return; // Don't update game logic until started
             }
+            previousGameKeyState = currentKeyState;
 
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
             keyboardController.Update();
             mouseController.Update();
             player?.Update(gameTime);
 
             // Enemies
-            botEnemy?.Update(gameTime);
-            overworldBotEnemy?.Update(gameTime);
-            overworldManEnemy?.Update(gameTime);
-            stalfosEnemy?.Update(gameTime);
-            octorokEnemy?.Update(gameTime);
+            enemySelector.Update(gameTime);
 
             // Items
             itemSelector.Update(gameTime);
@@ -230,9 +252,35 @@ namespace Sprint_0
                 keyboardController.blockSwitch = 0;
             }
             projectileManager?.Update(gameTime);
+        }
+
+        // ===== Add new method: Game drawing (called by GameplayStateDelegate) =====
+        public void DrawGameplay(SpriteBatch spriteBatch)
+        {
+            player?.Draw(spriteBatch);
+            //Vector2 origin = font.MeasureString(credits) / 2;
+            //_spriteBatch.DrawString(font, credits, fontPosition, Color.Black, 0, origin, 1.0f, SpriteEffects.None, 0.5f);
+
+            // Enemies
+            enemySelector.Draw(spriteBatch);
+            spriteBatch.Draw(blockFactory.Texture, blockPosition, blockFactory.GetSourceByIndex(blockSelector.Index), Color.White);
+
+            //Items 
+            itemSelector.Draw(spriteBatch, new Vector2(100, 200));
+
+            projectileManager?.Draw(spriteBatch);
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
+            stateManager.Update(gameTime);
 
             base.Update(gameTime);
-
         }
 
         protected override void Draw(GameTime gameTime)
@@ -240,47 +288,88 @@ namespace Sprint_0
             GraphicsDevice.Clear(Color.CornflowerBlue);
             //string credits = "Credits\nProgram Made By: Team 4\nSprites from: \nhttps://www.mariouniverse.com/wp-content/img/sprites/nes/smb/characters.gif";
 
-         
-
-            _spriteBatch.Begin();
-
-            // Draw menu if game hasn't started
-            if (!gameStarted)
-            {
-                string menuText = "Press ENTER to start";
-                Vector2 screenCenter = new Vector2(
-                    GraphicsDevice.Viewport.Width / 2f - 100, // 简单居中
-                    GraphicsDevice.Viewport.Height / 2f
-                );
-                _spriteBatch.DrawString(font, menuText, screenCenter, Color.White);
-                _spriteBatch.End();
-                base.Draw(gameTime);
-                return; // Don't draw game until started
-            }
-
-            //drawnSprite.Draw(_spriteBatch, spritePosition);
-
-            player?.Draw(_spriteBatch);
-            //Vector2 origin = font.MeasureString(credits) / 2;
-            //_spriteBatch.DrawString(font, credits, fontPosition, Color.Black, 0, origin, 1.0f, SpriteEffects.None, 0.5f);
-
-            // Enemies
-            botEnemy.Draw(_spriteBatch);
-            overworldBotEnemy.Draw(_spriteBatch);
-            overworldManEnemy.Draw(_spriteBatch);
-            stalfosEnemy.Draw(_spriteBatch);
-            octorokEnemy.Draw(_spriteBatch);
-            currentBlock?.Draw(_spriteBatch);
-            _spriteBatch.Draw(blockFactory.Texture, blockPosition, blockFactory.GetSourceByIndex(blockSelector.Index), Color.White);
-
-            //Items 
-            itemSelector.Draw(_spriteBatch, new Vector2(100, 200));
-
-            projectileManager?.Draw(_spriteBatch);
-
-            _spriteBatch.End();
+            stateManager.Draw(_spriteBatch);
 
             base.Draw(gameTime);
+        }
+
+        // ===== Add reset method =====
+        public void ResetGame()
+        {
+            // Reset player
+            if (player != null)
+            {
+                player.CurrentHealth = player.MaxHealth;
+                player.Position = new Vector2(100, 100);
+                player.CurrentState = new Sprint_0.States.LinkStates.IdleState();
+            }
+
+            // Reset block
+            currentBlock = blockSelector.CreateCurrent(blockPosition);
+
+            // Reset enemies
+            enemySelector = new EnemySelector(enemyTextures, overworldEnemyTextures);
+
+            //Reset items
+            itemSelector = new ItemSelector(SpriteFactory.CreateItemAnimations(itemTextures));
+        }
+    }
+
+    // ===== Add new class: Gameplay state delegate =====
+    public class GameplayStateDelegate : IGameState
+    {
+        private Game1 game;
+
+        public GameplayStateDelegate(Game1 game)
+        {
+            this.game = game;
+        }
+
+        public void Enter() { }
+        public void Exit() { }
+
+        public void Update(GameTime gameTime)
+        {
+            game.UpdateGameplay(gameTime);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            game.DrawGameplay(spriteBatch);
+            spriteBatch.End();
+        }
+
+        public void Reset()
+        {
+            game.ResetGame();
+        }
+    }
+
+    // ===== Add new class: Reset handler =====
+    public class GameplayResetHandler : IGameState
+    {
+        private Game1 game;
+        private IPlayer player;
+        private BlockSelector blockSelector;
+        private Vector2 blockPosition;
+
+        public GameplayResetHandler(Game1 game, IPlayer player, BlockSelector blockSelector, Vector2 blockPosition)
+        {
+            this.game = game;
+            this.player = player;
+            this.blockSelector = blockSelector;
+            this.blockPosition = blockPosition;
+        }
+
+        public void Enter() { }
+        public void Exit() { }
+        public void Update(GameTime gameTime) { }
+        public void Draw(SpriteBatch spriteBatch) { }
+
+        public void Reset()
+        {
+            game.ResetGame();
         }
     }
 }

@@ -10,5 +10,5 @@ public sealed class EmptyItem : IUsableItem
     public bool IsConsumable => false;
     public bool CanUse(IPlayer player) => false;
     public void Use(IPlayer player) { /* no-op */ }
-    public EmptyItem() { } 
+    public EmptyItem() { }
 }

@@ -26,7 +26,7 @@ namespace Sprint_0
         {
 
             //spriteBatch.Draw(texture, position, frame, Color.White);
-            
+
         }
     }
 }

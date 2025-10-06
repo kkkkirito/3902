@@ -1,9 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sprint_0
 {
@@ -12,7 +7,7 @@ namespace Sprint_0
 
         private Game1 game;
         public int blockSwitch { get; set; } = 0;
-        public MouseController(Game1 game) 
+        public MouseController(Game1 game)
         {
 
             this.game = game;
@@ -34,8 +29,8 @@ namespace Sprint_0
                 int width = game.Window.ClientBounds.Width;
 
 
-                }
             }
         }
     }
+}
 

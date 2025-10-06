@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Sprint_0.Interfaces;
 using Sprint_0.Enemies;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.EnemyStateMachine
 {

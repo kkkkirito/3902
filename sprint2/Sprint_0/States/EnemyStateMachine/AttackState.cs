@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sprint_0.Interfaces;
 using Sprint_0.Enemies;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.EnemyStateMachine
 {
@@ -24,7 +19,7 @@ namespace Sprint_0.EnemyStateMachine
             else
             {
                 enemy.SetAnimation("IdleAttack");
-            }  
+            }
             // Hit Box Later                              
         }
 
@@ -47,6 +42,6 @@ namespace Sprint_0.EnemyStateMachine
 
         public void Done(Enemy enemy) { }
 
-        
+
     }
 }

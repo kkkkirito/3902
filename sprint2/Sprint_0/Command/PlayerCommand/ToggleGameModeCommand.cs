@@ -15,8 +15,8 @@ namespace Sprint_0.Command.PlayerCommand
 
         public void Execute()
         {
-            player.GameMode = player.GameMode == GameModeType.Platformer 
-                ? GameModeType.TopDown 
+            player.GameMode = player.GameMode == GameModeType.Platformer
+                ? GameModeType.TopDown
                 : GameModeType.Platformer;
         }
     }

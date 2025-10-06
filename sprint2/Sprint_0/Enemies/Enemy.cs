@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Sprint_0.Interfaces;
+using System.Collections.Generic;
 
 namespace Sprint_0.Enemies
 {

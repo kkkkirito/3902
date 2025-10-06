@@ -23,8 +23,8 @@ namespace Sprint_0.States.LinkStates
             attackTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (attackTimer >= frameTime)
             {
-            player.CurrentFrame = (player.CurrentFrame + 1) % 2; // 2 jump frames
-            attackTimer -= frameTime;
+                player.CurrentFrame = (player.CurrentFrame + 1) % 2; // 2 jump frames
+                attackTimer -= frameTime;
             }
         }
 
@@ -38,4 +38,4 @@ namespace Sprint_0.States.LinkStates
 
     }
 }
-    
+

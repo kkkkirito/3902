@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework.Input;
-using Sprint_0;
 namespace Sprint_0.States.LinkStates
 {
     public class InputState

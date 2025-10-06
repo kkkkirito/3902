@@ -1,10 +1,10 @@
 ﻿//Dillon Brigode AU 2025
 
 public interface IItem
-    {
-        string Name { get; }
-        bool IsConsumable { get;}
-    }
+{
+    string Name { get; }
+    bool IsConsumable { get; }
+}
 
 public interface IUsableItem : IItem
 {

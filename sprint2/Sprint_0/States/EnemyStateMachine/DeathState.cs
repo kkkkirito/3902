@@ -1,11 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sprint_0.Interfaces;
 using Sprint_0.Enemies;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.EnemyStateMachine
 {
@@ -16,7 +11,7 @@ namespace Sprint_0.EnemyStateMachine
         public void Start(Enemy enemy)
         {
             timer = 0f;
-            enemy.SetAnimation("Death"); 
+            enemy.SetAnimation("Death");
             enemy.Velocity = Vector2.Zero;
         }
         public void Update(Enemy enemy, GameTime gameTime)

@@ -1,8 +1,8 @@
 // Systems/ProjectileManager.cs
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0;
+using System.Collections.Generic;
 
 public sealed class ProjectileManager : IProjectileManager
 {
@@ -90,10 +90,10 @@ public sealed class ProjectileManager : IProjectileManager
 
         switch (player.FacingDirection)
         {
-            case Direction.Left:  dir = new Vector2(-1, 0); pos += new Vector2(-8, -8); break;
-            case Direction.Right: dir = new Vector2( 1, 0); pos += new Vector2( 20, -8); break;
-            case Direction.Up:    dir = new Vector2( 0,-1); pos += new Vector2(  4,-24); break;
-            case Direction.Down:  dir = new Vector2( 0, 1); pos += new Vector2(  4,  8); break;
+            case Direction.Left: dir = new Vector2(-1, 0); pos += new Vector2(-8, -8); break;
+            case Direction.Right: dir = new Vector2(1, 0); pos += new Vector2(20, -8); break;
+            case Direction.Up: dir = new Vector2(0, -1); pos += new Vector2(4, -24); break;
+            case Direction.Down: dir = new Vector2(0, 1); pos += new Vector2(4, 8); break;
         }
         return (pos, dir * speed);
     }

@@ -1,16 +1,16 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Sprint_0.Interfaces;
 using Sprint_0.Enemies;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.EnemyStateMachine
 {
     internal class InvulnerableState : IEnemyState
     {
-        private double duration;         
-        private double timer;            
-        private IEnemyState returnState; 
-        private bool visible;            
+        private double duration;
+        private double timer;
+        private IEnemyState returnState;
+        private bool visible;
         private double flashTimer;
 
         public InvulnerableState(IEnemyState previousState, double durationSeconds = 1.0)
@@ -21,10 +21,10 @@ namespace Sprint_0.EnemyStateMachine
 
         public void Start(Enemy enemy)
         {
-            enemy.SetAnimation("Hurt"); 
+            enemy.SetAnimation("Hurt");
             timer = duration;
             visible = true;
-            flashTimer = 0.1; 
+            flashTimer = 0.1;
         }
 
         public void Update(Enemy enemy, GameTime gameTime)
@@ -56,7 +56,7 @@ namespace Sprint_0.EnemyStateMachine
         {
             if (visible)
             {
-               // enemy.CurrentAnimation.Draw(spriteBatch, enemy.Position, SpriteEffects.None);
+                // enemy.CurrentAnimation.Draw(spriteBatch, enemy.Position, SpriteEffects.None);
             }
         }
     }

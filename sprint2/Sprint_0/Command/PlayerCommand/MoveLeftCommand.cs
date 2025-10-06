@@ -1,5 +1,5 @@
-﻿using Sprint_0.Interfaces;
-using Microsoft.Xna.Framework;  
+﻿using Microsoft.Xna.Framework;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.Command.PlayerCommand
 {
@@ -17,7 +17,7 @@ namespace Sprint_0.Command.PlayerCommand
             if (player != null)
             {
                 player?.Move(new Vector2(-1f, 0f));
-                
+
             }
         }
     }

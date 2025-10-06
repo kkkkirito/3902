@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using Sprint_0.Interfaces;
 using Sprint_0.Enemies;
+using Sprint_0.Interfaces;
+using System;
 
 namespace Sprint_0.EnemyStateMachine
 {
@@ -21,7 +21,7 @@ namespace Sprint_0.EnemyStateMachine
             stateDuration = (float)(1 + Random.Shared.NextDouble() * 2);
         }
         public void Update(Enemy enemy, GameTime gameTime)
-        { 
+        {
 
             stateTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 

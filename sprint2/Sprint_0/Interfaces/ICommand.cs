@@ -1,6 +1,7 @@
 namespace Sprint_0.Interfaces
 {
-    public interface ICommand { 
+    public interface ICommand
+    {
         void Execute();
     }
 }

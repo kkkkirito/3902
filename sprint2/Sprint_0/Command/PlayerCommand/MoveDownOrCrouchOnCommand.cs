@@ -1,6 +1,6 @@
 //Dillon brigode AU25
-using Sprint_0.Interfaces;
 using Microsoft.Xna.Framework;
+using Sprint_0.Interfaces;
 namespace Sprint_0.Command.PlayerCommand
 {
     public class MoveDownOrCrouchOnCommand : ICommand

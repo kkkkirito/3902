@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using Sprint_0.Interfaces;
 using Sprint_0.Enemies;
+using Sprint_0.Interfaces;
+using System;
 
 namespace Sprint_0.EnemyStateMachine
 {
@@ -20,7 +20,7 @@ namespace Sprint_0.EnemyStateMachine
         }
         public void Update(Enemy enemy, GameTime gameTime)
         {
-            
+
             stateTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (stateTimer >= stateDuration && enemy.CanMove)
@@ -53,6 +53,6 @@ namespace Sprint_0.EnemyStateMachine
                 enemy.ChangeState(new OctorokAttack());
             }
         }
-                public void Done(Enemy enemy) { }
+        public void Done(Enemy enemy) { }
     }
 }

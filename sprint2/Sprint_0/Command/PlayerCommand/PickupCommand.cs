@@ -1,4 +1,3 @@
-using Microsoft.Xna.Framework;
 using Sprint_0.Interfaces;
 public class PickupCommand : ICommand
 {
