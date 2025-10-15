@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Interfaces;
 using Sprint_0.States.LinkStates;
 using System;
+using System.Collections.Generic;
 
 //Link class for managing Link.
 namespace Sprint_0.Player_Namespace;
@@ -315,6 +316,11 @@ public class Player : IPlayer
         _heldItem = item;
         Velocity = Vector2.Zero;
         ChangeState(new PickupState());
+    }
+
+    public IEnumerable<ICollidable> GetCollidables()
+    {
+        throw new NotImplementedException();
     }
 }
 

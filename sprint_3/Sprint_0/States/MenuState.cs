@@ -10,6 +10,7 @@ namespace Sprint_0.States
         private Game1 game;
         private SpriteFont font;
         private KeyboardState previousKeyboardState;
+        private GamePadState previousGamePadState;
         private GameStateManager stateManager;
 
         public MenuState(Game1 game, SpriteFont font, GameStateManager stateManager)
@@ -32,9 +33,11 @@ namespace Sprint_0.States
         public void Update(GameTime gameTime)
         {
             KeyboardState currentKeyboardState = Keyboard.GetState();
+            GamePadState pad = GamePad.GetState(PlayerIndex.One);
 
-            if (currentKeyboardState.IsKeyDown(Keys.Enter) &&
-                !previousKeyboardState.IsKeyDown(Keys.Enter))
+            if ((currentKeyboardState.IsKeyDown(Keys.Enter) &&
+                !previousKeyboardState.IsKeyDown(Keys.Enter)) || 
+                (pad.IsButtonDown(Buttons.A) && !previousGamePadState.IsButtonDown(Buttons.A)))
             {
                 stateManager.ChangeState("gameplay");
             }
@@ -46,7 +49,7 @@ namespace Sprint_0.States
         {
             spriteBatch.Begin();
 
-            string menuText = "Press ENTER to start";
+            string menuText = "Press ENTER or Button 'A' to start";
             Vector2 textSize = font.MeasureString(menuText);
             Vector2 position = new Vector2(
                 (game.GraphicsDevice.Viewport.Width - textSize.X) / 2,
