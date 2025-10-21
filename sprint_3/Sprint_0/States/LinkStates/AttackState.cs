@@ -7,6 +7,7 @@ namespace Sprint_0.States.LinkStates
     public class AttackState : IPlayerState
     {
         private readonly AttackMode _mode;
+        public AttackMode Mode => _mode;
         private float attackDuration = 0.5f;
         private float attackTimer;
         private InputState state = new InputState();
@@ -56,14 +57,14 @@ namespace Sprint_0.States.LinkStates
             switch (_mode)
             {
                 case AttackMode.UpThrust:
-                    source = SpriteFactory.GetUpThrustSprite(player.FacingDirection, player.CurrentFrame); // TODO: implement in SpriteFactory
+                    source = SpriteFactory.GetUpThrustSprite(player.FacingDirection, player.CurrentFrame); 
                     break;
                 case AttackMode.DownThrust:
-                    source = SpriteFactory.GetDownThrustSprite(player.FacingDirection, player.CurrentFrame); // TODO: implement
+                    source = SpriteFactory.GetDownThrustSprite(player.FacingDirection, player.CurrentFrame);
                     break;
                 case AttackMode.Crouch:
 
-                    source = SpriteFactory.GetCrouchAttackSprite(player.FacingDirection, player.CurrentFrame); // TODO: implement
+                    source = SpriteFactory.GetCrouchAttackSprite(player.FacingDirection, player.CurrentFrame);
 
                     break;
                 default:

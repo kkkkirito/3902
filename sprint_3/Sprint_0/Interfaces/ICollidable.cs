@@ -5,6 +5,5 @@ namespace Sprint_0.Interfaces
     public interface ICollidable
     {
         Rectangle BoundingBox { get; }
-        void OnCollision(ICollidable other, CollisionDirection direction);
     }
 }

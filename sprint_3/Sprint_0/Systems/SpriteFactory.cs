@@ -448,59 +448,59 @@ namespace Sprint_0
             var dict = new Dictionary<string, Animation>();
 
             //1-11 are exterior blocks
-            dict["sky"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["sk"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(0, 20, 17, 17)
+                new Rectangle(1, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["exterior brick"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["ebr"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(17, 20, 17, 17)
+                new Rectangle(18, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["fancy exterior brick"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["febr"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(34, 20, 17, 17)
+                new Rectangle(35, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["ground"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["gr"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(51, 20, 17, 17)
+                new Rectangle(52, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["exterior top column"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["etcol"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(68, 20, 17, 17)
+                new Rectangle(69, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["exterior column"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["ecol"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(85, 20, 17, 17)
+                new Rectangle(86, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["exterior statue top"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["etstat"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(102, 20, 17, 17)
+                new Rectangle(103, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["exterior statue bottom"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["ebstat"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(119, 20, 17, 17)
+                new Rectangle(120, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["cloud1"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["cl1"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(136, 20, 17, 17)
+                new Rectangle(137, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["cloud2"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["cl2"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(153, 20, 17, 17)
+                new Rectangle(154, 21, 16, 16)
             }, 0.25f, false);
 
-            dict["cloud3"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["cl3"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(170, 20, 17, 17)
+                new Rectangle(171, 21, 16, 16)
             }, 0.25f, false);
 
             //12-36 are interior blocks

@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Room id="1" name="Dungeon Room" width="800" height="480">
+	<Player x="17" y="386" />
+
+	<Blocks>
+		<!-- ==================== Walls ==================== -->
+		<Block index="1" x="0" y="420" solid="true" />
+		<Block index="1" x="17" y="420" solid="true" />
+		<Block index="1" x="34" y="420" solid="true" />
+		<Block index="1" x="51" y="420" solid="true" />
+		<Block index="1" x="68" y="420" solid="true" />
+		<Block index="1" x="85" y="420" solid="true" />
+		<Block index="1" x="102" y="420" solid="true" />
+		<Block index="1" x="119" y="420" solid="true" />
+		<Block index="1" x="136" y="420" solid="true" />
+		<Block index="1" x="153" y="420" solid="true" />
+		<Block index="1" x="170" y="420" solid="true" />
+		<Block index="1" x="187" y="420" solid="true" />
+		<Block index="1" x="204" y="420" solid="true" />
+		<Block index="1" x="221" y="420" solid="true" />
+		<Block index="1" x="238" y="420" solid="true" />
+		<Block index="1" x="255" y="420" solid="true" />
+		<Block index="1" x="272" y="420" solid="true" />
+		<Block index="1" x="289" y="420" solid="true" />
+		<Block index="1" x="306" y="420" solid="true" />
+		<Block index="1" x="323" y="420" solid="true" />
+		<Block index="1" x="340" y="420" solid="true" />
+		<Block index="1" x="357" y="420" solid="true" />
+		<Block index="1" x="374" y="420" solid="true" />
+		<Block index="1" x="391" y="420" solid="true" />
+		<Block index="1" x="408" y="420" solid="true" />
+		<Block index="1" x="425" y="420" solid="true" />
+		<Block index="1" x="442" y="420" solid="true" />
+		<Block index="1" x="459" y="420" solid="true" />
+		<Block index="1" x="476" y="420" solid="true" />
+		<Block index="1" x="493" y="420" solid="true" />
+		<Block index="1" x="510" y="420" solid="true" />
+		<Block index="1" x="527" y="420" solid="true" />
+		<Block index="1" x="544" y="420" solid="true" />
+		<Block index="1" x="561" y="420" solid="true" />
+		<Block index="1" x="578" y="420" solid="true" />
+		<Block index="1" x="595" y="420" solid="true" />
+		<Block index="1" x="612" y="420" solid="true" />
+		<Block index="1" x="629" y="420" solid="true" />
+		<Block index="1" x="646" y="420" solid="true" />
+		<Block index="1" x="663" y="420" solid="true" />
+		<Block index="1" x="680" y="420" solid="true" />
+		<Block index="1" x="697" y="420" solid="true" />
+		<Block index="1" x="714" y="420" solid="true" />
+		<Block index="1" x="731" y="420" solid="true" />
+		<Block index="1" x="748" y="420" solid="true" />
+		<Block index="1" x="765" y="420" solid="true" />
+		<Block index="1" x="782" y="420" solid="true" />
+
+		<Block index="1" x="0" y="403" solid="true" />
+		<Block index="1" x="0" y="386" solid="true" />
+		<Block index="1" x="0" y="369" solid="true" />
+		<Block index="1" x="0" y="352" solid="true" />
+		<Block index="1" x="0" y="335" solid="true" />
+		<Block index="1" x="0" y="318" solid="true" />
+		<Block index="1" x="0" y="301" solid="true" />
+		<Block index="1" x="0" y="284" solid="true" />
+		<Block index="1" x="0" y="267" solid="true" />
+		<Block index="1" x="0" y="250" solid="true" />
+		<Block index="1" x="0" y="233" solid="true" />
+		<Block index="1" x="0" y="216" solid="true" />
+		<Block index="1" x="0" y="199" solid="true" />
+		<Block index="1" x="0" y="182" solid="true" />
+		<Block index="1" x="0" y="165" solid="true" />
+		<Block index="1" x="0" y="148" solid="true" />
+		<Block index="1" x="0" y="131" solid="true" />
+		<Block index="1" x="0" y="114" solid="true" />
+		<Block index="1" x="0" y="97" solid="true" />
+		<Block index="1" x="0" y="80" solid="true" />
+
+
+		<Block index="1" x="783" y="403" solid="true" />
+		<Block index="1" x="783" y="386" solid="true" />
+		<Block index="1" x="783" y="369" solid="true" />
+		<Block index="1" x="783" y="352" solid="true" />
+		<Block index="1" x="783" y="335" solid="true" />
+		<Block index="1" x="783" y="318" solid="true" />
+		<Block index="1" x="783" y="301" solid="true" />
+		<Block index="1" x="783" y="284" solid="true" />
+		<Block index="1" x="783" y="267" solid="true" />
+		<Block index="1" x="783" y="250" solid="true" />
+		<Block index="1" x="783" y="233" solid="true" />
+		<Block index="1" x="783" y="216" solid="true" />
+		<Block index="1" x="783" y="199" solid="true" />
+		<Block index="1" x="783" y="182" solid="true" />
+		<Block index="1" x="783" y="165" solid="true" />
+		<Block index="1" x="783" y="148" solid="true" />
+		<Block index="1" x="783" y="131" solid="true" />
+		<Block index="1" x="783" y="114" solid="true" />
+		<Block index="1" x="783" y="97" solid="true" />
+		<Block index="1" x="783" y="80" solid="true" />
+
+		<Block index="1" x="17" y="80" solid="true" />
+		<Block index="1" x="34" y="80" solid="true" />
+		<Block index="1" x="51" y="80" solid="true" />
+		<Block index="1" x="68" y="80" solid="true" />
+		<Block index="1" x="85" y="80" solid="true" />
+		<Block index="1" x="102" y="80" solid="true" />
+		<Block index="1" x="119" y="80" solid="true" />
+		<Block index="1" x="136" y="80" solid="true" />
+		<Block index="1" x="153" y="80" solid="true" />
+		<Block index="1" x="170" y="80" solid="true" />
+		<Block index="1" x="187" y="80" solid="true" />
+		<Block index="1" x="204" y="80" solid="true" />
+		<Block index="1" x="221" y="80" solid="true" />
+		<Block index="1" x="238" y="80" solid="true" />
+		<Block index="1" x="255" y="80" solid="true" />
+		<Block index="1" x="272" y="80" solid="true" />
+		<Block index="1" x="289" y="80" solid="true" />
+		<Block index="1" x="306" y="80" solid="true" />
+		<Block index="1" x="323" y="80" solid="true" />
+		<Block index="1" x="340" y="80" solid="true" />
+		<Block index="1" x="357" y="80" solid="true" />
+		<Block index="1" x="374" y="80" solid="true" />
+		<Block index="1" x="391" y="80" solid="true" />
+		<Block index="1" x="408" y="80" solid="true" />
+		<Block index="1" x="425" y="80" solid="true" />
+		<Block index="1" x="442" y="80" solid="true" />
+		<Block index="1" x="459" y="80" solid="true" />
+		<Block index="1" x="476" y="80" solid="true" />
+		<Block index="1" x="493" y="80" solid="true" />
+		<Block index="1" x="510" y="80" solid="true" />
+		<Block index="1" x="527" y="80" solid="true" />
+		<Block index="1" x="544" y="80" solid="true" />
+		<Block index="1" x="561" y="80" solid="true" />
+		<Block index="1" x="578" y="80" solid="true" />
+		<Block index="1" x="595" y="80" solid="true" />
+		<Block index="1" x="612" y="80" solid="true" />
+		<Block index="1" x="629" y="80" solid="true" />
+		<Block index="1" x="646" y="80" solid="true" />
+		<Block index="1" x="663" y="80" solid="true" />
+		<Block index="1" x="680" y="80" solid="true" />
+		<Block index="1" x="697" y="80" solid="true" />
+		<Block index="1" x="714" y="80" solid="true" />
+		<Block index="1" x="731" y="80" solid="true" />
+		<Block index="1" x="748" y="80" solid="true" />
+		<Block index="1" x="765" y="80" solid="true" />
+
+
+
+		<!-- Plantforms -->
+		<Block index="2" x="119" y="320" solid="true" />
+		<Block index="2" x="136" y="320" solid="true" />
+		<Block index="2" x="153" y="320" solid="true" />
+		<Block index="2" x="170" y="334" solid="true" />
+		<Block index="2" x="187" y="334" solid="true" />
+
+
+		<Block index="2" x="595" y="334" solid="true" />
+		<Block index="2" x="612" y="334" solid="true" />
+		<Block index="2" x="629" y="300" solid="true" />
+		<Block index="2" x="646" y="300" solid="true" />
+		<Block index="2" x="663" y="300" solid="true" />
+
+
+		<Block index="3" x="357" y="220" solid="true" />
+		<Block index="3" x="374" y="220" solid="true" />
+		<Block index="3" x="391" y="220" solid="true" />
+		<Block index="3" x="408" y="220" solid="true" />
+		<Block index="3" x="425" y="220" solid="true" />
+
+
+		<Block index="4" x="255" y="370" solid="true" />
+		<Block index="4" x="272" y="370" solid="true" />
+		<Block index="4" x="289" y="370" solid="true" />
+
+
+		<Block index="4" x="493" y="370" solid="true" />
+		<Block index="4" x="510" y="370" solid="true" />
+		<Block index="4" x="527" y="370" solid="true" />
+
+
+		<Block index="5" x="306" y="270" solid="true" />
+		<Block index="5" x="323" y="270" solid="true" />
+
+
+		<Block index="5" x="459" y="270" solid="true" />
+		<Block index="5" x="476" y="270" solid="true" />
+
+
+		<Block index="6" x="170" y="150" solid="true" />
+		<Block index="6" x="187" y="150" solid="true" />
+		<Block index="6" x="204" y="150" solid="true" />
+
+
+		<Block index="6" x="578" y="150" solid="true" />
+		<Block index="6" x="595" y="150" solid="true" />
+		<Block index="6" x="612" y="150" solid="true" />
+
+
+		<Block index="8" x="374" y="320" solid="true" />
+		<Block index="8" x="391" y="320" solid="true" />
+		<Block index="8" x="408" y="320" solid="true" />
+
+
+		<Block index="9" x="50" y="200" solid="false" />
+		<Block index="10" x="730" y="200" solid="false" />
+		<Block index="9" x="400" y="120" solid="false" />
+
+	</Blocks>
+
+	<!-- Enemies -->
+	<Enemies>
+		
+		<Enemy type="Bot" x="150" y="250" />
+
+		
+		<Enemy type="Bot" x="630" y="250" />
+
+		
+		<Enemy type="Stalfos" x="391" y="170" />
+
+		
+		<Enemy type="Octorok" x="300" y="370" />
+		<Enemy type="Octorok" x="500" y="370" />
+	</Enemies>
+
+	<!-- Items -->
+	<Items>
+		
+		<Item type="Container" x="187" y="120" />
+
+		
+		<Item type="Container" x="595" y="120" />
+
+		
+		<Item type="Hammer" x="391" y="190" />
+
+		
+		<Item type="Heart" x="100" y="390" />
+		<Item type="Heart" x="700" y="390" />
+
+		
+		<Item type="Key" x="272" y="320" />
+		<Item type="Fairy" x="510" y="320" />
+
+		
+		<Item type="Boots" x="391" y="290" />
+	</Items>
+</Room>

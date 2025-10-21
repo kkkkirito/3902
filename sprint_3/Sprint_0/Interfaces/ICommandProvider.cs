@@ -1,7 +1,8 @@
-﻿namespace Sprint_0.Interfaces
+﻿using Sprint_0.Collision_System;
+namespace Sprint_0.Interfaces
 {
     public interface ICommandProvider
     {
-        ICommand Resolve(ICollidable a, ICollidable b);
+        ICollisionCommand Resolve(ICollidable a, ICollidable b);
     }
 }

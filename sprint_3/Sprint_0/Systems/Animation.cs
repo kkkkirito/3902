@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Sprint_0
 {
-    internal class Animation
+    internal class Animation : ISprite
     {
         private Texture2D spriteSheet;
         private List<Rectangle> frames;
@@ -15,6 +15,7 @@ namespace Sprint_0
 
         private int currentFrame;
         private float timer;
+
 
         public Animation(Texture2D spriteSheet, List<Rectangle> frames, float frameTime, bool isLooping, List<Vector2>? offsets = null)
         {
@@ -73,6 +74,9 @@ namespace Sprint_0
                 new List<Vector2>(this.offsets)
             );
         }
+        public int FrameWidth => frames[currentFrame].Width;
+        public int FrameHeight => frames[currentFrame].Height;
+        public Rectangle CurrentFrame => frames[currentFrame];
     }
 
 }

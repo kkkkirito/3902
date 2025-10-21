@@ -9,7 +9,7 @@ using System.Collections.Generic;
 //Link class for managing Link.
 namespace Sprint_0.Player_Namespace;
 
-public class Player : IPlayer
+public class Player : IPlayer, ICollidable
 {
 
     private readonly IController _controller;
@@ -26,7 +26,7 @@ public class Player : IPlayer
     private float VerticalVelocity = 0f;
 
     private float groundY;
-    public bool IsGrounded { get; private set; } = true;
+    public bool IsGrounded { get; set; } = true;
     public bool IsCrouching { get; private set; } = false;
 
     private ICollectible _heldItem;
@@ -86,6 +86,9 @@ public class Player : IPlayer
     public float AnimationTimer { get; set; }
     public int CurrentFrame { get; set; }
 
+    public Rectangle BoundingBox { get; set; }
+    private PlayerAttackHitbox attackHitBox;
+
     //constructor for player.
     public Player(Texture2D spriteSheet, Vector2 startPosition, IController controller)
     {
@@ -95,6 +98,7 @@ public class Player : IPlayer
         groundY = startPosition.Y;
         CurrentHealth = MaxHealth;
         _controller = controller;
+        attackHitBox = new PlayerAttackHitbox(this);
 
         // Start in idle state
         ChangeState(new IdleState());
@@ -197,6 +201,7 @@ public class Player : IPlayer
             CurrentFrame = 0;
             AnimationTimer = 0f;
         }
+        BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, 16, 32);
     }
 
     public void Draw(SpriteBatch spriteBatch)
@@ -320,7 +325,17 @@ public class Player : IPlayer
 
     public IEnumerable<ICollidable> GetCollidables()
     {
-        throw new NotImplementedException();
+        var list = new List<ICollidable> { this };
+
+        // Add the attack hitbox while attacking
+        if (CurrentState is AttackState)
+        {
+            // Empty hitbox means inactive; only add if non-empty
+            var hb = attackHitBox.BoundingBox;
+            if (!hb.IsEmpty) list.Add(attackHitBox);
+        }
+
+        return list;
     }
 }
 

@@ -15,6 +15,7 @@ namespace Sprint_0
         private SpriteBatch _spriteBatch;
         private GameStateManager stateManager;
 
+
         // Resources
         public SpriteFont Font { get; private set; }
         public Texture2D LinkTextures { get; private set; }
@@ -34,6 +35,7 @@ namespace Sprint_0
         {
             stateManager = new GameStateManager();
             base.Initialize();
+
         }
 
         protected override void LoadContent()
@@ -47,7 +49,6 @@ namespace Sprint_0
             ItemTextures = Content.Load<Texture2D>("Clear_Zelda_2_Items 2");
             EnemyTextures = Content.Load<Texture2D>("Clear_Zelda_2_Palace_Enemies 2");
             OverworldEnemyTextures = Content.Load<Texture2D>("Zelda_2_Overworld_Enemies");
-
             SetupStateManager();
         }
 

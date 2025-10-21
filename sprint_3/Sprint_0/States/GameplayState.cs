@@ -7,13 +7,18 @@ using Sprint_0.Command.BlocksCommand;
 using Sprint_0.Command.GameCommand;
 using Sprint_0.Command.PlayerCommand;
 using Sprint_0.Commands.PlayerCommand;
-using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
 using Sprint_0.Player_Namespace;
-using Sprint_0.States.LinkStates;
+using Sprint_0.Rooms;
 using Sprint_0.Systems;
 using System;
 using System.Collections.Generic;
+using Sprint_0.Collision_System;
+using Sprint_0.Command.CollisionCommands;
+using Sprint_0;
+using System.IO;
+using System.Linq;
+using Sprint_0.Enemies;
 
 namespace Sprint_0.States
 {
@@ -27,20 +32,14 @@ namespace Sprint_0.States
         private IController mouseController;
         private IController gamepadController;
 
-        // Player
+        // Room management
+        private Room currentRoom;
+        private RoomLoader roomLoader;
+        private List<Room> rooms;
+        private int currentRoomIndex;
+
+        // Player reference
         private IPlayer player;
-
-        // Blocks
-        private BlockFactory blockFactory;
-        private BlockSelector blockSelector;
-        private IBlock currentBlock;
-        private Vector2 blockPosition = new Vector2(240, 200);
-
-        // Enemies
-        private EnemySelector enemySelector;
-
-        // Items
-        private ItemSelector itemSelector;
 
         // Projectiles
         private IProjectileManager projectileManager;
@@ -48,56 +47,98 @@ namespace Sprint_0.States
         // Hotbar
         private IHotbar hotbar;
 
-        // Commands
-        private Dictionary<Keys, ICommand> commandBindings;
-        private KeyboardState previousKeyboardState;
+        // Block system (for room editor mode - optional)
+        private BlockFactory blockFactory;
+        private BlockSelector blockSelector;
+
+        // Mouse state for room switching
+        private MouseState previousMouseState;
+        private ICollidable currentBlock;
+        private CollisionSystem collisionSystem;
 
         public GameplayState(Game1 game, ContentManager content)
         {
             this.game = game;
             this.content = content;
+            rooms = new List<Room>();
         }
 
         public void Enter()
         {
-           
-                InitializeGameObjects();
-                InitializeCommands();
-           
+            InitializeControllers();
+            InitializeRoomSystem();
+            LoadRooms();
+            InitializeCommands();
         }
 
-        private void InitializeGameObjects()
+        private void InitializeControllers()
         {
-            // Create controllers
             keyboardController = new KeyboardController(game);
             mouseController = new MouseController(game);
             gamepadController = new GamepadController(PlayerIndex.One);
-            GamepadController.ControlPlayer = player;
+        }
 
-            // Create player
-            player = new Player(game.LinkTextures, new Vector2(100, 100), keyboardController);
-
-            // Create block system
+        private void InitializeRoomSystem()
+        {
+            // Create block factory
             blockFactory = new BlockFactory(content);
             blockSelector = new BlockSelector(blockFactory);
-            currentBlock = blockSelector.CreateCurrent(blockPosition);
 
-            // Create enemy selector
-            enemySelector = new EnemySelector(game.EnemyTextures, game.OverworldEnemyTextures);
+            collisionSystem = new CollisionSystem();
 
-            // Create item selector
-            var itemAnimations = SpriteFactory.CreateItemAnimations(game.ItemTextures);
-            itemSelector = new ItemSelector(itemAnimations);
+
+            // Create room loader
+            roomLoader = new RoomLoader(
+                content,
+                blockFactory,
+                game.EnemyTextures,
+                game.OverworldEnemyTextures,
+                game.ItemTextures,
+                game.LinkTextures
+            );
 
             // Create projectile manager
             projectileManager = new ProjectileManager(game.LinkTextures);
 
             // Create hotbar
             hotbar = new Hotbar(3);
+            
+            var playerBlockCmd = new PlayerBlockCollisionCommand();
+            collisionSystem.Provider.Register<IPlayer, IBlock>(playerBlockCmd);
+
+            // Register player <-> enemy collisions
+            var playerEnemyCmd = new PlayerEnemyCollisionCommand();
+            collisionSystem.Provider.Register<IPlayer, Enemy>(playerEnemyCmd);
+
+            var playerAttackEnemyCmd = new PlayerAttackEnemyCollisionCommand();
+            collisionSystem.Provider.Register<PlayerAttackHitbox, Enemy>(playerAttackEnemyCmd);
+    
+    
         }
+
+        private void LoadRooms()
+        {
+            string xmlPath = "Content/room1.xml";
+
+            Room room = roomLoader.LoadRoom(xmlPath, keyboardController);
+            rooms.Add(room);
+            currentRoomIndex = 0;
+            currentRoom = rooms[0];
+            player = currentRoom.GetPlayer();
+
+            if (player != null)
+            {
+                GamepadController.ControlPlayer = player;
+            }
+
+        }
+
+        
 
         private void InitializeCommands()
         {
+            if (player == null) return;
+
             var kb = (KeyboardController)keyboardController;
 
             // Movement commands (hold)
@@ -124,7 +165,7 @@ namespace Sprint_0.States
             kb.Press(Keys.X, new SwordBeamCommand(player, projectileManager));
             kb.Press(Keys.C, new FireballCommand(player, projectileManager));
 
-            // Block commands
+            // Block commands (for room editor - optional)
             kb.Press(Keys.T, new PreviousBlockCommand(blockSelector));
             kb.Press(Keys.Y, new NextBlockCommand(blockSelector));
 
@@ -139,21 +180,20 @@ namespace Sprint_0.States
             kb.Press(Keys.Q, new QuitCommand(game));
             kb.Press(Keys.R, new ResetCommand(this));
 
-            // O and P are handled by EnemySelector
-            // U and I are handled by ItemSelector
+            // Quick room switching with number keys (for testing)
+            kb.Press(Keys.F1, new Command.RoomCommand.SwitchRoomCommand(this, 0));
+            kb.Press(Keys.F2, new Command.RoomCommand.SwitchRoomCommand(this, 1));
+            kb.Press(Keys.F3, new Command.RoomCommand.SwitchRoomCommand(this, 2));
 
-            //Gamepad command
+            // Gamepad commands
             var pad = (GamepadController)gamepadController;
-
             pad.BindHold(Buttons.DPadUp, new MoveUpCommand(player));
             pad.BindHold(Buttons.DPadDown, new MoveDownOrCrouchOnCommand(player));
             pad.BindHold(Buttons.DPadLeft, new MoveLeftCommand(player));
             pad.BindHold(Buttons.DPadRight, new MoveRightCommand(player));
             pad.Press(Buttons.X, new AttackCommand(player));
             pad.Press(Buttons.A, new JumpCommand(player));
-
             pad.BindRelease(Buttons.DPadDown, new CrouchOffCommand(player));
-
             pad.BindJoystick(player);
 
             gamepadController = pad;
@@ -171,77 +211,133 @@ namespace Sprint_0.States
             mouseController.Update();
             gamepadController.Update();
 
-            // Update game objects
-            player?.Update(gameTime);
-            currentBlock?.Update(gameTime);
-            enemySelector?.Update(gameTime);
-            itemSelector?.Update(gameTime);
+            // Update current room
+            currentRoom?.Update(gameTime);
+
+            // Update projectiles
             projectileManager?.Update(gameTime);
 
-            // Handle block switching (legacy support for controller.blockSwitch)
-            int blockSwitch = keyboardController.blockSwitch;
-            if (blockSwitch != 0)
-            {
-                if (blockSwitch > 0)
-                    blockSelector.Next();
-                else
-                    blockSelector.Prev();
+            // Update collision system with null checks
+            if (collisionSystem != null && player != null)
+            {  
+                var allCollidables = new List<ICollidable>();
+                // player
+                allCollidables.Add((ICollidable)player);
 
-                currentBlock = blockSelector.CreateCurrent(blockPosition);
-                keyboardController.blockSwitch = 0;
+                // ADD: all room collidables (blocks, enemies, etc.)
+                var roomCollidables = currentRoom?.GetCollidables();
+                if (roomCollidables != null)
+                    allCollidables.AddRange(roomCollidables);
+
+                // optional editor-selected block
+                if (currentBlock != null)
+                    allCollidables.Add((ICollidable)currentBlock);
+
+                collisionSystem.RegisterCollidables(allCollidables);
+                collisionSystem.Update();
             }
+
+            // Handle mouse room switching
+            MouseState currentMouseState = Mouse.GetState();
+            if (previousMouseState.LeftButton == ButtonState.Released &&
+                currentMouseState.LeftButton == ButtonState.Pressed)
+            {
+                // Previous room
+                PreviousRoom();
+            }
+            else if (previousMouseState.RightButton == ButtonState.Released &&
+                     currentMouseState.RightButton == ButtonState.Pressed)
+            {
+                // Next room
+                NextRoom();
+            }
+            previousMouseState = currentMouseState;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp); // Use PointClamp for pixel-perfect rendering
 
-            // Draw all game objects
-            player?.Draw(spriteBatch);
-            currentBlock?.Draw(spriteBatch);
-            enemySelector?.Draw(spriteBatch);
-            itemSelector?.Draw(spriteBatch, new Vector2(100, 200));
+            // Draw the current room
+            currentRoom?.Draw(spriteBatch);
+
+            // Draw projectiles
             projectileManager?.Draw(spriteBatch);
 
-            // Draw block preview
-            spriteBatch.Draw(
-                blockFactory.Texture,
-                blockPosition,
-                blockFactory.GetSourceByIndex(blockSelector.Index),
-                Color.White
-            );
+            // Draw UI elements
+            DrawUI(spriteBatch);
 
             spriteBatch.End();
         }
 
-        public void Reset()
+        private void DrawUI(SpriteBatch spriteBatch)
         {
-            // Reset player
+            // Draw room info at top of screen
+            string roomInfo = $"Room {currentRoomIndex + 1}/{rooms.Count}: {currentRoom?.Name ?? "Unknown"}";
+            spriteBatch.DrawString(game.Font, roomInfo, new Vector2(10, 10), Color.White);
+
+            // Draw player health
             if (player != null)
             {
-                player.CurrentHealth = player.MaxHealth;
-                player.Position = new Vector2(100, 100);
-                player.CurrentState = new IdleState();
+                string healthInfo = $"Health: {player.CurrentHealth}/{player.MaxHealth}";
+                spriteBatch.DrawString(game.Font, healthInfo, new Vector2(10, 30), Color.White);
             }
 
-            // Reset block
-            blockSelector = new BlockSelector(blockFactory);
-            currentBlock = blockSelector.CreateCurrent(blockPosition);
+            // Draw controls hint
+            string controls = "Mouse: L/R to switch rooms | F1-F3: Quick room select | R: Reset";
+            Vector2 textSize = game.Font.MeasureString(controls);
+            spriteBatch.DrawString(game.Font, controls,
+                new Vector2(10, game.GraphicsDevice.Viewport.Height - textSize.Y - 10), Color.Gray);
+        }
 
-            // Reinitialize enemies and items
-            enemySelector = new EnemySelector(game.EnemyTextures, game.OverworldEnemyTextures);
-            itemSelector = new ItemSelector(SpriteFactory.CreateItemAnimations(game.ItemTextures));
+        public void Reset()
+        {
+            // Reset current room
+            currentRoom?.Reset();
 
             // Reset projectiles
             projectileManager = new ProjectileManager(game.LinkTextures);
 
+            // Reinitialize commands with the reset player
+            if (player != null)
+            {
+                InitializeCommands();
+            }
+        }
 
-            var kb = (KeyboardController)keyboardController;
-            kb.Press(Keys.X, new SwordBeamCommand(player, projectileManager));
-            kb.Press(Keys.C, new FireballCommand(player, projectileManager));
-            kb.Press(Keys.T, new PreviousBlockCommand(blockSelector));
-            kb.Press(Keys.Y, new NextBlockCommand(blockSelector));
-  
+        public void SwitchToRoom(int roomIndex)
+        {
+            if (roomIndex >= 0 && roomIndex < rooms.Count)
+            {
+                currentRoomIndex = roomIndex;
+                currentRoom = rooms[currentRoomIndex];
+                player = currentRoom.GetPlayer();
+
+                // Update controllers with new player
+                if (player != null)
+                {
+                    GamepadController.ControlPlayer = player;
+                    InitializeCommands();
+                }
+            }
+        }
+
+        private void NextRoom()
+        {
+            if (rooms.Count > 0)
+            {
+                currentRoomIndex = (currentRoomIndex + 1) % rooms.Count;
+                SwitchToRoom(currentRoomIndex);
+            }
+        }
+
+        private void PreviousRoom()
+        {
+            if (rooms.Count > 0)
+            {
+                currentRoomIndex = (currentRoomIndex - 1 + rooms.Count) % rooms.Count;
+                SwitchToRoom(currentRoomIndex);
+            }
         }
     }
 }

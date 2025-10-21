@@ -15,7 +15,7 @@ public enum GameModeType
     Platformer,
     TopDown
 }
-public interface IPlayer
+public interface IPlayer : ICollidable
 {
     Vector2 Position { get; set; }
     Direction FacingDirection { get; }
@@ -30,7 +30,7 @@ public interface IPlayer
     Vector2 Velocity { get; set; }
     Texture2D SpriteSheet { get; }
 
-    bool IsGrounded { get; }
+    bool IsGrounded { get; set; }
     bool IsCrouching { get; }
 
     GameModeType GameMode { get; set; }
