@@ -14,6 +14,7 @@ namespace Sprint_0.Enemies
     }
     public class Enemy : ICollidable
     {
+        public float GroundY { get; set; }
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
         public Texture2D SpriteSheet { get; private set; }
@@ -22,8 +23,8 @@ namespace Sprint_0.Enemies
         private Animation CurrentAnimation { get; set; }
         public FacingDirection Facing { get; set; }
         public int MaxHealth { get; private set; } = 2; // Can change for specific enemies, base is 2 hits
-        public int CurrentHealth { get; private set; }
-        public bool IsInvulnerable { get; private set; }
+        public int CurrentHealth { get;  set; }
+        public bool IsInvulnerable { get;  set; }
         private double invulnerableTimer;
         private const double InvulnerableDuration = 0.3;
         public bool IsDead { get; set; }
@@ -41,6 +42,7 @@ namespace Sprint_0.Enemies
         {
             this.animations = animations;
             this.Position = startPos;
+            this.GroundY = startPos.Y;
             this.Velocity = Vector2.Zero;
             this.IsDead = false;
             this.Facing = FacingDirection.Left;
@@ -87,6 +89,15 @@ namespace Sprint_0.Enemies
 
         public virtual void Update(GameTime gameTime)
         {
+
+            if (IsInvulnerable)
+            {
+                invulnerableTimer -= gameTime.ElapsedGameTime.TotalSeconds;
+                if (invulnerableTimer <= 0)
+                {
+                    IsInvulnerable = false;
+                }
+            }
             _currentState.Update(this, gameTime);
 
             CurrentAnimation?.Update(gameTime);

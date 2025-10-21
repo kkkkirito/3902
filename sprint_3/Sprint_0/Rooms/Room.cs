@@ -17,8 +17,10 @@ namespace Sprint_0.Rooms
         public int Height { get; }
 
         private Player player;
+        private Vector2 playerStartPosition;
         private List<IBlock> blocks;
         private List<Enemy> enemies;
+        private Dictionary<Enemy, Vector2> enemyStartPositions;
         private List<IConsumableItem> consumables;
         private List<ICollidable> collidables;
 
@@ -31,6 +33,7 @@ namespace Sprint_0.Rooms
 
             blocks = new List<IBlock>();
             enemies = new List<Enemy>();
+            enemyStartPositions = new Dictionary<Enemy, Vector2>();
             consumables = new List<IConsumableItem>();
             collidables = new List<ICollidable>();
         }
@@ -38,6 +41,10 @@ namespace Sprint_0.Rooms
         public void SetPlayer(Player p)
         {
             player = p;
+            if (p != null)
+            {
+                playerStartPosition = p.Position;
+            }
         }
 
         public Player GetPlayer()
@@ -169,8 +176,15 @@ namespace Sprint_0.Rooms
             // Reset player position
             if (player != null)
             {
-                player.Position = new Vector2(100, 300);
+                player.Position = playerStartPosition;
                 player.CurrentHealth = player.MaxHealth;
+                player.IsInvulnerable = false;
+                player.Velocity = Vector2.Zero;
+
+                if (player.CurrentState != null)
+                {
+                    player.ChangeState(new Sprint_0.States.LinkStates.IdleState());
+                }
             }
 
             // Reset items
@@ -183,8 +197,45 @@ namespace Sprint_0.Rooms
             }
 
             // Reset enemies to their starting positions (if needed)
+            foreach (var enemy in enemies)
+            {
+                if (enemyStartPositions.ContainsKey(enemy))
+                {
+                    enemy.Position = enemyStartPositions[enemy];
+                    enemy.Velocity = Vector2.Zero;
+                    enemy.IsDead = false;
+                    enemy.CurrentHealth = enemy.MaxHealth;
+                    enemy.IsInvulnerable = false;
 
+                    // Reset enemy to appropriate initial state based on type
+                    ResetEnemyState(enemy);
+                }
+            }
+        }
 
+        private void ResetEnemyState(Enemy enemy)
+        {
+            // Reset to appropriate initial state based on enemy type
+            if (enemy is StalfosEnemy)
+            {
+                enemy.ChangeState(new Sprint_0.EnemyStateMachine.IdleState());
+            }
+            else if (enemy is BotEnemy)
+            {
+                enemy.ChangeState(new Sprint_0.EnemyStateMachine.IdleState());
+            }
+            else if (enemy is OctorokEnemy)
+            {
+                enemy.ChangeState(new Sprint_0.EnemyStateMachine.IdleState());
+            }
+            else if (enemy is OverworldBotEnemy || enemy is OverworldManEnemy)
+            {
+                enemy.ChangeState(new Sprint_0.EnemyStateMachine.OverworldIdleState());
+            }
+            else
+            {
+                enemy.ChangeState(new Sprint_0.EnemyStateMachine.IdleState());
+            }
         }
     }
 }
