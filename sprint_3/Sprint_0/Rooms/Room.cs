@@ -1,10 +1,11 @@
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Blocks;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
+using Sprint_0.Items;
 using Sprint_0.Player_Namespace;
+using System.Collections.Generic;
 
 namespace Sprint_0.Rooms
 {
@@ -18,7 +19,7 @@ namespace Sprint_0.Rooms
         private Player player;
         private List<IBlock> blocks;
         private List<Enemy> enemies;
-        private List<RoomItem> items;
+        private List<IConsumableItem> consumables;
         private List<ICollidable> collidables;
 
         public Room(int id, string name, int width, int height)
@@ -30,7 +31,7 @@ namespace Sprint_0.Rooms
 
             blocks = new List<IBlock>();
             enemies = new List<Enemy>();
-            items = new List<RoomItem>();
+            consumables = new List<IConsumableItem>();
             collidables = new List<ICollidable>();
         }
 
@@ -42,6 +43,11 @@ namespace Sprint_0.Rooms
         public Player GetPlayer()
         {
             return player;
+        }
+
+        public IEnumerable<IConsumableItem> GetConsumables()
+        {
+            return consumables;
         }
 
         public void AddBlock(IBlock block)
@@ -64,9 +70,9 @@ namespace Sprint_0.Rooms
             }
         }
 
-        public void AddItem(RoomItem item)
+        public void AddConsumable(IConsumableItem item)
         {
-            items.Add(item);
+            consumables.Add(item);
         }
 
         public IEnumerable<ICollidable> GetCollidables()
@@ -85,10 +91,6 @@ namespace Sprint_0.Rooms
             return enemies;
         }
 
-        public IEnumerable<RoomItem> GetItems()
-        {
-            return items;
-        }
 
         public void Update(GameTime gameTime)
         {
@@ -108,26 +110,25 @@ namespace Sprint_0.Rooms
             }
 
             // Update items
-            foreach (var item in items)
+            foreach (var item in consumables)
             {
-                item.Update(gameTime);
+                if (item is HeartItem heart)
+                {
+                    heart.Update(gameTime);
+                }
             }
 
             // Check item collection (simple collision with player)
             if (player != null)
             {
                 Rectangle playerBounds = new Rectangle((int)player.Position.X, (int)player.Position.Y, 18, 42);
-                foreach (var item in items)
+                foreach (var item in consumables)
                 {
-                    if (!item.IsCollected && item.GetBoundingBox().Intersects(playerBounds))
+                    if (item is HeartItem heart && !heart.IsCollected)
                     {
-                        // Mark item as collected (you can add effects/score here)
-                        item.IsCollected = true;
-
-                        // If it's a heart, heal the player
-                        if (item.Type == "Heart")
+                        if (heart.GetBoundingBox().Intersects(playerBounds))
                         {
-                            player.CurrentHealth = System.Math.Min(player.CurrentHealth + 20, player.MaxHealth);
+                            item.Consume(player); 
                         }
                     }
                 }
@@ -143,9 +144,12 @@ namespace Sprint_0.Rooms
             }
 
             // Draw items
-            foreach (var item in items)
+            foreach (var item in consumables)
             {
-                item.Draw(spriteBatch);
+                if (item is HeartItem heart)
+                {
+                    heart.Draw(spriteBatch);
+                }
             }
 
             // Draw enemies
@@ -170,9 +174,12 @@ namespace Sprint_0.Rooms
             }
 
             // Reset items
-            foreach (var item in items)
+            foreach (var item in consumables)
             {
-                item.IsCollected = false;
+                if (item is HeartItem heart)
+                {
+                    heart.IsCollected = false;
+                }
             }
 
             // Reset enemies to their starting positions (if needed)

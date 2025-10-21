@@ -3,22 +3,19 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sprint_0.Blocks;
+using Sprint_0.Collision_System;
 using Sprint_0.Command.BlocksCommand;
+using Sprint_0.Command.CollisionCommands;
 using Sprint_0.Command.GameCommand;
 using Sprint_0.Command.PlayerCommand;
 using Sprint_0.Commands.PlayerCommand;
+using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
 using Sprint_0.Player_Namespace;
 using Sprint_0.Rooms;
 using Sprint_0.Systems;
-using System;
 using System.Collections.Generic;
-using Sprint_0.Collision_System;
-using Sprint_0.Command.CollisionCommands;
-using Sprint_0;
-using System.IO;
-using System.Linq;
-using Sprint_0.Enemies;
+
 
 namespace Sprint_0.States
 {
@@ -26,6 +23,7 @@ namespace Sprint_0.States
     {
         private Game1 game;
         private ContentManager content;
+        private RoomManager roomManager;
 
         // Controllers
         private IController keyboardController;
@@ -34,9 +32,9 @@ namespace Sprint_0.States
 
         // Room management
         private Room currentRoom;
-        private RoomLoader roomLoader;
         private List<Room> rooms;
         private int currentRoomIndex;
+
 
         // Player reference
         private IPlayer player;
@@ -80,22 +78,20 @@ namespace Sprint_0.States
 
         private void InitializeRoomSystem()
         {
+
+            roomManager = new RoomManager(
+                game.LinkTextures,
+                game.EnemyTextures,
+                game.OverworldEnemyTextures,
+                game.ItemTextures,
+                keyboardController
+            );
+
             // Create block factory
             blockFactory = new BlockFactory(content);
             blockSelector = new BlockSelector(blockFactory);
 
             collisionSystem = new CollisionSystem();
-
-
-            // Create room loader
-            roomLoader = new RoomLoader(
-                content,
-                blockFactory,
-                game.EnemyTextures,
-                game.OverworldEnemyTextures,
-                game.ItemTextures,
-                game.LinkTextures
-            );
 
             // Create projectile manager
             projectileManager = new ProjectileManager(game.LinkTextures);
@@ -118,22 +114,33 @@ namespace Sprint_0.States
 
         private void LoadRooms()
         {
-            string xmlPath = "Content/room1.xml";
+     
+            Room room = new Room(1, "Palace Exterior", 1024, 480);
 
-            Room room = roomLoader.LoadRoom(xmlPath, keyboardController);
+            
+            string csvPath = "Content/palace_exterior.csv";
+            var roomBuilder = new RoomBuilder(csvPath, game.BlockTextures);
+            roomBuilder.PopulateRoom(room);
+
+            string entitiesCsvPath = "Content/palace_exterior_entities.csv";
+            roomManager.LoadEntities(room, entitiesCsvPath);
+
+
+
+            this.player = room.GetPlayer();
+
+
             rooms.Add(room);
             currentRoomIndex = 0;
             currentRoom = rooms[0];
-            player = currentRoom.GetPlayer();
 
             if (player != null)
             {
                 GamepadController.ControlPlayer = player;
             }
-
         }
 
-        
+
 
         private void InitializeCommands()
         {
