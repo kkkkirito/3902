@@ -16,11 +16,10 @@ namespace Sprint_0.EnemyStateMachine
         public void Update(Enemy enemy, GameTime gameTime)
         {
 
-            if (enemy.Position.Y >= 200) // Update Later for ground level
+            if (enemy.Position.Y >= enemy.GroundY)//set to ground y when lands, may change later for land to next platform using collision detection
             {
-                enemy.Position = new Vector2(enemy.Position.X, 200);
+                enemy.Position = new Vector2(enemy.Position.X, enemy.GroundY);
                 enemy.Velocity = Vector2.Zero;
-
                 enemy.ChangeState(new IdleState());
             }
         }

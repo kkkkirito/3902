@@ -70,6 +70,7 @@ namespace Sprint_0.Rooms
         public void AddEnemy(Enemy enemy)
         {
             enemies.Add(enemy);
+            enemyStartPositions[enemy] = enemy.Position;
             // If the enemy implements ICollidable, add it to collidables
             if (enemy is ICollidable collidable)
             {
