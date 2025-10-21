@@ -1,12 +1,10 @@
-﻿// Rooms/RoomManager.cs - 完全替换
-using System;
-using System.Collections.Generic;
-using System.IO;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Enemies;
 using Sprint_0.Items;
 using Sprint_0.Player_Namespace;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Sprint_0.Rooms
 {
@@ -32,14 +30,8 @@ namespace Sprint_0.Rooms
 
         public void LoadEntities(Room room, string entitiesCsvPath)
         {
-            if (!File.Exists(entitiesCsvPath))
-            {
-                Console.WriteLine($"Entities CSV file not found: {entitiesCsvPath}");
-                return;
-            }
 
             var layout = LoadLayout(entitiesCsvPath);
-
             for (int y = 0; y < layout.Count; y++)
             {
                 for (int x = 0; x < layout[y].Count; x++)
@@ -49,6 +41,7 @@ namespace Sprint_0.Rooms
                         continue;
 
                     Vector2 position = new Vector2(x * TILE_SIZE, y * TILE_SIZE);
+
 
                     switch (key.ToLower())
                     {
@@ -110,14 +103,12 @@ namespace Sprint_0.Rooms
         {
             var player = new Player(linkTextures, position, controller);
             room.SetPlayer(player);
-            Console.WriteLine($"Player created at ({position.X}, {position.Y})");
         }
 
         private void CreateHeart(Room room, Vector2 position)
         {
             var heart = new HeartItem(position, itemTextures);
             room.AddConsumable(heart);
-            Console.WriteLine($"Heart created at ({position.X}, {position.Y})");
         }
 
         private void CreateEnemy(Room room, string enemyType, Vector2 position)
@@ -146,7 +137,6 @@ namespace Sprint_0.Rooms
             if (enemy != null)
             {
                 room.AddEnemy(enemy);
-                Console.WriteLine($"{enemyType} created at ({position.X}, {position.Y})");
             }
         }
     }
