@@ -4,11 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sprint_0.Blocks;
 using Sprint_0.Collision_System;
-using Sprint_0.Command.BlocksCommand;
-using Sprint_0.Command.CollisionCommands;
-using Sprint_0.Command.GameCommand;
-using Sprint_0.Command.PlayerCommand;
-using Sprint_0.Commands.PlayerCommand;
+using Sprint_0.Commands.BlockCommands;
+using Sprint_0.Commands.CollisionCommands;
+using Sprint_0.Commands.GameCommands;
+using Sprint_0.Commands.PlayerCommands;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
 using Sprint_0.Player_Namespace;
@@ -23,7 +22,7 @@ namespace Sprint_0.States
     {
         private Game1 game;
         private ContentManager content;
-        private RoomManager roomManager;
+        private RoomEntityManager roomEntityManager;
 
         // Controllers
         private IController keyboardController;
@@ -79,7 +78,7 @@ namespace Sprint_0.States
         private void InitializeRoomSystem()
         {
 
-            roomManager = new RoomManager(
+            roomEntityManager = new RoomEntityManager(
                 game.LinkTextures,
                 game.EnemyTextures,
                 game.OverworldEnemyTextures,
@@ -108,31 +107,112 @@ namespace Sprint_0.States
 
             var playerAttackEnemyCmd = new PlayerAttackEnemyCollisionCommand();
             collisionSystem.Provider.Register<PlayerAttackHitbox, Enemy>(playerAttackEnemyCmd);
-    
-    
+
+            var enemyBlockcmd = new EnemyBlockCollisionCommand();
+            collisionSystem.Provider.Register<Enemy, IBlock>(enemyBlockcmd);
+
+            
+            var playerEnemyProjectileCmd = new PlayerEnemyProjectileCollisionCommand();
+            collisionSystem.Provider.Register<IPlayer, IEnemyProjectile>(playerEnemyProjectileCmd);
+
+            collisionSystem.Provider.Register<IPlayer, IStaticCollider>(new PlayerStaticColliderCollisionCommand());
+            collisionSystem.Provider.Register<Enemy, IStaticCollider>(new EnemyStaticColliderCollisionCommand());
+
+            collisionSystem.Provider.Register<PlayerProjectile, Enemy>(new PlayerProjectileEnemyCollisionCommand());
+
+
         }
 
         private void LoadRooms()
         {
-     
-            Room room = new Room(1, "Palace Exterior", 1024, 480);
+    
+            Room room0 = new Room(0, "Palace Exterior", 1024, 480);
+            Room room1 = new Room(1, "Dungeon Room 1", 1024, 480);
+            Room room2 = new Room(2, "Dungeon Room 2", 1024, 480);
+            Room room3 = new Room(3, "Dungeon Room 3", 1024, 480);
+            Room room4 = new Room(4, "Dungeon Room 4", 1024, 480);
+            Room room5 = new Room(5, "Dungeon Room 5", 1024, 480);
+            Room room6 = new Room(6, "Dungeon Room 6", 1024, 480);
+            Room room7 = new Room(7, "Dungeon Room 7", 1024, 480);
 
-            
+
+
             string csvPath = "Content/palace_exterior.csv";
             var roomBuilder = new RoomBuilder(csvPath, game.BlockTextures);
-            roomBuilder.PopulateRoom(room);
+            roomBuilder.PopulateRoom(room0);
 
             string entitiesCsvPath = "Content/palace_exterior_entities.csv";
-            roomManager.LoadEntities(room, entitiesCsvPath);
+            roomEntityManager.LoadEntities(room0, entitiesCsvPath);
+
+            csvPath = "Content/Dungeon Room 1.csv";
+            roomBuilder = new RoomBuilder(csvPath, game.BlockTextures);
+            roomBuilder.PopulateRoom(room1);
+
+            entitiesCsvPath = "Content/Dungeon Room 1 entities.csv";
+            roomEntityManager.LoadEntities(room1, entitiesCsvPath);
+
+            csvPath = "Content/Dungeon Room 2.csv";
+            roomBuilder = new RoomBuilder(csvPath, game.BlockTextures);
+            roomBuilder.PopulateRoom(room2);
+
+            entitiesCsvPath = "Content/Dungeon Room 2 entities.csv";
+            roomEntityManager.LoadEntities(room2, entitiesCsvPath);
+
+            csvPath = "Content/Dungeon Room 3.csv";
+            roomBuilder = new RoomBuilder(csvPath, game.BlockTextures);
+            roomBuilder.PopulateRoom(room3);
+
+            entitiesCsvPath = "Content/Dungeon Room 3 entities.csv";
+            roomEntityManager.LoadEntities(room3, entitiesCsvPath);
+
+            csvPath = "Content/Dungeon Room 4.csv";
+            roomBuilder = new RoomBuilder(csvPath, game.BlockTextures);
+            roomBuilder.PopulateRoom(room4);
+
+            entitiesCsvPath = "Content/Dungeon Room 4 entities.csv";
+            roomEntityManager.LoadEntities(room4, entitiesCsvPath);
+
+            csvPath = "Content/Dungeon Room 5.csv";
+            roomBuilder = new RoomBuilder(csvPath, game.BlockTextures);
+            roomBuilder.PopulateRoom(room5);
+
+            entitiesCsvPath = "Content/Dungeon Room 5 entities.csv";
+            roomEntityManager.LoadEntities(room5, entitiesCsvPath);
+
+            csvPath = "Content/Dungeon Room 6.csv";
+            roomBuilder = new RoomBuilder(csvPath, game.BlockTextures);
+            roomBuilder.PopulateRoom(room6);
+
+            entitiesCsvPath = "Content/Dungeon Room 6 entities.csv";
+            roomEntityManager.LoadEntities(room6, entitiesCsvPath);
+
+            csvPath = "Content/Dungeon Room 7.csv";
+            roomBuilder = new RoomBuilder(csvPath, game.BlockTextures);
+            roomBuilder.PopulateRoom(room7);
+
+            entitiesCsvPath = "Content/Dungeon Room 7 entities.csv";
+            roomEntityManager.LoadEntities(room7, entitiesCsvPath);
 
 
 
-            this.player = room.GetPlayer();
 
 
-            rooms.Add(room);
+
+
+
+            rooms.Add(room0);
+
+            rooms.Add(room1);
+            rooms.Add(room2);
+            rooms.Add(room3);
+            rooms.Add(room4);
+            rooms.Add(room5);
+            rooms.Add(room6);
+            rooms.Add(room7);
             currentRoomIndex = 0;
             currentRoom = rooms[0];
+            player = currentRoom.GetPlayer();
+
 
             if (player != null)
             {
@@ -180,7 +260,7 @@ namespace Sprint_0.States
             for (int i = 1; i <= 3; i++)
             {
                 int slot = i - 1;
-                kb.Press((Keys)((int)Keys.D0 + i), new Commands.UseSlotCommand(hotbar, player, slot));
+                kb.Press((Keys)((int)Keys.D0 + i), new UseSlotCommand(hotbar, player, slot));
             }
 
             // Game commands
@@ -188,9 +268,9 @@ namespace Sprint_0.States
             kb.Press(Keys.R, new ResetCommand(this));
 
             // Quick room switching with number keys (for testing)
-            kb.Press(Keys.F1, new Command.RoomCommand.SwitchRoomCommand(this, 0));
-            kb.Press(Keys.F2, new Command.RoomCommand.SwitchRoomCommand(this, 1));
-            kb.Press(Keys.F3, new Command.RoomCommand.SwitchRoomCommand(this, 2));
+            kb.Press(Keys.F1, new Commands.RoomCommand.SwitchRoomCommand(this, 0));
+            kb.Press(Keys.F2, new Commands.RoomCommand.SwitchRoomCommand(this, 1));
+            kb.Press(Keys.F3, new Commands.RoomCommand.SwitchRoomCommand(this, 2));
 
             // Gamepad commands
             var pad = (GamepadController)gamepadController;
@@ -201,6 +281,9 @@ namespace Sprint_0.States
             pad.Press(Buttons.X, new AttackCommand(player));
             pad.Press(Buttons.A, new JumpCommand(player));
             pad.BindRelease(Buttons.DPadDown, new CrouchOffCommand(player));
+            pad.Press(Buttons.LeftShoulder, new PickupCommand(player));
+            pad.Press(Buttons.Y, new SwordBeamCommand(player, projectileManager));
+            pad.Press(Buttons.B, new FireballCommand(player, projectileManager));
             pad.BindJoystick(player);
 
             gamepadController = pad;
@@ -229,12 +312,18 @@ namespace Sprint_0.States
             {  
                 var allCollidables = new List<ICollidable>();
                 // player
-                allCollidables.Add((ICollidable)player);
+                allCollidables.AddRange(player.GetCollidables());
 
                 // ADD: all room collidables (blocks, enemies, etc.)
                 var roomCollidables = currentRoom?.GetCollidables();
                 if (roomCollidables != null)
                     allCollidables.AddRange(roomCollidables);
+
+                if (projectileManager != null)
+                {
+                    foreach (var c in projectileManager.GetCollidables())
+                        allCollidables.Add(c);
+                }
 
                 // optional editor-selected block
                 if (currentBlock != null)

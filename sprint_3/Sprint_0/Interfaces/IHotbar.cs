@@ -1,6 +1,4 @@
-﻿
-
-namespace Sprint_0.Interfaces
+﻿namespace Sprint_0.Interfaces
 {
     public interface IHotbar
     {

@@ -27,6 +27,25 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup>
+  <Content Include="Content\**\*.csv">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Content\Dungeon Room 3 entites.csv" />
+    <Content Remove="Content\Dungeon Room 4 entites.csv" />
+    <Content Remove="Content\Dungeon Room 5 entites.csv" />
+    <Content Remove="Content\Dungeon Room 6 entites.csv" />
+    <Content Remove="Content\Dungeon Room 7 entites.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Content\Dungeon Room 3 entites.csv" />
+    <None Remove="Content\Dungeon Room 4 entites.csv" />
+    <None Remove="Content\Dungeon Room 5 entites.csv" />
+    <None Remove="Content\Dungeon Room 6 entites.csv" />
+    <None Remove="Content\Dungeon Room 7 entites.csv" />
+  </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="CollectPackageReferences">
     <Message Text="Restoring dotnet tools (this might take a while depending on your internet speed and should only happen upon building your project for the first time, or after upgrading MonoGame, or clearing your nuget cache)" Importance="High" />
     <Exec Command="dotnet tool restore" />

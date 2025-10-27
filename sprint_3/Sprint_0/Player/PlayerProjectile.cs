@@ -1,14 +1,14 @@
-// Projectile.cs  (additions marked)
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0;
+using Sprint_0.Interfaces;
 
-internal class PlayerProjectile
+internal class PlayerProjectile : ICollidable
 {
     private Vector2 position;
     private Vector2 velocity;
-    private Animation animation;
-    public bool IsActive { get; private set; } = true;
+    private readonly Animation animation;
+    public bool IsActive { get; set; } = true;
 
     public ProjectileType Type { get; }
 
@@ -23,16 +23,28 @@ internal class PlayerProjectile
 
     public void Update(GameTime gameTime)
     {
+        if (!IsActive) return;
+
         position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         animation.Update(gameTime);
 
         // TODO: replace hardcoded bounds with your viewport if desired
-        if (position.X < 0 || position.X > 800 || position.Y < 0 || position.Y > 480)
+        if (position.X < -32 || position.X > 2000 || position.Y < -32 || position.Y > 2000)
             IsActive = false;
     }
 
     public void Draw(SpriteBatch spriteBatch, SpriteEffects effects = SpriteEffects.None)
     {
         if (IsActive) animation.Draw(spriteBatch, position, effects);
+    }
+
+    public Rectangle BoundingBox
+    {
+        get
+        {
+            int w = animation.FrameWidth;
+            int h = animation.FrameHeight;
+            return new Rectangle((int)position.X, (int)position.Y, w, h);
+        }
     }
 }

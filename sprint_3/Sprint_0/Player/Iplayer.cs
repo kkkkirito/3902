@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0;
 using Sprint_0.Interfaces;
+using System.Collections.Generic;
 public enum Direction
 {
     Up,
@@ -49,4 +50,5 @@ public interface IPlayer : ICollidable
 
     void Attack(Direction direction, AttackMode mode = AttackMode.Normal);
     void SetCrouch(bool crouch);
+    IEnumerable<ICollidable> GetCollidables();
 }

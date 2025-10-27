@@ -13,10 +13,16 @@ namespace Sprint_0.EnemyStateMachine
             timer = 0f;
             enemy.SetAnimation("Death");
             enemy.Velocity = Vector2.Zero;
+            enemy.BoundingBox = Rectangle.Empty; 
         }
         public void Update(Enemy enemy, GameTime gameTime)
         {
             timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timer >= deathTimer)
+            {
+                enemy.IsDead = true;
+            }
 
         }
         public void Done(Enemy enemy) { }

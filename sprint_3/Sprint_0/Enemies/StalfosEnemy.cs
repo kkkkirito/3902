@@ -7,7 +7,7 @@ namespace Sprint_0.Enemies
     public class StalfosEnemy : Enemy
     {
         public StalfosEnemy(Texture2D spriteSheet, Vector2 startPos)
-           : base(SpriteFactory.CreateStalfosAnimations(spriteSheet), startPos)
+            : base(SpriteFactory.CreateStalfosAnimations(spriteSheet), startPos)
 
         {
             this.CanMove = true;
@@ -15,6 +15,8 @@ namespace Sprint_0.Enemies
             this.CanAttack = true;
             this.CanCrouch = true;
             this.Position = startPos;
+            this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 13, 30);
+            this.IsGrounded = false; 
             ChangeState(new StalfosFallState());
         }
     }

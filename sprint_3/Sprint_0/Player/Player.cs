@@ -16,16 +16,15 @@ public class Player : IPlayer, ICollidable
     private IPlayerState _currentState;
     private InputState state = new InputState();
 
+    private readonly PlayerMove _movement;
+    private readonly PlayerCombat _combat;
+    private readonly PlayerAnimation _animation;
+
     public Vector2 Position { get; set; }
     public Vector2 Velocity { get; set; }
-    public float Speed { get; private set; } = 100f;
     public Direction FacingDirection { get; set; } = Direction.Down;
 
-    private const float Gravity = 1200f;
-    private const float JumpStrength = -350f;
-    private float VerticalVelocity = 0f;
-
-    private float groundY;
+    public float groundY;
     public bool IsGrounded { get; set; } = true;
     public bool IsCrouching { get; private set; } = false;
 
@@ -33,6 +32,8 @@ public class Player : IPlayer, ICollidable
     public ICollectible HeldItem => _heldItem;
 
     private GameModeType _gameMode = GameModeType.Platformer;
+
+    public float Speed { get; set; } = PlayerConstants.MaxHorizontalSpeed;
     public GameModeType GameMode
     {
         get => _gameMode;
@@ -89,6 +90,7 @@ public class Player : IPlayer, ICollidable
     public Rectangle BoundingBox { get; set; }
     private PlayerAttackHitbox attackHitBox;
 
+    public float VerticalVelocity { get; set; }
     //constructor for player.
     public Player(Texture2D spriteSheet, Vector2 startPosition, IController controller)
     {
@@ -100,8 +102,13 @@ public class Player : IPlayer, ICollidable
         _controller = controller;
         attackHitBox = new PlayerAttackHitbox(this);
 
+
         // Start in idle state
         ChangeState(new IdleState());
+
+        _movement = new PlayerMove(this);
+        _combat = new PlayerCombat(this);
+        _animation = new PlayerAnimation(this);
     }
 
     public void Update(GameTime gameTime)
@@ -109,20 +116,8 @@ public class Player : IPlayer, ICollidable
         // auto-uncrouch if the hold command didn't run this frame
         IsCrouching = IsCrouching && IsGrounded;
 
-        // Handle invulnerability timer
-        if (IsInvulnerable)
-        {
-            InvulnerabilityTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (InvulnerabilityTimer <= 0)
-            {
-                IsInvulnerable = false;
-            }
-        }
-        // If we were hurt and invulnerability ended, return to idle
-        if (_currentState is HurtState && !IsInvulnerable)
-        {
-            ChangeState(new IdleState());
-        }
+        _combat.UpdateInvulnerability(gameTime);
+
         _currentState?.Update(this, gameTime);
 
         // Only switch between moving/idle/crouch when NOT in non-interruptible states (Hurt/Attack/Pickup)
@@ -145,72 +140,10 @@ public class Player : IPlayer, ICollidable
                     ChangeState(new IdleState());
             }
         }
-
-
-        // Apply movement for this frame
-        float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if (GameMode == GameModeType.Platformer)
-        {
-            Position = new Vector2(Position.X + Velocity.X * dt, Position.Y);
-            if (!IsGrounded)
-            {
-                VerticalVelocity += Gravity * dt;
-            }
-            Position = new Vector2(Position.X, Position.Y + VerticalVelocity * dt);
-            if (Position.Y >= groundY)
-            {
-                Position = new Vector2(Position.X, groundY);
-                VerticalVelocity = 0f;
-                if (!IsGrounded)
-                {
-                    IsGrounded = true;
-                    // land -> return to idle/moving
-                    if (_currentState is JumpState) ChangeState(new IdleState());
-                }
-            }
-            else
-            {
-                IsGrounded = false;
-            }
-        }
-        else
-        {
-            Position += Velocity * dt;
-            VerticalVelocity = 0f;
-            IsGrounded = true;
-        }
-
-        // Reset horizontal speed only (keep vertical physics alive)
-        Velocity = new Vector2(0f, 0f);
-
-        // Time-based animation for walking (matches AnimatedFromRects behavior)
-        if (_currentState is MovingState)
-        {
-            const float frameTime = 0.15f; // seconds per frame for walking
-            AnimationTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            while (AnimationTimer >= frameTime)
-            {
-                // There are 3 walking frames defined in SpriteFactory.GetWalkingSprite
-                CurrentFrame = (CurrentFrame + 1) % 3;
-                AnimationTimer -= frameTime;
-            }
-        }
-        else if (!(_currentState is AttackState) && !(_currentState is JumpState) && !(_currentState is PickupState))
-        {
-            // Reset when not walking
-            CurrentFrame = 0;
-            AnimationTimer = 0f;
-        }
+        _movement.ApplyMovement(gameTime);
+        _animation.Update(gameTime);
         BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, 16, 32);
     }
-
-    public void Draw(SpriteBatch spriteBatch)
-    {
-        //Updated color logic to white since we implemented the hurt sprite (red)
-        var color = IsInvulnerable ? Color.White : Color.White;
-        _currentState.Draw(this, spriteBatch, color);
-    }
-
     public void ChangeState(IPlayerState newState)
     {
         CurrentState = newState;
@@ -222,11 +155,6 @@ public class Player : IPlayer, ICollidable
         if (_currentState is HurtState || _currentState is AttackState || _currentState is PickupState || IsCrouching) return;
 
         // Use only X for platforming-style movement
-        if (CanMove(direction))
-        {
-            Velocity = new Vector2(direction.X * Speed, 0f);
-            UpdateFacingDirection(direction);
-        }
         if (GameMode == GameModeType.Platformer)
         {
             // X only
@@ -236,7 +164,7 @@ public class Player : IPlayer, ICollidable
         else
         {
             // 2D movement
-            Velocity = direction * Speed;
+            Velocity = direction * 100f;
             if (Math.Abs(direction.X) >= Math.Abs(direction.Y))
                 UpdateFacingDirection(direction);
             else
@@ -244,64 +172,10 @@ public class Player : IPlayer, ICollidable
         }
     }
 
-    public void Jump()
-    {
-        if (GameMode != GameModeType.Platformer) return; // disable in TopDown
-        if (IsGrounded && !IsCrouching && !(_currentState is HurtState) && !(_currentState is AttackState))
-        {
-            VerticalVelocity = JumpStrength;
-            IsGrounded = false;
-            ChangeState(new JumpState());
-        }
-    }
-
-    public bool CanMove(Vector2 direction)
-    {
-        // Add collision detection logic here ex: walls or obstacles.
-        // For now, always return true
-        return true;
-    }
-
-    public void TakeDamage(int damage)
-    {
-        // Ignore if currently invulnerable
-        if (IsInvulnerable) return;
-
-        CurrentHealth = Math.Max(0, CurrentHealth - damage);
-        IsInvulnerable = true;
-        InvulnerabilityTimer = 0.5f; // Match HurtState visual duration
-
-        if (CurrentHealth <= 0)
-        {
-            ChangeState(new DeadState());
-            return;
-        }
-        if (Velocity.X > 0) FacingDirection = Direction.Right;
-        else if (Velocity.X < 0) FacingDirection = Direction.Left;
-        ChangeState(new HurtState());
-    }
-
     private void UpdateFacingDirection(Vector2 direction)
     {
         if (direction.X > 0) FacingDirection = Direction.Right;
         else if (direction.X < 0) FacingDirection = Direction.Left;
-    }
-    public void Attack(Direction direction, AttackMode mode = AttackMode.Normal)
-    {
-        if (_currentState is HurtState || _currentState is AttackState) return;
-        FacingDirection = direction;
-        Velocity = Vector2.Zero;
-        if (!IsGrounded && mode == AttackMode.DownThrust)
-        {
-            //stab downwards.
-            VerticalVelocity = Math.Max(VerticalVelocity, 400f);
-        }
-        else if (!IsGrounded && mode == AttackMode.UpThrust)
-        {
-            //stab upwards, not a second jump just a boost.
-            VerticalVelocity = Math.Min(VerticalVelocity, -250f);
-        }
-        ChangeState(new AttackState(mode));
     }
 
     public void SetCrouch(bool crouch)
@@ -336,6 +210,30 @@ public class Player : IPlayer, ICollidable
         }
 
         return list;
+    }
+    public void Jump()
+    {
+        _movement.Jump();
+    }
+
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        _animation.Draw(spriteBatch);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _combat.TakeDamage(damage);
+    }
+
+    public bool CanMove(Vector2 direction)
+    {
+        return true;
+    }
+
+    public void Attack(Direction direction, AttackMode mode = AttackMode.Normal)
+    {
+        _combat.Attack(direction, mode);
     }
 }
 

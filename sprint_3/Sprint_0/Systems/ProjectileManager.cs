@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0;
+using Sprint_0.Interfaces;
 using System.Collections.Generic;
 
 public sealed class ProjectileManager : IProjectileManager
@@ -31,6 +32,14 @@ public sealed class ProjectileManager : IProjectileManager
     public void Draw(SpriteBatch spriteBatch)
     {
         foreach (var p in _projectiles) p.Draw(spriteBatch);
+    }
+
+    public IEnumerable<ICollidable> GetCollidables()
+    {
+        foreach (var p in _projectiles)
+        {
+            if (p.IsActive) yield return p;
+        }
     }
 
     public bool TrySpawnSwordBeam(IPlayer player)
@@ -85,15 +94,38 @@ public sealed class ProjectileManager : IProjectileManager
     // Small helper to compute spawn offset + velocity by facing/mode (supports both modes)
     private static (Vector2 pos, Vector2 vel) SpawnKinematics(IPlayer player, float speed)
     {
-        var pos = player.Position;
-        Vector2 dir = Vector2.Zero;
+        var body = player.BoundingBox; 
+        Vector2 dir;
+        Vector2 pos;
+
+        const int sideGap = 2;     // distance from player’s edge horizontally
+        const int upGap = 6;       // vertical center offset for side shots
+        const int upDownXPad = 4;  // horizontal pad for up/down shots
+        const int upPad = 10;      // distance above the head
+        const int downPad = 2;     // distance below the feet
 
         switch (player.FacingDirection)
         {
-            case Direction.Left: dir = new Vector2(-1, 0); pos += new Vector2(-8, -8); break;
-            case Direction.Right: dir = new Vector2(1, 0); pos += new Vector2(20, -8); break;
-            case Direction.Up: dir = new Vector2(0, -1); pos += new Vector2(4, -24); break;
-            case Direction.Down: dir = new Vector2(0, 1); pos += new Vector2(4, 8); break;
+            case Direction.Right:
+                dir = new Vector2(1, 0);
+                pos = new Vector2(body.Right + sideGap, body.Center.Y - upGap);
+                break;
+
+            case Direction.Left:
+                dir = new Vector2(-1, 0);
+                pos = new Vector2(body.Left - sideGap - 8, body.Center.Y - upGap);
+                break;
+
+            case Direction.Up:
+                dir = new Vector2(0, -1);
+                pos = new Vector2(body.Center.X - upDownXPad, body.Top - upPad);
+                break;
+
+            case Direction.Down:
+            default:
+                dir = new Vector2(0, 1);
+                pos = new Vector2(body.Center.X - upDownXPad, body.Bottom + downPad);
+                break;
         }
         return (pos, dir * speed);
     }

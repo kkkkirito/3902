@@ -21,6 +21,7 @@ namespace Sprint_0.Enemies
             this.projectileAnimation = GetAnimation("Projectile");
 
             this.projectiles = new List<Projectile>();
+            this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 16, 16);
 
             ChangeState(new IdleState());
             SetAnimation("Idle");

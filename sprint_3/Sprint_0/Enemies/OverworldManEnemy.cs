@@ -7,7 +7,7 @@ namespace Sprint_0.Enemies
     public class OverworldManEnemy : Enemy
     {
         public OverworldManEnemy(Texture2D spriteSheet, Vector2 startPos)
-             : base(SpriteFactory.CreateOverworldManAnimations(spriteSheet), startPos)
+            : base(SpriteFactory.CreateOverworldManAnimations(spriteSheet), startPos)
         {
             this.Position = startPos;
             ChangeState(new OverworldIdleState());

@@ -28,15 +28,16 @@ namespace Sprint_0.Enemies
         private double invulnerableTimer;
         private const double InvulnerableDuration = 0.3;
         public bool IsDead { get; set; }
+        public bool IsGrounded { get; set; }
 
         //for testing purposes only
-        public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, 16, 16);
+        public Rectangle BoundingBox { get;  set; }
 
         // Capabilities
-        public bool CanMove { get; set; }
-        public bool CanJump { get; set; }
-        public bool CanAttack { get; set; }
-        public bool CanCrouch { get; set; }
+        public bool CanMove { get; protected set; }
+        public bool CanJump { get; protected set; }
+        public bool CanAttack { get; protected set; }
+        public bool CanCrouch { get; protected set; }
 
         internal Enemy(Dictionary<string, Animation> animations, Vector2 startPos)
         {
@@ -76,15 +77,9 @@ namespace Sprint_0.Enemies
 
         protected virtual void Die()
         {
-            IsDead = true;
-            Velocity = Vector2.Zero;
 
-            if (animations.ContainsKey("Death"))
-            {
-                SetAnimation("Death");
-            }
+            ChangeState(new EnemyStateMachine.DeathState());
 
-            // Disable behavior, collisions, etc. here later
         }
 
         public virtual void Update(GameTime gameTime)
@@ -94,15 +89,21 @@ namespace Sprint_0.Enemies
             {
                 invulnerableTimer -= gameTime.ElapsedGameTime.TotalSeconds;
                 if (invulnerableTimer <= 0)
-                {
                     IsInvulnerable = false;
-                }
             }
-            _currentState.Update(this, gameTime);
 
+            _currentState?.Update(this, gameTime);
             CurrentAnimation?.Update(gameTime);
 
-            Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (!IsDead && !(_currentState is EnemyStateMachine.DeathState))
+            {
+                Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, BoundingBox.Width, BoundingBox.Height);
+            }
+            else
+            {
+                BoundingBox = Rectangle.Empty;
+            }
         }
         public void SetAnimation(string key)
         {

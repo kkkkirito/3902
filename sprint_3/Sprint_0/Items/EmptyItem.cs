@@ -1,8 +1,4 @@
 ﻿//Dillon Brigode AU 2025
-
-
-
-
 public sealed class EmptyItem : IUsableItem
 {
     public static EmptyItem Instance = new();

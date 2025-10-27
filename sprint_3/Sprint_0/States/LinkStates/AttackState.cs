@@ -71,12 +71,32 @@ namespace Sprint_0.States.LinkStates
                     source = SpriteFactory.GetAttackingSprite(player.FacingDirection, player.CurrentFrame);
                     break;
             }
-            var effects = (player.FacingDirection == Direction.Left) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            var effects = (player.FacingDirection == Direction.Left)
+    ? SpriteEffects.FlipHorizontally
+    : SpriteEffects.None;
+
             var standingHeight = SpriteFactory.GetIdleSprite(player.FacingDirection, 0).Height; // Assuming GetIdleSprite exists
             var crouchingHeight = source.Height;
             var heightDifference = standingHeight - crouchingHeight;
-            var adjustedPosition = new Vector2(player.Position.X, player.Position.Y + (heightDifference) / 2);
-            spriteBatch.Draw(player.SpriteSheet, adjustedPosition, source, color, 0f, Vector2.Zero, 1f, effects, 0f);
+
+            // Start with base position adjustment for crouching
+            var adjustedPosition = new Vector2(player.Position.X, player.Position.Y + (heightDifference / 2));
+            if (player.FacingDirection == Direction.Left)
+            {
+                adjustedPosition.X -= 8; // Move left by 15 pixels when flipped
+            }
+
+            spriteBatch.Draw(
+                player.SpriteSheet,
+                adjustedPosition,
+                source,
+                color,
+                0f,
+                Vector2.Zero,
+                1f,
+                effects,
+                0f
+            );
         }
     }
 }

@@ -6,15 +6,11 @@ namespace Sprint_0.States.LinkStates
 {
     public class HurtState : IPlayerState
     {
-        private float hurtDuration = 0.5f;
-        private float hurtTimer;
-        private InputState state = new InputState();
         public SpriteEffects s = SpriteEffects.None;
 
         public void Enter(IPlayer player)
         {
             player.Velocity = Vector2.Zero;
-            hurtTimer = 0;
         }
 
         public void Exit(IPlayer player)
@@ -29,13 +25,7 @@ namespace Sprint_0.States.LinkStates
 
         public void Update(IPlayer player, GameTime gameTime)
         {
-            hurtTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            /*if (hurtTimer >= hurtDuration)
-            {
-                player.ChangeState(new IdleState());
-                
-            }*/
         }
 
         public void Draw(IPlayer player, SpriteBatch spriteBatch, Color color)

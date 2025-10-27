@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Sprint_0.Interfaces;
-using Sprint_0.Command.PlayerCommand;
+using Sprint_0.Commands.PlayerCommands;
 
 namespace Sprint_0.Systems
 {

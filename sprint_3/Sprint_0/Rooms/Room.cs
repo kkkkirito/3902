@@ -23,6 +23,7 @@ namespace Sprint_0.Rooms
         private Dictionary<Enemy, Vector2> enemyStartPositions;
         private List<IConsumableItem> consumables;
         private List<ICollidable> collidables;
+        private readonly List<IStaticCollider> mergedStatics = new();
 
         public Room(int id, string name, int width, int height)
         {
@@ -120,16 +121,13 @@ namespace Sprint_0.Rooms
             // Update items
             foreach (var item in consumables)
             {
-                if (item is HeartItem heart)
-                {
-                    heart.Update(gameTime);
-                }
+                item.Update(gameTime);
             }
 
             // Check item collection (simple collision with player)
             if (player != null)
             {
-                Rectangle playerBounds = new Rectangle((int)player.Position.X, (int)player.Position.Y, 18, 42);
+                Rectangle playerBounds = player.BoundingBox;
                 foreach (var item in consumables)
                 {
                     if (item is HeartItem heart && !heart.IsCollected)
@@ -154,10 +152,7 @@ namespace Sprint_0.Rooms
             // Draw items
             foreach (var item in consumables)
             {
-                if (item is HeartItem heart)
-                {
-                    heart.Draw(spriteBatch);
-                }
+                item.Draw(spriteBatch);
             }
 
             // Draw enemies
@@ -210,6 +205,14 @@ namespace Sprint_0.Rooms
 
                     // Reset enemy to appropriate initial state based on type
                     ResetEnemyState(enemy);
+
+                    enemy.SetAnimation("Idle");
+
+                    var anim = enemy.GetAnimation("Idle");
+                    if (anim != null)
+                    {
+                        enemy.BoundingBox = new Rectangle((int)enemy.Position.X,(int)enemy.Position.Y,anim.FrameWidth,anim.FrameHeight);
+                    }
                 }
             }
         }
@@ -238,5 +241,15 @@ namespace Sprint_0.Rooms
                 enemy.ChangeState(new Sprint_0.EnemyStateMachine.IdleState());
             }
         }
+
+        public void ReplaceStaticBlockColliders(IEnumerable<IStaticCollider> merged)
+        {
+            mergedStatics.Clear();
+            mergedStatics.AddRange(merged);
+
+            collidables.RemoveAll(c => c is IBlock);
+            collidables.AddRange(mergedStatics);
+        }
+
     }
 }

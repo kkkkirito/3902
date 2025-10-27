@@ -54,7 +54,15 @@ namespace Sprint_0
             {
                 new Vector2(0, 6)
             };
-
+            var deathFrames = new List<Rectangle>
+            {
+                new Rectangle(327, 531, 18, 34),
+                new Rectangle(344, 531, 18, 34),
+                new Rectangle(361, 531, 18, 34),
+                new Rectangle(378, 531, 18, 34),
+                new Rectangle(327, 531, 18, 34),
+                new Rectangle(344, 531, 18, 34)
+            };
 
             return new Dictionary<string, Animation>
             {
@@ -63,7 +71,8 @@ namespace Sprint_0
                 { "IdleAttack", new Animation(spriteSheet, idleAttackFrames, 0.2f, false, attackOffsets) },
                 { "MoveAttack", new Animation(spriteSheet, walkingAttackFrames, 0.2f, false, attackOffsets) },
                 { "Fall", new Animation(spriteSheet, fallingFrames, 0.2f, false) },
-                { "Crouch", new Animation(spriteSheet, crouchingFrames, 0.2f, false, crouchOffsets) }
+                { "Crouch", new Animation(spriteSheet, crouchingFrames, 0.2f, false, crouchOffsets) },
+                { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
             };
 
         }
@@ -92,13 +101,23 @@ namespace Sprint_0
             {
                 new Rectangle(194, 10, 15, 17)
             };
+            var deathFrames = new List<Rectangle>
+            {
+                new Rectangle(327, 531, 18, 18),
+                new Rectangle(344, 531, 18, 18),
+                new Rectangle(361, 531, 18, 18),
+                new Rectangle(378, 531, 18, 18),
+                new Rectangle(327, 531, 18, 18),
+                new Rectangle(344, 531, 18, 18)
+            };
 
             return new Dictionary<string, Animation>
             {
                 { "Idle", new Animation(spriteSheet, idleFrames, 0.25f, true) },
                 { "Move", new Animation(spriteSheet, movingFrames, 0.15f, true) },
                 { "Stunned", new Animation(spriteSheet, stunnedFrames, 0.2f, false) },
-                { "Jump", new Animation(spriteSheet, jumpFrames, 0.2f, false) }
+                { "Jump", new Animation(spriteSheet, jumpFrames, 0.2f, false) },
+                { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
             };
         }
         internal static Dictionary<string, Animation> CreateOctorokAnimations(Texture2D spriteSheet)
@@ -120,12 +139,22 @@ namespace Sprint_0
                 new Rectangle(292, 200, 7, 15),
                 new Rectangle(301, 200, 7, 15)
             };
+            var deathFrames = new List<Rectangle>
+            {
+                new Rectangle(544, 397, 18, 18),
+                new Rectangle(561, 397, 18, 18),
+                new Rectangle(578, 397, 18, 18),
+                new Rectangle(595, 397, 18, 18),
+                new Rectangle(544, 397, 18, 18),
+                new Rectangle(561, 397, 18, 18)
+            };
 
             return new Dictionary<string, Animation>
             {
                 { "Idle", new Animation(spriteSheet, idleFrames, 0.2f, true) },
                 { "Attack", new Animation(spriteSheet, attackingFrames, 0.1f, false) },
                 { "Projectile", new Animation(spriteSheet, projectileFrames, 0.2f, true) },
+                { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
             };
         }
         internal static Dictionary<string, Animation> CreateOverworldBotAnimations(Texture2D spriteSheet)
@@ -504,163 +533,163 @@ namespace Sprint_0
             }, 0.25f, false);
 
             //12-36 are interior blocks
-            dict["elevator background"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["eb"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(0, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["brick background"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["brbg"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(17, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["top window"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["tw"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(34, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["bottom window"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["bw"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(51, 49, 17, 17)
             }, 0.25f, false);   
 
-            dict["Brick"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["br"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(68, 49, 17, 17)
             }, 0.25f, false);   
 
-            dict["Platform"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["pl"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(85, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["top column"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["tcol"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(102, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["column"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["col"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(119, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["statue top"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["st"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(136, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["statue bot"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["sb"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(153, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["flag"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["fl"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(170, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["flag bottom"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["flb"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(187, 49, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure1"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t1"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(0, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure2"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t2"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(17, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure3"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t3"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(34, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure4"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t4"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(51, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure5"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t5"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(68, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure6"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t6"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(85, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure7"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t7"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(102, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure8"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t8"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(119, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure9"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t9"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(136, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure10"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t10"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(153, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure11"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t11"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(170, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["treasure12"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["t12"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(187, 66, 17, 17)
             }, 0.25f, false);
 
-            dict["ghoul"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["gh"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(0, 83, 17, 17)
             }, 0.25f, false);
 
             //37-43 are hazards
-            dict["plain brick"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["pbr"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(0, 112, 17, 17)
             }, 0.25f, false);
 
-            dict["cracked brick"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["cbr"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(17, 112, 17, 17)
             }, 0.25f, false);
 
-            dict["break block1"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["bb2"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(34, 112, 17, 17)
             }, 0.25f, false);   
 
-            dict["break block2"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["bb3"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(51, 112, 17, 17)
             }, 0.25f, false);
 
-            dict["break block3"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["bb4"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(68, 112, 17, 17)
             }, 0.25f, false);
 
-            dict["top lava"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["tla"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(85, 112, 17, 17)
             }, 0.25f, false);
 
-            dict["lava"] = new Animation(spriteSheet, new List<Rectangle>
+            dict["la"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(102, 112, 17, 17)
             }, 0.25f, false);

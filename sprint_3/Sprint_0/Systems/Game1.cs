@@ -68,9 +68,6 @@ namespace Sprint_0
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
             stateManager.Update(gameTime);
             base.Update(gameTime);
         }
