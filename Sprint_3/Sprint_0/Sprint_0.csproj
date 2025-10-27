@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RollForward>Major</RollForward>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <TieredCompilation>false</TieredCompilation>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="LinkStateMachine\**" />
+    <EmbeddedResource Remove="LinkStateMachine\**" />
+    <None Remove="LinkStateMachine\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*" />
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Content\palace_exterior.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Content\palace_exterior_entities.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+  <Content Include="Content\**\*.csv">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Content\Dungeon Room 3 entites.csv" />
+    <Content Remove="Content\Dungeon Room 4 entites.csv" />
+    <Content Remove="Content\Dungeon Room 5 entites.csv" />
+    <Content Remove="Content\Dungeon Room 6 entites.csv" />
+    <Content Remove="Content\Dungeon Room 7 entites.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Content\Dungeon Room 3 entites.csv" />
+    <None Remove="Content\Dungeon Room 4 entites.csv" />
+    <None Remove="Content\Dungeon Room 5 entites.csv" />
+    <None Remove="Content\Dungeon Room 6 entites.csv" />
+    <None Remove="Content\Dungeon Room 7 entites.csv" />
+  </ItemGroup>
+  <Target Name="RestoreDotnetTools" BeforeTargets="CollectPackageReferences">
+    <Message Text="Restoring dotnet tools (this might take a while depending on your internet speed and should only happen upon building your project for the first time, or after upgrading MonoGame, or clearing your nuget cache)" Importance="High" />
+    <Exec Command="dotnet tool restore" />
+  </Target>
+</Project>
