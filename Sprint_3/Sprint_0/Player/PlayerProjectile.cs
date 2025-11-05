@@ -29,7 +29,7 @@ internal class PlayerProjectile : ICollidable
         animation.Update(gameTime);
 
         // TODO: replace hardcoded bounds with your viewport if desired
-        if (position.X < -32 || position.X > 2000 || position.Y < -32 || position.Y > 2000)
+        if (position.X < -32 || position.X > 1074 || position.Y < -32 || position.Y > 530)
             IsActive = false;
     }
 
