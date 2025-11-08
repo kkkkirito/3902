@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-public interface ICollectible
+public interface ICollectible : IItem
 {
     Rectangle Bounds { get; }
     Texture2D Texture { get; }

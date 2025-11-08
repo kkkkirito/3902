@@ -5,6 +5,7 @@ using Sprint_0.Items;
 using Sprint_0.Player_Namespace;
 using System.Collections.Generic;
 using System.IO;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.Rooms
 {
@@ -60,6 +61,11 @@ namespace Sprint_0.Rooms
                             CreateKey(room, position);
                             break;
 
+                        case "c":
+                        case "candle":
+                            CreateCandle(room, position);
+                            break;
+
                         case "bot":
                             CreateEnemy(room, "Bot", position);
                             break;
@@ -69,9 +75,18 @@ namespace Sprint_0.Rooms
                             CreateEnemy(room, "Stalfos", position);
                             break;
 
+                        case "wosu":
+                            CreateEnemy(room, "Wosu", position);
+                            break;
+
                         case "octo":
                         case "octorok":
                             CreateEnemy(room, "Octorok", position);
+                            break;
+
+                        case "bub":
+                        case "bubble":
+                            CreateEnemy(room, "Bubble", position);
                             break;
 
                         case "obot":
@@ -114,14 +129,20 @@ namespace Sprint_0.Rooms
         private void CreateHeart(Room room, Vector2 position)
         {
             var heart = new HeartItem(position, itemTextures);
-            room.AddConsumable(heart);
+            room.AddItem(heart);
         }
 
         private void CreateKey(Room room, Vector2 position)
         {
             var key = new KeyItem(position, itemTextures);
-            room.AddConsumable(key);
+            room.AddItem(key);
 
+        }
+
+        private void CreateCandle(Room room, Vector2 position)
+        {
+            var candle = new CandleItem(position, itemTextures);
+            room.AddItem(candle);
         }
 
         private void CreateEnemy(Room room, string enemyType, Vector2 position)
@@ -136,9 +157,16 @@ namespace Sprint_0.Rooms
                     break;
                 case "Stalfos":
                     enemy = new StalfosEnemy(enemyTextures, position);
+                    //enemy.ChangeState(new Sprint_0.EnemyStateMachine.StalfosFallState());
                     break;
                 case "Octorok":
                     enemy = new OctorokEnemy(overworldEnemyTextures, enemyTextures, position);
+                    break;
+                case "Wosu":
+                    enemy = new WosuEnemy(enemyTextures, position);
+                    break;
+                case "Bubble":
+                    enemy = new BubbleEnemy(enemyTextures, position);
                     break;
                 case "OverworldBot":
                     enemy = new OverworldBotEnemy(overworldEnemyTextures, position);

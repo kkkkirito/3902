@@ -17,7 +17,15 @@ namespace Sprint_0.Commands.CollisionCommands
             var delta = SeparationFor(enemy, info);
             enemy.Position += delta;
 
-            // Clear velocity into the surface, mark grounded when landing on top
+            enemy.LastCollisionDirection = info.Direction;
+
+            // Bubble enemies have different collision behavior
+            if (enemy is BubbleEnemy)
+            {
+                return;
+            }
+
+            // Normal enemy physics - clear velocity into surface, mark grounded
             var v = enemy.Velocity;
             switch (info.Direction)
             {
@@ -34,13 +42,12 @@ namespace Sprint_0.Commands.CollisionCommands
                     break;
             }
         }
+
         private static Vector2 SeparationFor(ICollidable who, CollisionInfo info)
         {
             // MTV pushes A out of B; flip it when we're resolving B.
             return ReferenceEquals(who, info.A) ? info.MinimumTranslationVector
                                                 : -info.MinimumTranslationVector;
         }
-
     }
-
 }

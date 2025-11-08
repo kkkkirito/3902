@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Sprint_0.Blocks;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
 using Sprint_0.Items;
 using Sprint_0.Player_Namespace;
 using System.Collections.Generic;
+using Sprint_0.States.LinkStates;
 
 namespace Sprint_0.Rooms
 {
@@ -21,7 +21,7 @@ namespace Sprint_0.Rooms
         private List<IBlock> blocks;
         private List<Enemy> enemies;
         private Dictionary<Enemy, Vector2> enemyStartPositions;
-        private List<IConsumableItem> consumables;
+        private List<IItem> items;
         private List<ICollidable> collidables;
         private readonly List<IStaticCollider> mergedStatics = new();
 
@@ -35,7 +35,7 @@ namespace Sprint_0.Rooms
             blocks = new List<IBlock>();
             enemies = new List<Enemy>();
             enemyStartPositions = new Dictionary<Enemy, Vector2>();
-            consumables = new List<IConsumableItem>();
+            items = new List<IItem>();
             collidables = new List<ICollidable>();
         }
 
@@ -53,15 +53,14 @@ namespace Sprint_0.Rooms
             return player;
         }
 
-        public IEnumerable<IConsumableItem> GetConsumables()
+        public IEnumerable<IItem> GetItems()
         {
-            return consumables;
+            return items;
         }
 
         public void AddBlock(IBlock block)
         {
             blocks.Add(block);
-            // If the block implements ICollidable, add it to collidables
             if (block is ICollidable collidable)
             {
                 collidables.Add(collidable);
@@ -72,22 +71,33 @@ namespace Sprint_0.Rooms
         {
             enemies.Add(enemy);
             enemyStartPositions[enemy] = enemy.Position;
-            // If the enemy implements ICollidable, add it to collidables
             if (enemy is ICollidable collidable)
             {
                 collidables.Add(collidable);
             }
         }
 
-        public void AddConsumable(IConsumableItem item)
+        public void AddItem(IItem item)
         {
-            consumables.Add(item);
+            items.Add(item);
+            if (item is ICollidable collidable)
+            {
+                collidables.Add(collidable);
+            }
         }
 
         public IEnumerable<ICollidable> GetCollidables()
         {
-            // Return all collidable objects in the room
-            return collidables;
+            foreach (var c in collidables) yield return c;
+
+            foreach (var enemy in enemies)
+            {
+                if (enemy is OctorokEnemy oct)
+                {
+                    foreach (var proj in oct.GetActiveProjectiles())
+                        yield return proj;
+                }
+            }
         }
 
         public IEnumerable<IBlock> GetBlocks()
@@ -103,65 +113,41 @@ namespace Sprint_0.Rooms
 
         public void Update(GameTime gameTime)
         {
-            // Update player
             player?.Update(gameTime);
 
-            // Update blocks
             foreach (var block in blocks)
             {
                 block.Update(gameTime);
             }
 
-            // Update enemies
             foreach (var enemy in enemies)
             {
                 enemy.Update(gameTime);
             }
 
-            // Update items
-            foreach (var item in consumables)
+            foreach (var item in items)
             {
                 item.Update(gameTime);
-            }
-
-            // Check item collection (simple collision with player)
-            if (player != null)
-            {
-                Rectangle playerBounds = player.BoundingBox;
-                foreach (var item in consumables)
-                {
-                    if (item is HeartItem heart && !heart.IsCollected)
-                    {
-                        if (heart.GetBoundingBox().Intersects(playerBounds))
-                        {
-                            item.Consume(player); 
-                        }
-                    }
-                }
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            // Draw blocks first (background)
             foreach (var block in blocks)
             {
                 block.Draw(spriteBatch);
             }
 
-            // Draw items
-            foreach (var item in consumables)
+            foreach (var item in items)
             {
                 item.Draw(spriteBatch);
             }
 
-            // Draw enemies
             foreach (var enemy in enemies)
             {
                 enemy.Draw(spriteBatch);
             }
 
-            // Draw player 
             player?.Draw(spriteBatch);
 
             
@@ -169,7 +155,6 @@ namespace Sprint_0.Rooms
 
         public void Reset()
         {
-            // Reset player position
             if (player != null)
             {
                 player.Position = playerStartPosition;
@@ -179,31 +164,20 @@ namespace Sprint_0.Rooms
 
                 if (player.CurrentState != null)
                 {
-                    player.ChangeState(new Sprint_0.States.LinkStates.IdleState());
+                    player.ChangeState(new IdleState());
                 }
             }
 
-            // Reset items
-            foreach (var item in consumables)
+            foreach (var item in items)
             {
-                if (item is HeartItem heart)
-                {
-                    heart.IsCollected = false;
-                }
+                if (item is HeartItem heart) heart.IsCollected = false;
+                else if (item is KeyItem key) key.IsCollected = false;
             }
 
-            // Reset enemies to their starting positions (if needed)
             foreach (var enemy in enemies)
             {
                 if (enemyStartPositions.ContainsKey(enemy))
                 {
-                    enemy.Position = enemyStartPositions[enemy];
-                    enemy.Velocity = Vector2.Zero;
-                    enemy.IsDead = false;
-                    enemy.CurrentHealth = enemy.MaxHealth;
-                    enemy.IsInvulnerable = false;
-
-                    // Reset enemy to appropriate initial state based on type
                     ResetEnemyState(enemy);
 
                     enemy.SetAnimation("Idle");
@@ -219,22 +193,24 @@ namespace Sprint_0.Rooms
 
         private void ResetEnemyState(Enemy enemy)
         {
+            enemy.Position = enemyStartPositions[enemy];
+            enemy.Velocity = Vector2.Zero;
+            enemy.IsDead = false;
+            enemy.CurrentHealth = enemy.MaxHealth;
+            enemy.IsInvulnerable = false;
+
             // Reset to appropriate initial state based on enemy type
             if (enemy is StalfosEnemy)
             {
-                enemy.ChangeState(new Sprint_0.EnemyStateMachine.IdleState());
-            }
-            else if (enemy is BotEnemy)
-            {
-                enemy.ChangeState(new Sprint_0.EnemyStateMachine.IdleState());
-            }
-            else if (enemy is OctorokEnemy)
-            {
-                enemy.ChangeState(new Sprint_0.EnemyStateMachine.IdleState());
+                enemy.ChangeState(new Sprint_0.EnemyStateMachine.StalfosFallState());
             }
             else if (enemy is OverworldBotEnemy || enemy is OverworldManEnemy)
             {
                 enemy.ChangeState(new Sprint_0.EnemyStateMachine.OverworldIdleState());
+            }
+            else if (enemy is BubbleEnemy)
+            {
+                enemy.ChangeState(new Sprint_0.EnemyStateMachine.BubbleState());
             }
             else
             {

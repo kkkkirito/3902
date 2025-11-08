@@ -22,7 +22,7 @@ public class Player : IPlayer, ICollidable
 
     public Vector2 Position { get; set; }
     public Vector2 Velocity { get; set; }
-    public Direction FacingDirection { get; set; } = Direction.Down;
+    public Direction FacingDirection { get; set; } = Direction.Right;
 
     public float groundY;
     public bool IsGrounded { get; set; } = true;

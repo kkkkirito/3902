@@ -1,11 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Sprint_0.Blocks;
-using Sprint_0.Enemies;
-using Sprint_0.Interfaces;
-using Sprint_0.Player_Namespace;
 using Sprint_0.States;
+using Sprint_0.States.Gameplay;
 
 namespace Sprint_0
 {
@@ -56,7 +52,7 @@ namespace Sprint_0
         {
             // Create states
             var menuState = new MenuState(this, Font, stateManager);
-            var gameplayState = new GameplayState(this, Content);
+            var gameplayState = new GameplayState(this);
 
             // Add states
             stateManager.AddState("menu", menuState);

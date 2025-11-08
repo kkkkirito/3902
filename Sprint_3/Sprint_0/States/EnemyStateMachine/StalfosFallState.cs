@@ -11,7 +11,7 @@ namespace Sprint_0.EnemyStateMachine
         {
 
             enemy.SetAnimation("Fall");
-            enemy.Velocity = new Vector2(0, 150f); // pixels per second downward
+            //enemy.Velocity = new Vector2(0, 150f); // pixels per second downward
         }
         public void Update(Enemy enemy, GameTime gameTime)
         {

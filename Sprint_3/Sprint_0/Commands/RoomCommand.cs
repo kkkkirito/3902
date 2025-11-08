@@ -1,22 +1,17 @@
 ﻿using Sprint_0.Interfaces;
-using Sprint_0.States;
+using Sprint_0.States.Gameplay;
 
-namespace Sprint_0.Commands.RoomCommand
+namespace Sprint_0.Commands
 {
-    public class SwitchRoomCommand : ICommand
+    public class SwitchRoomCommand(RoomNavigator navigator, int roomIndex) : ICommand
     {
-        private readonly GameplayState gameState;
-        private readonly int roomIndex;
-
-        public SwitchRoomCommand(GameplayState gameState, int roomIndex)
-        {
-            this.gameState = gameState;
-            this.roomIndex = roomIndex;
-        }
+        private readonly RoomNavigator _navigator = navigator;
+        private readonly int _roomIndex = roomIndex;
 
         public void Execute()
         {
-            gameState.SwitchToRoom(roomIndex);
+            _navigator.SwitchTo(_roomIndex);
+
         }
     }
 }

@@ -57,18 +57,6 @@ namespace Sprint_0.EnemyStateMachine
                     enemy.ChangeState(new MoveState());
                 }
             }
-
-            // boundary check
-            if (enemy.Position.X < 0)
-            {
-                enemy.Facing = FacingDirection.Right;
-                enemy.ChangeState(new MoveState());
-            }
-            else if (enemy.Position.X > 800)
-            {
-                enemy.Facing = FacingDirection.Left;
-                enemy.ChangeState(new MoveState());
-            }
         }
         public void Done(Enemy enemy) { }
     }

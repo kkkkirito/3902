@@ -16,6 +16,15 @@ namespace Sprint_0.Commands.CollisionCommands
             var mtv = ReferenceEquals(enemy, info.A) ? info.MinimumTranslationVector : -info.MinimumTranslationVector;
             enemy.Position += mtv;
 
+            enemy.LastCollisionDirection = info.Direction;
+
+            // Bubble enemies have different collision behavior
+            if (enemy is BubbleEnemy)
+            {
+                return;
+            }
+
+
             var v = enemy.Velocity;
             switch (info.Direction)
             {

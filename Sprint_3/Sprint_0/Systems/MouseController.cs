@@ -1,18 +1,14 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0
 {
-    public class MouseController : IController
+    public class MouseController(Game1 game) : IController
     {
 
-        private Game1 game;
-        public int blockSwitch { get; set; } = 0;
-        public MouseController(Game1 game)
-        {
+        private readonly Game1 game = game;
+        public int BlockSwitch { get; set; } = 0;
 
-            this.game = game;
-
-        }
         public void Update()
         {
 

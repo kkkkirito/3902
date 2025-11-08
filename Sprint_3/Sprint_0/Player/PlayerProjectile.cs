@@ -5,6 +5,8 @@ using Sprint_0.Interfaces;
 
 internal class PlayerProjectile : ICollidable
 {
+
+    private Game game;
     private Vector2 position;
     private Vector2 velocity;
     private readonly Animation animation;
@@ -12,13 +14,14 @@ internal class PlayerProjectile : ICollidable
 
     public ProjectileType Type { get; }
 
-    public PlayerProjectile(Animation animation, Vector2 position, Vector2 velocity, ProjectileType type = ProjectileType.SwordBeam)
+    public PlayerProjectile(Game game, Animation animation, Vector2 position, Vector2 velocity, ProjectileType type = ProjectileType.SwordBeam)
     {
         this.animation = animation;
         this.position = position;
         this.velocity = velocity;
         this.animation.Reset();
         Type = type;
+        this.game = game;
     }
 
     public void Update(GameTime gameTime)
@@ -28,8 +31,8 @@ internal class PlayerProjectile : ICollidable
         position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         animation.Update(gameTime);
 
-        // TODO: replace hardcoded bounds with your viewport if desired
-        if (position.X < -32 || position.X > 1074 || position.Y < -32 || position.Y > 530)
+        
+        if (position.X < 0 || position.X > game.GraphicsDevice.Viewport.Width || position.Y < 0 || position.Y > 500)
             IsActive = false;
     }
 

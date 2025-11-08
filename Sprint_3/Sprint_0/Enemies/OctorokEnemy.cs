@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.EnemyStateMachine;
 using System.Collections.Generic;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.Enemies
 {
@@ -30,11 +31,16 @@ namespace Sprint_0.Enemies
         public void Shoot(Vector2 direction)
         {
             // clone the projectile animation so each projectile animates independently
-
             Animation animClone = projectileAnimation.Clone();
             var proj = new Projectile(animClone, this.Position, direction * 100f);
             projectiles.Add(proj);
-
+        }
+        public IEnumerable<IEnemyProjectile> GetActiveProjectiles()
+        {
+            foreach (var p in projectiles)
+            {
+                if (p.IsActive) yield return p;
+            }
         }
 
         public override void Update(GameTime gameTime)

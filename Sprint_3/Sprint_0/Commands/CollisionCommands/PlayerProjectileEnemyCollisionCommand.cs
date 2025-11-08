@@ -8,7 +8,7 @@ namespace Sprint_0.Commands.CollisionCommands
     public sealed class PlayerProjectileEnemyCollisionCommand : ICollisionCommand
     {
         // Tune knockback speed and damage as desired
-        private const float KnockbackSpeed = 140f;
+        private const float KnockbackSpeed = 20f;
         private const int DefaultDamage = 1;
 
         public void Execute(CollisionInfo info)

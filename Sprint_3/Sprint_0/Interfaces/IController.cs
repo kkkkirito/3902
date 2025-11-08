@@ -1,11 +1,7 @@
-﻿public interface IController
+﻿namespace Sprint_0.Interfaces
 {
-    void Update();
-    int blockSwitch { get; set; }
-
-
-
-
-
+    public interface IController
+    {
+        void Update();
+    }
 }
-

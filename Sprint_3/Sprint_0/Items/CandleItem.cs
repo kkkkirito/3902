@@ -1,31 +1,29 @@
-﻿// Items/HeartItem.cs
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Sprint_0.Items
 {
-    public class HeartItem : IConsumable
+    public class CandleItem : ICollectible
     {
-        public string Name => "Heart";
-        public bool IsConsumable => true;
+        public string Name => "Candle";
+        public bool IsConsumable => false;
 
         public Vector2 Position { get; set; }
         public bool IsCollected { get; set; }
 
         private Animation animation;
-        private int healAmount = 20;
         private Texture2D texture;
 
-        public HeartItem(Vector2 position, Texture2D itemTextures)
+        public CandleItem(Vector2 position, Texture2D itemTextures)
         {
             Position = position;
             IsCollected = false;
             texture = itemTextures;
 
             var animations = SpriteFactory.CreateItemAnimations(itemTextures);
-            if (animations.ContainsKey("Heart"))
+            if (animations.ContainsKey("Candle"))
             {
-                this.animation = animations["Heart"];
+                this.animation = animations["Candle"];
             }
         }
 
@@ -33,23 +31,8 @@ namespace Sprint_0.Items
         {
             if (!IsCollected)
             {
-                player.CurrentHealth = System.Math.Min(
-                    player.CurrentHealth + healAmount,
-                    player.MaxHealth
-                );
                 IsCollected = true;
             }
-        }
-
-        // ICollectible implementation
-        public Rectangle Bounds => GetBoundingBox();
-        public Texture2D Texture => texture;
-        public Rectangle Source => animation?.CurrentFrame ?? new Rectangle(0, 0, 0, 0);
-        public bool Celebration => false;
-        public void Collect(IPlayer player)
-        {
-            // Hearts are immediate use; delegate to Consume
-            Consume(player);
         }
 
         public void Update(GameTime gameTime)
@@ -75,5 +58,18 @@ namespace Sprint_0.Items
 
         // ICollidable implementation
         public Rectangle BoundingBox => GetBoundingBox();
+
+        // ICollectible implementation
+        public Rectangle Bounds => GetBoundingBox();
+        public Texture2D Texture => texture;
+        public Rectangle Source => animation?.CurrentFrame ?? new Rectangle(0, 0, 0, 0);
+        public bool Celebration => true;
+        public void Collect(IPlayer player)
+        {
+            if (!IsCollected)
+            {
+                IsCollected = true;
+            }
+        }
     }
 }

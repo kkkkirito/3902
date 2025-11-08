@@ -15,9 +15,12 @@ public sealed class ProjectileManager : IProjectileManager
     private const float BeamSpeed = 320f;
     private const float FireballSpeed = 220f;
 
-    public ProjectileManager(Texture2D linkSpriteSheet)
+    private readonly Game game;
+
+    public ProjectileManager(Texture2D linkSpriteSheet, Game game)
     {
         _linkSheet = linkSpriteSheet;
+        this.game = game;
     }
 
     public void Update(GameTime gameTime)
@@ -76,7 +79,7 @@ public sealed class ProjectileManager : IProjectileManager
         };
         var anim = new Animation(_linkSheet, frames, 0.07f, true);
         var (spawnPos, vel) = SpawnKinematics(player, BeamSpeed);
-        return new PlayerProjectile(anim, spawnPos, vel, ProjectileType.SwordBeam);
+        return new PlayerProjectile(game, anim, spawnPos, vel, ProjectileType.SwordBeam);
     }
 
     private PlayerProjectile CreateFireball(IPlayer player)
@@ -88,7 +91,7 @@ public sealed class ProjectileManager : IProjectileManager
         };
         var anim = new Animation(_linkSheet, frames, 0.10f, true);
         var (spawnPos, vel) = SpawnKinematics(player, FireballSpeed);
-        return new PlayerProjectile(anim, spawnPos, vel, ProjectileType.Fireball);
+        return new PlayerProjectile(game, anim, spawnPos, vel, ProjectileType.Fireball);
     }
 
     // Small helper to compute spawn offset + velocity by facing/mode (supports both modes)

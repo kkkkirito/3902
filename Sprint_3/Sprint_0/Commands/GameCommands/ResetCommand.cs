@@ -1,19 +1,15 @@
 ﻿using Sprint_0.Interfaces;
+using Sprint_0.States.Gameplay;
 
 namespace Sprint_0.Commands.GameCommands
 {
-    public class ResetCommand : ICommand
+    public class ResetCommand(GameplayState gameplay) : ICommand
     {
-        private readonly IGameState gameState;
-
-        public ResetCommand(IGameState gameState)
-        {
-            this.gameState = gameState;
-        }
+        private readonly GameplayState _gamestate = gameplay;
 
         public void Execute()
         {
-            gameState.Reset();
+            _gamestate?.Reset();
         }
     }
 }

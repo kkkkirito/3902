@@ -74,7 +74,36 @@ namespace Sprint_0
                 { "Crouch", new Animation(spriteSheet, crouchingFrames, 0.2f, false, crouchOffsets) },
                 { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
             };
+        }
+        internal static Dictionary<string, Animation> CreateWosuAnimations(Texture2D spriteSheet)
+        {
+            var idleFrames = new List<Rectangle>
+            {
+                new Rectangle(263, 450, 15, 31)
+            };
 
+            var movingFrames = new List<Rectangle>
+            {
+                new Rectangle(246, 450, 15, 31),
+                new Rectangle(263, 450, 15, 31)
+            };
+
+            var deathFrames = new List<Rectangle>
+            {
+                new Rectangle(327, 531, 18, 34),
+                new Rectangle(344, 531, 18, 34),
+                new Rectangle(361, 531, 18, 34),
+                new Rectangle(378, 531, 18, 34),
+                new Rectangle(327, 531, 18, 34),
+                new Rectangle(344, 531, 18, 34)
+            };
+
+            return new Dictionary<string, Animation>
+            {
+                { "Idle", new Animation(spriteSheet, idleFrames, 0.25f, true) },
+                { "Move", new Animation(spriteSheet, movingFrames, 0.15f, true) },
+                { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
+            };
         }
         internal static Dictionary<string, Animation> CreateBotAnimations(Texture2D spriteSheet)
         {
@@ -117,6 +146,37 @@ namespace Sprint_0
                 { "Move", new Animation(spriteSheet, movingFrames, 0.15f, true) },
                 { "Stunned", new Animation(spriteSheet, stunnedFrames, 0.2f, false) },
                 { "Jump", new Animation(spriteSheet, jumpFrames, 0.2f, false) },
+                { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
+            };
+        }
+        internal static Dictionary<string, Animation> CreateBubbleAnimations(Texture2D spriteSheet)
+        {
+            var movingFrames = new List<Rectangle>
+            {
+                new Rectangle(281, 12, 15, 14)
+            };
+
+            var stunnedFrames = new List<Rectangle>
+            {
+                new Rectangle(281, 12, 15, 14),
+                new Rectangle(247, 12, 15, 14),
+                new Rectangle(230, 12, 15, 14)
+            };
+
+            var deathFrames = new List<Rectangle>
+            {
+                new Rectangle(327, 531, 18, 18),
+                new Rectangle(344, 531, 18, 18),
+                new Rectangle(361, 531, 18, 18),
+                new Rectangle(378, 531, 18, 18),
+                new Rectangle(327, 531, 18, 18),
+                new Rectangle(344, 531, 18, 18)
+            };
+
+            return new Dictionary<string, Animation>
+            {
+                { "Move", new Animation(spriteSheet, movingFrames, 0.15f, true) },
+                { "Stunned", new Animation(spriteSheet, stunnedFrames, 0.2f, true) },
                 { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
             };
         }

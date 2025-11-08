@@ -24,7 +24,6 @@ namespace Sprint_0.EnemyStateMachine
 
         public void Update(Enemy enemy, GameTime gameTime)
         {
-            enemy.Velocity += new Vector2(0, Gravity) * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             attackCooldown -= gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -42,8 +41,6 @@ namespace Sprint_0.EnemyStateMachine
 
             if (hasFired && enemy.Position.Y >= GroundY)
             {
-                enemy.Position = new Vector2(enemy.Position.X, GroundY);
-                enemy.Velocity = Vector2.Zero;
                 enemy.ChangeState(new IdleState());
             }
         }

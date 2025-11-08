@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using Sprint_0.Interfaces;
 namespace Sprint_0.States.LinkStates
+
 {
     public class InputState
     {
@@ -12,7 +14,7 @@ namespace Sprint_0.States.LinkStates
         public int ItemSlot { get; set; }
 
         // Instance method that returns a new InputState
-        public InputState GetFromController(IController controller)
+        public static InputState GetFromController(IController controller)
         {
             var state = new InputState();
             var keyboardState = Keyboard.GetState();

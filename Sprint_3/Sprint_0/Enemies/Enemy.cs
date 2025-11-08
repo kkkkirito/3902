@@ -15,8 +15,11 @@ namespace Sprint_0.Enemies
     public class Enemy : ICollidable
     {
         public float GroundY { get; set; }
+
+        private const float Gravity = 500f; // pixels per second squared
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
+        private float VerticalVelocity = 0f;
         public Texture2D SpriteSheet { get; private set; }
         public IEnemyState _currentState { get; private set; }
         private Dictionary<string, Animation> animations;
@@ -25,13 +28,14 @@ namespace Sprint_0.Enemies
         public int MaxHealth { get; private set; } = 2; // Can change for specific enemies, base is 2 hits
         public int CurrentHealth { get;  set; }
         public bool IsInvulnerable { get;  set; }
-        private double invulnerableTimer;
+        protected double invulnerableTimer;
         private const double InvulnerableDuration = 0.3;
         public bool IsDead { get; set; }
         public bool IsGrounded { get; set; }
 
         //for testing purposes only
         public Rectangle BoundingBox { get;  set; }
+        public CollisionDirection? LastCollisionDirection { get; set; }
 
         // Capabilities
         public bool CanMove { get; protected set; }
@@ -104,6 +108,8 @@ namespace Sprint_0.Enemies
             {
                 BoundingBox = Rectangle.Empty;
             }
+            
+            Velocity += new Vector2(0, Gravity) * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
         public void SetAnimation(string key)
         {
@@ -127,6 +133,10 @@ namespace Sprint_0.Enemies
                 return animations[key];
             }
             return null;
-        } 
+        }
+        protected void UpdateCurrentAnimation(GameTime gameTime)
+        {
+            CurrentAnimation?.Update(gameTime);
         }
     }
+}

@@ -17,13 +17,8 @@ namespace Sprint_0.EnemyStateMachine
 
         public void Update(Enemy enemy, GameTime gameTime)
         {
-            enemy.Velocity += new Vector2(0, Gravity) * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (enemy.Position.Y >= enemy.GroundY)
-            {
-                enemy.Position = new Vector2(enemy.Position.X, enemy.GroundY);
-                enemy.Velocity = Vector2.Zero;
-                enemy.ChangeState(new IdleState());
-            }
+
+            enemy.ChangeState(new IdleState());
         }
 
         public void Done(Enemy enemy) { }

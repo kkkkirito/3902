@@ -6,7 +6,7 @@ namespace Sprint_0.Commands.CollisionCommands
 {
     public sealed class PlayerEnemyProjectileCollisionCommand : ICollisionCommand
     {
-        private const float KnockbackDistance = 20f;
+        private const float KnockbackDistance = 2f;
 
         public void Execute(CollisionInfo info)
         {
