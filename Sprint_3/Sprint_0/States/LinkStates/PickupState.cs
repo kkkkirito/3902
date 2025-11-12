@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 
 
 namespace Sprint_0.States.LinkStates
@@ -17,6 +18,7 @@ namespace Sprint_0.States.LinkStates
             player.Velocity = Vector2.Zero;
             player.CurrentFrame = 0;
             timer = 0f;
+            AudioManager.PlaySound(AudioManager.PickupSound, 0.9f);
         }
 
     public void Exit(IPlayer player) { }

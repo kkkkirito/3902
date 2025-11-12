@@ -22,6 +22,11 @@ public interface IPlayer : ICollidable
     Direction FacingDirection { get; }
     int CurrentHealth { get; set; }
     int MaxHealth { get; }
+    int CurrentMagic { get; set; }
+    int MaxMagic { get; }
+    int CurrentXP { get; set; }
+    int NextLevelXP { get; }
+    int Lives { get; set; }
     bool IsInvulnerable { get; }
 
     int CurrentFrame { get; set; }

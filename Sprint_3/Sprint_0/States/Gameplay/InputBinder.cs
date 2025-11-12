@@ -56,6 +56,9 @@ namespace Sprint_0.States.Gameplay
             pad.Press(Buttons.Y, new SwordBeamCommand(player, projectiles));
             pad.Press(Buttons.B, new FireballCommand(player, projectiles));
             pad.BindJoystick(player);
+
+            //Sound
+            kb.Press(Keys.M, new ToggleBgmCommand());
         }
     }
 }

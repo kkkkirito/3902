@@ -212,6 +212,10 @@ namespace Sprint_0.Rooms
             {
                 enemy.ChangeState(new Sprint_0.EnemyStateMachine.BubbleState());
             }
+            else if (enemy is HorseHeadEnemy)
+            {
+                enemy.ChangeState(new Sprint_0.EnemyStateMachine.BossIdleState());
+            }
             else
             {
                 enemy.ChangeState(new Sprint_0.EnemyStateMachine.IdleState());

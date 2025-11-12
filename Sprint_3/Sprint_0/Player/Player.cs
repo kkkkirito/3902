@@ -23,6 +23,12 @@ public class Player : IPlayer, ICollidable
     public Vector2 Position { get; set; }
     public Vector2 Velocity { get; set; }
     public Direction FacingDirection { get; set; } = Direction.Right;
+    //HUD prototyping, might need to be extracted later
+    public int MaxMagic { get; private set; } = 8;
+    public int CurrentMagic { get; set; } = 8;
+    public int CurrentXP { get; set; } = 0;
+    public int NextLevelXP { get; private set; } = 100;
+    public int Lives { get; set; } = 3;
 
     public float groundY;
     public bool IsGrounded { get; set; } = true;

@@ -1,8 +1,8 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:bin/$(Platform)
-/intermediateDir:obj/$(Platform)
+/outputDir:bin/Content
+/intermediateDir:obj/Content
 /platform:DesktopGL
 /config:
 /profile:Reach
@@ -12,6 +12,72 @@
 
 
 #---------------------------------- Content ---------------------------------#
+
+#begin Audio/beam_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/beam_01.wav
+
+#begin Audio/BGM_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/BGM_01.wav
+
+#begin Audio/enemyAttack_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enemyAttack_01.wav
+
+#begin Audio/enemyDie_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enemyDie_01.wav
+
+#begin Audio/enemyWalk_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/enemyWalk_01.wav
+
+#begin Audio/fireball_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/fireball_01.wav
+
+#begin Audio/hurt_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/hurt_01.wav
+
+#begin Audio/jump_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/jump_01.wav
+
+#begin Audio/pickup_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/pickup_01.wav
+
+#begin Audio/running_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/running_01.wav
+
+#begin Audio/sword_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/sword_01.wav
 
 #begin Clear_LinkSprite 2.PNG
 /importer:TextureImporter
@@ -79,4 +145,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Zelda_2_Overworld_Enemies.png
+
+#begin Zelda2_Bosses_transparent.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Zelda2_Bosses_transparent.png
 

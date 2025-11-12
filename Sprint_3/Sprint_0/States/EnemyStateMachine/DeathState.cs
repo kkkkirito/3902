@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 
 namespace Sprint_0.EnemyStateMachine
 {
@@ -13,7 +14,8 @@ namespace Sprint_0.EnemyStateMachine
             timer = 0f;
             enemy.SetAnimation("Death");
             enemy.Velocity = Vector2.Zero;
-            enemy.BoundingBox = Rectangle.Empty; 
+            enemy.BoundingBox = Rectangle.Empty;
+            AudioManager.PlaySound(AudioManager.EnemyDieSound, 0.9f);
         }
         public void Update(Enemy enemy, GameTime gameTime)
         {

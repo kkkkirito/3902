@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 
 namespace Sprint_0.States.LinkStates
 {
@@ -11,12 +12,14 @@ namespace Sprint_0.States.LinkStates
         private SpriteEffects s = SpriteEffects.None;
         public void Enter(IPlayer player)
         {
+            AudioManager.PlayRunningSound();
             //player.AnimationTimer = 0;
             player.CurrentFrame = 0;
         }
 
         public void Exit(IPlayer player)
         {
+            AudioManager.StopRunningSound();
             player.Velocity = Vector2.Zero;
         }
 

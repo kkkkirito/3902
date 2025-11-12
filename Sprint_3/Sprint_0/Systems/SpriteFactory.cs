@@ -263,6 +263,59 @@ namespace Sprint_0
             };
         }
 
+        internal static Dictionary<string, Animation> CreateHorseHeadAnimations(Texture2D spriteSheet)
+        {
+            var idleFrames = new List<Rectangle>
+            {
+                new Rectangle(1, 11, 15, 47)
+            };
+
+            var walkingFrames = new List<Rectangle>
+            {
+                new Rectangle(1, 11, 15, 47),
+                new Rectangle(18, 11, 15, 47)
+            };
+
+            var idleAttackFrames = new List<Rectangle>
+            {
+                new Rectangle(1, 11, 15, 47),
+                new Rectangle(35, 11, 23, 47),
+                new Rectangle(86, 11, 30, 47)
+            };
+
+            var walkingAttackFrames = new List<Rectangle>
+            {
+                new Rectangle(1, 11, 15, 47),
+                new Rectangle(60, 11, 23, 47),
+                new Rectangle(119, 11, 29, 47)
+            };
+
+            var attackOffsets = new List<Vector2>
+            {
+                Vector2.Zero,
+                Vector2.Zero,
+                new Vector2(-12, 0),
+            };
+
+            var deathFrames = new List<Rectangle>
+            {
+                new Rectangle(327, 531, 18, 34),
+                new Rectangle(344, 531, 18, 34),
+                new Rectangle(361, 531, 18, 34),
+                new Rectangle(378, 531, 18, 34),
+                new Rectangle(327, 531, 18, 34),
+                new Rectangle(344, 531, 18, 34)
+            };
+
+            return new Dictionary<string, Animation>
+            {
+                { "Idle", new Animation(spriteSheet, idleFrames, 0.25f, true) },
+                { "Move", new Animation(spriteSheet, walkingFrames, 0.15f, true) },
+                { "IdleAttack", new Animation(spriteSheet, idleAttackFrames, 0.3f, false, attackOffsets) },
+                { "MoveAttack", new Animation(spriteSheet, walkingAttackFrames, 0.3f, false, attackOffsets) },
+                { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
+            };
+        }
         #endregion
         #region PlayerSprites
         internal static Rectangle GetIdleSprite(Direction facingDirection, int currentFrame)

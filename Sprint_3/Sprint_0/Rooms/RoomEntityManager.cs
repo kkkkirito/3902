@@ -13,17 +13,19 @@ namespace Sprint_0.Rooms
     {
         private readonly Texture2D linkTextures;
         private readonly Texture2D enemyTextures;
+        private readonly Texture2D bossTextures;
         private readonly Texture2D overworldEnemyTextures;
         private readonly Texture2D itemTextures;
         private readonly IController controller;
 
         private const int TILE_SIZE = 16;
 
-        public RoomEntityManager(Texture2D linkTextures, Texture2D enemyTextures,
+        public RoomEntityManager(Texture2D linkTextures, Texture2D enemyTextures, Texture2D bossTextures,
             Texture2D overworldEnemyTextures, Texture2D itemTextures, IController controller)
         {
             this.linkTextures = linkTextures;
             this.enemyTextures = enemyTextures;
+            this.bossTextures = bossTextures;
             this.overworldEnemyTextures = overworldEnemyTextures;
             this.itemTextures = itemTextures;
             this.controller = controller;
@@ -97,6 +99,12 @@ namespace Sprint_0.Rooms
                         case "oman":
                         case "overworldman":
                             CreateEnemy(room, "OverworldMan", position);
+                            break;
+
+                        case "boss":
+                        case "horse":
+                        case "horsehead":
+                            CreateEnemy(room, "HorseHead", position);
                             break;
                     }
                 }
@@ -173,6 +181,9 @@ namespace Sprint_0.Rooms
                     break;
                 case "OverworldMan":
                     enemy = new OverworldManEnemy(overworldEnemyTextures, position);
+                    break;
+                case "HorseHead":
+                    enemy = new HorseHeadEnemy(bossTextures, position);
                     break;
             }
 

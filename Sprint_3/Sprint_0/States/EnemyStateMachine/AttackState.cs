@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 
 namespace Sprint_0.EnemyStateMachine
 {
@@ -20,6 +21,7 @@ namespace Sprint_0.EnemyStateMachine
             {
                 enemy.SetAnimation("IdleAttack");
             }
+            AudioManager.PlaySound(AudioManager.EnemyAttackSound, 0.9f);
             // Hit Box Later                              
         }
 

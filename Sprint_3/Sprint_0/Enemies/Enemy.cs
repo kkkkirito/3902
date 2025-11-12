@@ -32,6 +32,7 @@ namespace Sprint_0.Enemies
         private const double InvulnerableDuration = 0.3;
         public bool IsDead { get; set; }
         public bool IsGrounded { get; set; }
+        public bool LockFacing { get; protected set; } = false;
 
         //for testing purposes only
         public Rectangle BoundingBox { get;  set; }
@@ -120,6 +121,7 @@ namespace Sprint_0.Enemies
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            
             var effects = (Facing == FacingDirection.Right) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             if (!IsDead && CurrentAnimation != null)
             {
