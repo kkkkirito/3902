@@ -27,7 +27,7 @@ namespace Sprint_0.Systems
         private readonly Dictionary<int, List<RoomTransition>> _transitions = new();
         private const int EDGE_WIDTH = 32;  // Width of edge trigger zones
         private const int DOOR_WIDTH = 48;  // Width of door areas
-        private const int SAFE_DISTANCE = 80; // Safe distance from edge to avoid immediate re-trigger
+        private const int SAFE_DISTANCE = 144; // Safe distance from edge to avoid immediate re-trigger
 
         public RoomTransitionManager()
         {
@@ -50,8 +50,8 @@ namespace Sprint_0.Systems
             AddTransition(0, new RoomTransition
             {
                 TargetRoomId = 1,
-                TriggerArea = new Rectangle(608, 120, DOOR_WIDTH, 64), // Door area in exterior
-                SpawnPosition = new Vector2(620, 200), // Safe spawn in Room 1
+                TriggerArea = new Rectangle(608, 120, DOOR_WIDTH, 64),
+                SpawnPosition = new Vector2(64, 160), 
                 Direction = TransitionDirection.Door
             });
 
@@ -61,7 +61,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 0,
                 TriggerArea = new Rectangle(0, 0, EDGE_WIDTH, 480), // Left edge
-                SpawnPosition = new Vector2(560, 160), // Safe distance from door
+                SpawnPosition = new Vector2(560, 120),
                 Direction = TransitionDirection.Left
             });
 
@@ -70,7 +70,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 2,
                 TriggerArea = new Rectangle(1024 - EDGE_WIDTH, 0, EDGE_WIDTH, 480), // Right edge
-                SpawnPosition = new Vector2(SAFE_DISTANCE, 160), // Safe distance from left edge
+                SpawnPosition = new Vector2(128, 160),
                 Direction = TransitionDirection.Right
             });
 
@@ -80,7 +80,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 1,
                 TriggerArea = new Rectangle(0, 0, EDGE_WIDTH, 480),
-                SpawnPosition = new Vector2(1024 - SAFE_DISTANCE, 160), // Safe distance from right edge
+                SpawnPosition = new Vector2(1024 - SAFE_DISTANCE, 160),
                 Direction = TransitionDirection.Left
             });
 
@@ -89,7 +89,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 3,
                 TriggerArea = new Rectangle(1024 - EDGE_WIDTH, 0, EDGE_WIDTH, 480),
-                SpawnPosition = new Vector2(SAFE_DISTANCE, 160),
+                SpawnPosition = new Vector2(64, 160),
                 Direction = TransitionDirection.Right
             });
 
@@ -107,8 +107,8 @@ namespace Sprint_0.Systems
             AddTransition(3, new RoomTransition
             {
                 TargetRoomId = 4,
-                TriggerArea = new Rectangle(608, 120, DOOR_WIDTH, 64), // Middle door area
-                SpawnPosition = new Vector2(620, 200), // Safe spawn position
+                TriggerArea = new Rectangle(1024 - EDGE_WIDTH, 0, EDGE_WIDTH, 480), 
+                SpawnPosition = new Vector2(64, 160), 
                 Direction = TransitionDirection.Door
             });
 
@@ -117,8 +117,8 @@ namespace Sprint_0.Systems
             AddTransition(4, new RoomTransition
             {
                 TargetRoomId = 3,
-                TriggerArea = new Rectangle(608, 400, DOOR_WIDTH, 64), // Bottom area
-                SpawnPosition = new Vector2(620, 200),
+                TriggerArea = new Rectangle(0, 0, EDGE_WIDTH, 480),
+                SpawnPosition = new Vector2(1024 - SAFE_DISTANCE, 160),
                 Direction = TransitionDirection.Down
             });
 
@@ -127,7 +127,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 5,
                 TriggerArea = new Rectangle(1024 - EDGE_WIDTH, 0, EDGE_WIDTH, 480),
-                SpawnPosition = new Vector2(SAFE_DISTANCE, 160),
+                SpawnPosition = new Vector2(64, 160),
                 Direction = TransitionDirection.Right
             });
 
@@ -146,7 +146,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 6,
                 TriggerArea = new Rectangle(624, 120, DOOR_WIDTH, 64),
-                SpawnPosition = new Vector2(200, 160), // Safe spawn in Room 6
+                SpawnPosition = new Vector2(160, 160), 
                 Direction = TransitionDirection.Door
             });
 
@@ -155,8 +155,8 @@ namespace Sprint_0.Systems
             AddTransition(6, new RoomTransition
             {
                 TargetRoomId = 5,
-                TriggerArea = new Rectangle(112, 120, DOOR_WIDTH, 64),
-                SpawnPosition = new Vector2(620, 200),
+                TriggerArea = new Rectangle(112, 0, EDGE_WIDTH, 480),
+                SpawnPosition = new Vector2(1024 - SAFE_DISTANCE, 160),
                 Direction = TransitionDirection.Door
             });
 
@@ -165,7 +165,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 7,
                 TriggerArea = new Rectangle(1024 - EDGE_WIDTH, 0, EDGE_WIDTH, 480),
-                SpawnPosition = new Vector2(SAFE_DISTANCE + 20, 160), // Extra safe distance to prevent triggering
+                SpawnPosition = new Vector2(64, 160), 
                 Direction = TransitionDirection.Right
             });
 
@@ -174,7 +174,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 6,
                 TriggerArea = new Rectangle(0, 0, EDGE_WIDTH, 480),
-                SpawnPosition = new Vector2(1024 - SAFE_DISTANCE - 20, 160), 
+                SpawnPosition = new Vector2(1024 - SAFE_DISTANCE, 64), 
                 Direction = TransitionDirection.Left
             });
         }
