@@ -43,7 +43,7 @@ namespace Sprint_0
             };
             var fallingFrames = new List<Rectangle>
             {
-                new Rectangle(649, 10, 17, 33)
+                new Rectangle(650, 14, 15, 27)
             };
 
             var crouchingFrames = new List<Rectangle>
@@ -70,7 +70,7 @@ namespace Sprint_0
                 { "Move", new Animation(spriteSheet, walkingFrames, 0.15f, true) },
                 { "IdleAttack", new Animation(spriteSheet, idleAttackFrames, 0.2f, false, attackOffsets) },
                 { "MoveAttack", new Animation(spriteSheet, walkingAttackFrames, 0.2f, false, attackOffsets) },
-                { "Fall", new Animation(spriteSheet, fallingFrames, 0.2f, false) },
+                { "Falling", new Animation(spriteSheet, fallingFrames, 0.2f, false) },
                 { "Crouch", new Animation(spriteSheet, crouchingFrames, 0.2f, false, crouchOffsets) },
                 { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
             };

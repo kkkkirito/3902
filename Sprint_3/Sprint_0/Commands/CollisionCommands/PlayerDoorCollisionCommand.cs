@@ -25,7 +25,7 @@ namespace Sprint_0.Commands.CollisionCommands
                     door.Unlock();
                     player.KeyCount--;
                     var pos = (player is Sprint_0.Player_Namespace.Player p) ? p.Position : Vector2.Zero;
-                    Debug.WriteLine($"[Game] Door opened at {pos} by player (keys remaining: {player.KeyCount})");
+                    Debug.WriteLine($"[PlayerLockedDoorCollision] Door opened at {pos} by player (keys remaining: {player.KeyCount})");
                 }
                 else
                 {

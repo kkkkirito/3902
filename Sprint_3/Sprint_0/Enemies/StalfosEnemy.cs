@@ -20,6 +20,7 @@ namespace Sprint_0.Enemies
             this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 13, 30);
             XPReward = 30;
             this.IsGrounded = false; 
+
             ChangeState(new StalfosFallState());
         }
     }

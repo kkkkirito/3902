@@ -67,7 +67,7 @@ namespace Sprint_0.Rooms
             entities.LoadEntities(rooms[5], "Content/Dungeon Room 5 entities.csv");
             entities.LoadEntities(rooms[6], "Content/Dungeon Room 6 entities.csv");
             entities.LoadEntities(rooms[7], "Content/Dungeon Room 7 entities.csv");
-            }
+        }
 
         private static void AddCsv(Room room, string csvPath, Texture2D sheet)
         {

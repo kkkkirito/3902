@@ -11,7 +11,8 @@ namespace Sprint_0.States.LinkStates
 
         public void Enter(IPlayer player)
         {
-
+            player.Velocity = Vector2.Zero;
+            AudioManager.PlaySound(AudioManager.DeathSound, 0.9f);
         }
 
         public void Exit(IPlayer player)

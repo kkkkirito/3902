@@ -234,6 +234,65 @@ namespace Sprint_0.Rooms
                 }
             }
         }
+        public void Die()
+        {
+            if (player != null)
+            {
+                player.Position = playerStartPosition;
+                player.CurrentHealth = player.MaxHealth;
+                player.IsInvulnerable = false;
+                player.Velocity = Vector2.Zero;
+                //player.CurrentMagic = player.MaxMagic;
+                //player.CurrentXP = 0;
+
+                if (player.CurrentState != null)
+                {
+                    player.ChangeState(new IdleState());
+                }
+            }
+
+            foreach (var entityBlock in originalEntityBlocks)
+            {
+                // Add back if it was removed
+                if (!blocks.Contains(entityBlock))
+                {
+                    blocks.Add(entityBlock);
+                }
+
+                if (entityBlock is ICollidable collidable && !collidables.Contains(collidable))
+                {
+                    collidables.Add(collidable);
+                }
+
+                // Reset the block's state
+                if (entityBlock is TrapBlock trapBlock)
+                {
+                    trapBlock.Reset();
+                }
+            }
+
+            foreach (var item in items)
+            {
+                if (item is HeartItem heart) heart.IsCollected = false;
+                else if (item is KeyItem key) key.IsCollected = false;
+            }
+
+            foreach (var enemy in enemies)
+            {
+                if (enemyStartPositions.ContainsKey(enemy))
+                {
+                    ResetEnemyState(enemy);
+
+                    enemy.SetAnimation("Idle");
+
+                    var anim = enemy.GetAnimation("Idle");
+                    if (anim != null)
+                    {
+                        enemy.BoundingBox = new Rectangle((int)enemy.Position.X, (int)enemy.Position.Y, anim.FrameWidth, anim.FrameHeight);
+                    }
+                }
+            }
+        }
 
         private void ResetEnemyState(Enemy enemy)
         {

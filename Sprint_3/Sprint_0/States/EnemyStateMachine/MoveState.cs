@@ -24,7 +24,6 @@ namespace Sprint_0.EnemyStateMachine
         }
         public void Update(Enemy enemy, GameTime gameTime)
         {
-
             stateTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (stateTimer >= stateDuration)
@@ -57,6 +56,28 @@ namespace Sprint_0.EnemyStateMachine
                         : FacingDirection.Left;
                     enemy.ChangeState(new MoveState());
                 }
+            }
+            //boundary checks
+            const int SCREEN_LEFT = 0;
+            const int SCREEN_RIGHT = 800; 
+            int enemyWidth = enemy.BoundingBox.Width > 0
+                ? enemy.BoundingBox.Width
+                : (enemy.GetAnimation("Move")?.FrameWidth ?? 16);
+
+            if (enemy.Position.X < SCREEN_LEFT)
+            {
+                enemy.Position = new Vector2(SCREEN_LEFT, enemy.Position.Y);
+                enemy.Facing = FacingDirection.Right;
+                enemy.ChangeState(new MoveState());
+                return;
+            }
+
+            if (enemy.Position.X + enemyWidth > SCREEN_RIGHT)
+            {
+                enemy.Position = new Vector2(SCREEN_RIGHT - enemyWidth, enemy.Position.Y);
+                enemy.Facing = FacingDirection.Left;
+                enemy.ChangeState(new MoveState());
+                return;
             }
         }
         public void Done(Enemy enemy) { }

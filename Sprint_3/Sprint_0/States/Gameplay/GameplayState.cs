@@ -123,7 +123,7 @@ namespace Sprint_0.States.Gameplay
 
                             if (_player is Player concretePlayer && concretePlayer.LivesAvailable)
                             {
-                                _navigator.Current.Reset();
+                                _navigator.Current.Die();
                                 _projectiles = new ProjectileManager(_game.LinkTextures, _game);
                                 _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
                                 _camera?.SnapToTarget(_player);

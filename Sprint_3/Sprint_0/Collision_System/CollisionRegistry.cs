@@ -10,6 +10,7 @@ namespace Sprint_0.Collision_System
     {
         public static void Register(CollisionSystem system)
         {
+            system.Provider.Register<IPlayer, LockedDoor>(new PlayerLockedDoorCollisionCommand());
             system.Provider.Register<IPlayer, IBlock>(new PlayerBlockCollisionCommand());
             system.Provider.Register<IPlayer, Enemy>(new PlayerEnemyCollisionCommand());
             system.Provider.Register<IPlayer, IItem>(new PlayerItemCollisionCommand());
@@ -19,7 +20,7 @@ namespace Sprint_0.Collision_System
             system.Provider.Register<IPlayer, IStaticCollider>(new PlayerStaticColliderCollisionCommand());
             system.Provider.Register<Enemy, IStaticCollider>(new EnemyStaticColliderCollisionCommand());
             system.Provider.Register<PlayerProjectile, Enemy>(new PlayerProjectileEnemyCollisionCommand());
-            system.Provider.Register<IPlayer, LockedDoor>(new PlayerLockedDoorCollisionCommand());
+            
         }
     }
 }

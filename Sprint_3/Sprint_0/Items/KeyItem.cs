@@ -12,7 +12,7 @@ namespace Sprint_0.Items
         public bool IsCollected { get; set; }
 
         private Animation animation;
-        private int keyCount = 0;
+        
         private Texture2D texture;
 
         public KeyItem(Vector2 position, Texture2D itemTextures)
@@ -69,11 +69,10 @@ namespace Sprint_0.Items
         public bool Celebration => true;
         public void Collect(IPlayer player)
         {
-            if (!IsCollected)
-            {
-                keyCount++;
-                IsCollected = true;
-            }
+            if (IsCollected) return;
+            Consume(player);
+
+            System.Diagnostics.Debug.WriteLine($"[KeyItem] Collected by player; keys now={(player != null ? player.KeyCount.ToString() : "null")}");
         }
     }
 }
