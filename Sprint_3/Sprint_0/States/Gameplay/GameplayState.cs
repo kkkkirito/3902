@@ -141,10 +141,12 @@ namespace Sprint_0.States.Gameplay
             if (_prevMouse.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
             {
                 _navigator.Previous();
+                Reset();
             }
             if (_prevMouse.RightButton == ButtonState.Released && ms.RightButton == ButtonState.Pressed)
             {
                 _navigator.Next();
+                Reset();
             }
             _prevMouse = ms;
         }
