@@ -1,3 +1,4 @@
+using Sprint_0.Blocks;
 using Sprint_0.Commands.CollisionCommands;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
@@ -18,6 +19,7 @@ namespace Sprint_0.Collision_System
             system.Provider.Register<IPlayer, IStaticCollider>(new PlayerStaticColliderCollisionCommand());
             system.Provider.Register<Enemy, IStaticCollider>(new EnemyStaticColliderCollisionCommand());
             system.Provider.Register<PlayerProjectile, Enemy>(new PlayerProjectileEnemyCollisionCommand());
+            system.Provider.Register<IPlayer, LockedDoor>(new PlayerLockedDoorCollisionCommand());
         }
     }
 }

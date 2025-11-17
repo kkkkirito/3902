@@ -42,6 +42,7 @@ namespace Sprint_0.Rooms
             var merged = MergeSolidsToRects(solids, TILE);
 
             room.ReplaceStaticBlockColliders(merged);
+
         }
 
 
@@ -103,6 +104,13 @@ namespace Sprint_0.Rooms
                 for (int x = 0; x < width; x++)
                 {
                     string key = layout[y][x].ToLowerInvariant();
+
+                    if (key == "bb")
+                    {
+                        grid[y, x] = false;
+                        continue;
+                    }
+
                     grid[y, x] = BlockSolidity.TryGetValue(key, out bool solid) && solid;
                 }
             return grid;
@@ -188,8 +196,8 @@ namespace Sprint_0.Rooms
             { "t8", false }, { "t9", false }, { "t10", false }, 
             { "t11", false }, { "t12", false }, { "gh", false },
             { "br", true }, { "pl", true }, { "pbr", true }, 
-            { "cbr", true }, { "bb2", true }, { "bb3", true }, 
-            { "bb4", true }, { "tla", false }, { "la", false }
+            { "cbr", true }, { "bb", true }, { "tla", false }, 
+            { "la", false }
         };
     }
 }

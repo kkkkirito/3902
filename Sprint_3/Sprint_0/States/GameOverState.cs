@@ -27,6 +27,7 @@ namespace Sprint_0.States
             AudioManager.StopBgm();
             _prevKbd = Keyboard.GetState();
             _prevPad = GamePad.GetState(PlayerIndex.One);
+            AudioManager.PlaySound(AudioManager.GameoverSound, 0.9f);
         }
 
         public void Exit()

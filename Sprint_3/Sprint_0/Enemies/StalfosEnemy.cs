@@ -10,12 +10,15 @@ namespace Sprint_0.Enemies
             : base(SpriteFactory.CreateStalfosAnimations(spriteSheet), startPos)
 
         {
+            this.SpriteSheet = spriteSheet;
             this.CanMove = true;
             this.CanJump = false;
             this.CanAttack = true;
             this.CanCrouch = true;
+            this.DropItemOnDeath = true;
             this.Position = startPos;
             this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 13, 30);
+            XPReward = 30;
             this.IsGrounded = false; 
             ChangeState(new StalfosFallState());
         }

@@ -3,7 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sprint_0.Collision_System;
 using Sprint_0.Interfaces;
+using Sprint_0.Player_Namespace;
 using Sprint_0.Rooms;
+using Sprint_0.States.LinkStates;
+using Sprint_0.Managers;
 using Sprint_0.Systems;
 using System;
 
@@ -34,6 +37,10 @@ namespace Sprint_0.States.Gameplay
         private const float TRANSITION_DURATION = 0.5f;
         private RoomTransition _pendingTransition;
 
+        private bool _isDeadAnimating = false;                 
+        private float _deathTimer = 0f;                        
+        private const float DEATH_DURATION = 2.0f;             
+
         public GameplayState(Game1 game)
         {
             _game = game;
@@ -50,7 +57,7 @@ namespace Sprint_0.States.Gameplay
             _transitionManager = new RoomTransitionManager();
 
             _entityManager = new RoomEntityManager(_game.LinkTextures, _game.EnemyTextures, _game.BossTextures,
-                _game.OverworldEnemyTextures, _game.ItemTextures, _keyboard);
+                _game.OverworldEnemyTextures, _game.ItemTextures, game.BlockTextures, _keyboard);
         }
 
         public void Enter()
@@ -65,6 +72,7 @@ namespace Sprint_0.States.Gameplay
             _hotbar = new Hotbar(3);
             _hud = new HudRenderer(_game.PixelHud, _game.HudTexture);
             OnRoomChanged(_navigator.Current);
+            _player.Lives = 3;
         }
 
         public void Exit() { }
@@ -78,21 +86,18 @@ namespace Sprint_0.States.Gameplay
                 {
                     CompleteTransition();
                 }
-                return; 
+                return;
             }
 
             _keyboard.Update();
             _mouse.Update();
             _gamepad.Update();
+            XPManager.UpdateAll(gameTime);
 
             _navigator.Current.Update(gameTime);
             _projectiles?.Update(gameTime);
             _collisions.Step(_navigator.Current, _player, _projectiles);
-            if (_player != null && _player.CurrentHealth <= 0)
-            {
-                _game.StateManager.ChangeState("gameover");
-                return;
-            }
+
             _camera?.Update(_player, gameTime);
 
             if (_player != null && !_isTransitioning)
@@ -107,7 +112,31 @@ namespace Sprint_0.States.Gameplay
                     StartTransition(transition);
                 }
             }
+            if (_player != null && _player.CurrentHealth <= 0)
+            {
+                
+               if (_player != null && _player.CurrentHealth <= 0)
+                    {
+                        if (_player.CurrentState is DeadState || (_player is Player p && p.IsDying))
+                        {
+                            if (_player is Player pClear) pClear.IsDying = false;
 
+                            if (_player is Player concretePlayer && concretePlayer.LivesAvailable)
+                            {
+                                _navigator.Current.Reset();
+                                _projectiles = new ProjectileManager(_game.LinkTextures, _game);
+                                _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
+                                _camera?.SnapToTarget(_player);
+                                concretePlayer.LivesAvailable = false;
+                            }
+                            else
+                            {
+                                _game.StateManager.ChangeState("gameover");
+                                return;
+                            }
+                        }
+                }
+            }
             var ms = Mouse.GetState();
             if (_prevMouse.LeftButton == ButtonState.Released && ms.LeftButton == ButtonState.Pressed)
             {
@@ -160,6 +189,8 @@ namespace Sprint_0.States.Gameplay
                 transformMatrix: _camera?.TransformMatrix
             );
 
+            XPManager.DrawAll(spriteBatch);
+
             if (!_isTransitioning || _transitionTimer < TRANSITION_DURATION / 2f)
             {
                 _navigator.Current?.Draw(spriteBatch);
@@ -207,6 +238,7 @@ namespace Sprint_0.States.Gameplay
             _isTransitioning = false;
             _transitionTimer = 0f;
             _pendingTransition = null;
+            XPManager.Clear();
 
             if (_player != null)
             {

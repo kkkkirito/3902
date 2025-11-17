@@ -9,6 +9,8 @@ namespace Sprint_0.EnemyStateMachine
     {
         private float deathTimer = 1.0f; // length of death animation
         private float timer;
+        private bool xpGranted;
+
         public void Start(Enemy enemy)
         {
             timer = 0f;
@@ -23,6 +25,16 @@ namespace Sprint_0.EnemyStateMachine
 
             if (timer >= deathTimer)
             {
+                if (!xpGranted)
+                {
+                    enemy.NotifyDeath();
+                    XPManager.Spawn(enemy.SpriteSheet, enemy.Position, enemy.XPReward);
+
+                    xpGranted = true;
+                }
+
+
+
                 enemy.IsDead = true;
             }
 

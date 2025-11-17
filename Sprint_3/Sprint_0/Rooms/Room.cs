@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
 using Sprint_0.Items;
+using Sprint_0.Blocks;
+using Sprint_0.Managers;
 using Sprint_0.Player_Namespace;
 using System.Collections.Generic;
 using Sprint_0.States.LinkStates;
@@ -19,6 +21,7 @@ namespace Sprint_0.Rooms
         private Player player;
         private Vector2 playerStartPosition;
         private List<IBlock> blocks;
+        private List<IBlock> originalEntityBlocks;
         private List<Enemy> enemies;
         private Dictionary<Enemy, Vector2> enemyStartPositions;
         private List<IItem> items;
@@ -33,6 +36,7 @@ namespace Sprint_0.Rooms
             Height = height;
 
             blocks = new List<IBlock>();
+            originalEntityBlocks = new List<IBlock>();
             enemies = new List<Enemy>();
             enemyStartPositions = new Dictionary<Enemy, Vector2>();
             items = new List<IItem>();
@@ -60,6 +64,12 @@ namespace Sprint_0.Rooms
 
         public void AddBlock(IBlock block)
         {
+
+            if (block is TrapBlock)
+            {
+                originalEntityBlocks.Add(block);
+            }
+
             blocks.Add(block);
             if (block is ICollidable collidable)
             {
@@ -75,6 +85,15 @@ namespace Sprint_0.Rooms
             {
                 collidables.Add(collidable);
             }
+            enemy.OnDeath -= NotifyDeath;
+            enemy.OnDeath += NotifyDeath;
+        }
+
+        private void NotifyDeath(Enemy enemy)
+        {
+            player?.AddXP(enemy.XPReward);
+
+            XPManager.Spawn(enemy.SpriteSheet, enemy.Position, enemy.XPReward);
         }
 
         public void AddItem(IItem item)
@@ -120,6 +139,9 @@ namespace Sprint_0.Rooms
                 block.Update(gameTime);
             }
 
+            blocks.RemoveAll(b => b is TrapBlock trap && trap.IsBroken);
+            collidables.RemoveAll(c => c is TrapBlock trap && trap.IsBroken);
+
             foreach (var enemy in enemies)
             {
                 enemy.Update(gameTime);
@@ -161,10 +183,32 @@ namespace Sprint_0.Rooms
                 player.CurrentHealth = player.MaxHealth;
                 player.IsInvulnerable = false;
                 player.Velocity = Vector2.Zero;
+                player.CurrentMagic = player.MaxMagic;
+                player.CurrentXP  = 0;
 
                 if (player.CurrentState != null)
                 {
                     player.ChangeState(new IdleState());
+                }
+            }
+
+            foreach (var entityBlock in originalEntityBlocks)
+            {
+                // Add back if it was removed
+                if (!blocks.Contains(entityBlock))
+                {
+                    blocks.Add(entityBlock);
+                }
+
+                if (entityBlock is ICollidable collidable && !collidables.Contains(collidable))
+                {
+                    collidables.Add(collidable);
+                }
+
+                // Reset the block's state
+                if (entityBlock is TrapBlock trapBlock)
+                {
+                    trapBlock.Reset();
                 }
             }
 

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Sprint_0.Collision_System;
 using Sprint_0.Enemies;
+using Sprint_0.Blocks;
 using Sprint_0.Interfaces;
 using System;
 
@@ -18,6 +19,12 @@ namespace Sprint_0.Commands.CollisionCommands
             var block  = info.A as IBlock  ?? info.B as IBlock;
             if (player == null || block == null || !block.IsSolid) return;
 
+            // Skip left/right collision for trap blocks
+            if (block is TrapBlock &&
+                (info.Direction == CollisionDirection.Left || info.Direction == CollisionDirection.Right))
+            {
+                return;
+            }
 
             var delta = SeparationFor(player, info);
             player.Position += delta;
@@ -28,11 +35,21 @@ namespace Sprint_0.Commands.CollisionCommands
             {
                 case CollisionDirection.Left:
                 case CollisionDirection.Right:
+                    if (block is TrapBlock trapBlock)
+                    {
+                        break;
+                    }
                     player.Velocity = new Vector2(0f, v.Y);
                     break;
                 case CollisionDirection.Top:      // player landed on top
                     player.Velocity = new Vector2(v.X, 0f);
                     player.IsGrounded = true;
+
+                    if (block is TrapBlock trap)
+                    {
+                        trap.TriggerBreak();
+                    }
+
                     break;
                 case CollisionDirection.Bottom:   // hit ceiling
                     player.Velocity = new Vector2(v.X, 0f);

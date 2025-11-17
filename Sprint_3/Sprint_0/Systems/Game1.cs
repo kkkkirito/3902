@@ -45,7 +45,7 @@ namespace Sprint_0
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // Load all textures
-            Font = Content.Load<SpriteFont>("gameFont");
+            Font = Content.Load<SpriteFont>("Triforce");
             LinkTextures = Content.Load<Texture2D>("Clear_LinkSprite 2");
             BlockTextures = Content.Load<Texture2D>("Clear_Zelda_2_Palace_Blocks 2");
             ItemTextures = Content.Load<Texture2D>("Clear_Zelda_2_Items 2");

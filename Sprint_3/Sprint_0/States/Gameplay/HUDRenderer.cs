@@ -10,14 +10,16 @@ namespace Sprint_0.States.Gameplay
         private const int Margin = 10;
 
         private const int RowGap = 10;
-        private const int HeartSize = 10;     
-        private const int HeartGap  = 0;      
-        private const int HeartPad  = 1;  
+        private const int HeartSize = 10;
+        private const int HeartGap  = 0;
+        private const int HeartPad = 1;
         private const int HpPerHeart = 20;
         private const int MaxHearts = 5;
         private const int MagicBarWidth = 90;
         private const int MagicBarHeight = 10;
         private const int MagicBarPad = 1;
+
+        private const int TopHudStripHeight = 30;
 
         private static readonly Color HeartFillColor = Color.Red;
         private static readonly Color HeartEmptyColor = Color.DimGray;
@@ -39,6 +41,9 @@ namespace Sprint_0.States.Gameplay
         public void Draw(SpriteBatch sb, SpriteFont font, GraphicsDevice graphicsDevice, Room currentRoom, IPlayer player)
         {
             if (font == null || sb == null || player == null) return;
+
+            var vp = graphicsDevice.Viewport;
+            DrawFilledRect(sb, new Rectangle(0, 0, vp.Width, TopHudStripHeight), Color.Black * 0.75f);
 
             var cursor = new Vector2(Margin, Margin);
 
@@ -76,6 +81,11 @@ namespace Sprint_0.States.Gameplay
             Vector2 size = font.MeasureString(controls);
             sb.DrawString(font, controls,
                 new Vector2(Margin, 2 * sb.GraphicsDevice.Viewport.Height - size.Y - Margin), Color.White);
+        }
+
+        private void DrawFilledRect(SpriteBatch sb, Rectangle rect, Color color)
+        {
+            sb.Draw(_pixel, rect, color);
         }
 
         private int DrawHearts(SpriteBatch sb, Vector2 pos, int hp, int maxHp)

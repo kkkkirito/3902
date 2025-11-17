@@ -9,12 +9,15 @@ namespace Sprint_0.Enemies
         public BubbleEnemy(Texture2D spriteSheet, Vector2 startPos)
             : base(SpriteFactory.CreateBubbleAnimations(spriteSheet), startPos)
         {
+            this.SpriteSheet = spriteSheet;
             this.CanMove = true;
             this.CanJump = false;
             this.CanAttack = false;
             this.CanCrouch = false;
             this.Position = startPos;
             this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 15, 14);
+
+            XPReward = 50;
 
             ChangeState(new BubbleState());
         }

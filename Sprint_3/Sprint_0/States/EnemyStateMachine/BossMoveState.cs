@@ -9,15 +9,19 @@ namespace Sprint_0.EnemyStateMachine
     {
         private float stateTimer;
         private float stateDuration;
+        private int moveDirection;
 
         public void Start(Enemy enemy)
         {
             enemy.SetAnimation("Move");
             float speed = 50f;
-            enemy.Velocity = new Vector2(-speed, 0);
+
+            moveDirection = Random.Shared.NextDouble() < 0.7 ? 1 : -1;
+
+            enemy.Velocity = new Vector2(-speed * moveDirection, 0);
 
             stateTimer = 0f;
-            stateDuration = (float)(1 + Random.Shared.NextDouble());
+            stateDuration = (float)(1 + Random.Shared.NextDouble()* .2);
         }
         public void Update(Enemy enemy, GameTime gameTime)
         {

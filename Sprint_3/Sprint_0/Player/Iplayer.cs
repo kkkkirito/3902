@@ -28,7 +28,7 @@ public interface IPlayer : ICollidable
     int NextLevelXP { get; }
     int Lives { get; set; }
     bool IsInvulnerable { get; }
-
+    int KeyCount { get; set; }
     int CurrentFrame { get; set; }
 
     IPlayerState CurrentState { get; set; }
@@ -56,4 +56,5 @@ public interface IPlayer : ICollidable
     void Attack(Direction direction, AttackMode mode = AttackMode.Normal);
     void SetCrouch(bool crouch);
     IEnumerable<ICollidable> GetCollidables();
+    bool TrySpendMagic(int amount);
 }

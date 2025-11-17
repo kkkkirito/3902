@@ -20,6 +20,8 @@ public class Player : IPlayer, ICollidable
     private readonly PlayerCombat _combat;
     private readonly PlayerAnimation _animation;
 
+    public bool LivesAvailable { get; set; } = false;
+
     public Vector2 Position { get; set; }
     public Vector2 Velocity { get; set; }
     public Direction FacingDirection { get; set; } = Direction.Right;
@@ -29,6 +31,7 @@ public class Player : IPlayer, ICollidable
     public int CurrentXP { get; set; } = 0;
     public int NextLevelXP { get; private set; } = 100;
     public int Lives { get; set; } = 3;
+    public int KeyCount { get; set; } = 0;
 
     public float groundY;
     public bool IsGrounded { get; set; } = true;
@@ -38,6 +41,7 @@ public class Player : IPlayer, ICollidable
     public ICollectible HeldItem => _heldItem;
 
     private GameModeType _gameMode = GameModeType.Platformer;
+    public bool IsDying { get; set; } = false;
 
     public float Speed { get; set; } = PlayerConstants.MaxHorizontalSpeed;
     public GameModeType GameMode
@@ -115,6 +119,31 @@ public class Player : IPlayer, ICollidable
         _movement = new PlayerMove(this);
         _combat = new PlayerCombat(this);
         _animation = new PlayerAnimation(this);
+    }
+
+    public void AddXP(int amount)
+    {
+        if (amount <= 0) return;
+        CurrentXP += amount;
+        while (CurrentXP >= NextLevelXP)
+        {
+            CurrentXP -= NextLevelXP;
+            NextLevelXP = (int)(NextLevelXP * 1.5f);
+
+            
+            MaxMagic += 1;
+            CurrentMagic = Math.Max(CurrentMagic + 1, MaxMagic);
+            Lives += 1;
+
+        }
+    }
+
+    public bool TrySpendMagic(int amount)
+    {
+        if (amount <= 0) return true;
+        if (CurrentMagic < amount) return false;
+        CurrentMagic -= amount;
+        return true;
     }
 
     public void Update(GameTime gameTime)

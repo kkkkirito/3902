@@ -14,9 +14,12 @@ namespace Sprint_0.Managers
         public static SoundEffect PickupSound;
         public static SoundEffect RunningSound;
         public static SoundEffect BeamSound;
+        public static SoundEffect DeathSound;
 
         public static SoundEffect EnemyDieSound;
         public static SoundEffect EnemyAttackSound;
+
+        public static SoundEffect GameoverSound;
 
         private static SoundEffectInstance _runningInstance;
         public static SoundEffectInstance BgmInstance;
@@ -33,9 +36,12 @@ namespace Sprint_0.Managers
             PickupSound = content.Load<SoundEffect>("Audio/pickup_01");
             RunningSound = content.Load<SoundEffect>("Audio/running_01");
             BeamSound = content.Load<SoundEffect>("Audio/beam_01");
+            DeathSound = content.Load<SoundEffect>("Audio/death_01");
 
             EnemyDieSound = content.Load<SoundEffect>("Audio/enemyDie_01");
             EnemyAttackSound = content.Load<SoundEffect>("Audio/enemyAttack_01");
+
+            GameoverSound = content.Load<SoundEffect>("Audio/gameover_01");
 
             var bgmEffect = content.Load<SoundEffect>("Audio/BGM_01");
             BgmInstance = bgmEffect.CreateInstance();

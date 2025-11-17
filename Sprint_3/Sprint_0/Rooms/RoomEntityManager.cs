@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint_0.Blocks;
+using Sprint_0.Blocks;
 using Sprint_0.Enemies;
+using Sprint_0.Interfaces;
 using Sprint_0.Items;
 using Sprint_0.Player_Namespace;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using Sprint_0.Interfaces;
 
 namespace Sprint_0.Rooms
 {
@@ -16,18 +19,20 @@ namespace Sprint_0.Rooms
         private readonly Texture2D bossTextures;
         private readonly Texture2D overworldEnemyTextures;
         private readonly Texture2D itemTextures;
+        private readonly Texture2D blockTextures;
         private readonly IController controller;
 
         private const int TILE_SIZE = 16;
 
         public RoomEntityManager(Texture2D linkTextures, Texture2D enemyTextures, Texture2D bossTextures,
-            Texture2D overworldEnemyTextures, Texture2D itemTextures, IController controller)
+            Texture2D overworldEnemyTextures, Texture2D itemTextures, Texture2D blockTextures, IController controller)
         {
             this.linkTextures = linkTextures;
             this.enemyTextures = enemyTextures;
             this.bossTextures = bossTextures;
             this.overworldEnemyTextures = overworldEnemyTextures;
             this.itemTextures = itemTextures;
+            this.blockTextures = blockTextures;
             this.controller = controller;
         }
 
@@ -68,6 +73,11 @@ namespace Sprint_0.Rooms
                             CreateCandle(room, position);
                             break;
 
+                        case "trap":
+                        case "bb":
+                            CreateTrapBlock(room, position);
+                            break;
+
                         case "bot":
                             CreateEnemy(room, "Bot", position);
                             break;
@@ -106,6 +116,11 @@ namespace Sprint_0.Rooms
                         case "horsehead":
                             CreateEnemy(room, "HorseHead", position);
                             break;
+
+                        case "dr":
+                        case "door":
+                            CreateDoor(room, position);
+                            break;
                     }
                 }
             }
@@ -126,6 +141,12 @@ namespace Sprint_0.Rooms
                 layout.Add(row);
             }
             return layout;
+        }
+        private void CreateDoor(Room room, Vector2 position)
+        {
+            var door = new LockedDoor(position, itemTextures);
+            room.AddBlock(door);
+            Debug.WriteLine($"[RoomEntityManager] Added LockedDoor in room {room?.Id} at {position}");
         }
 
         private void CreatePlayer(Room room, Vector2 position)
@@ -151,6 +172,12 @@ namespace Sprint_0.Rooms
         {
             var candle = new CandleItem(position, itemTextures);
             room.AddItem(candle);
+        }
+
+        private void CreateTrapBlock(Room room, Vector2 position)
+        {
+            var trapBlock = new TrapBlock(position, blockTextures);
+            room.AddBlock(trapBlock);
         }
 
         private void CreateEnemy(Room room, string enemyType, Vector2 position)

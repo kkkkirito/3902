@@ -9,6 +9,7 @@ namespace Sprint_0.EnemyStateMachine
     {
         private float stateTimer;
         private float stateDuration;
+        private Vector2 playerPosition;
 
         public void Start(Enemy enemy)
         {
@@ -41,7 +42,7 @@ namespace Sprint_0.EnemyStateMachine
                         enemy.ChangeState(new CrouchState());
                     }
                 }
-                else if (roll < 0.15)
+                else if (roll < 0.15 && enemy.CanIdle)
                 {
                     enemy.ChangeState(new IdleState());
                 }
@@ -49,7 +50,7 @@ namespace Sprint_0.EnemyStateMachine
                 {
                     enemy.ChangeState(new AttackState());
                 }
-                else if (roll < 0.6)
+                else if (roll < 0.6 && !enemy.LockFacing)
                 {
                     enemy.Facing = (enemy.Facing == FacingDirection.Left)
                         ? FacingDirection.Right

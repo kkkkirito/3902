@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Sprint_0.Enemies
@@ -20,7 +21,7 @@ namespace Sprint_0.Enemies
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
         private float VerticalVelocity = 0f;
-        public Texture2D SpriteSheet { get; private set; }
+        public Texture2D SpriteSheet { get; set; }
         public IEnemyState _currentState { get; private set; }
         private Dictionary<string, Animation> animations;
         private Animation CurrentAnimation { get; set; }
@@ -33,6 +34,10 @@ namespace Sprint_0.Enemies
         public bool IsDead { get; set; }
         public bool IsGrounded { get; set; }
         public bool LockFacing { get; protected set; } = false;
+        public bool DropItemOnDeath { get; set; } = false;
+
+        public int XPReward { get; set; } = 10;
+        public event Action<Enemy> OnDeath;
 
         //for testing purposes only
         public Rectangle BoundingBox { get;  set; }
@@ -43,6 +48,7 @@ namespace Sprint_0.Enemies
         public bool CanJump { get; protected set; }
         public bool CanAttack { get; protected set; }
         public bool CanCrouch { get; protected set; }
+        public bool CanIdle { get; protected set; } = true;
 
         internal Enemy(Dictionary<string, Animation> animations, Vector2 startPos)
         {
@@ -85,6 +91,10 @@ namespace Sprint_0.Enemies
 
             ChangeState(new EnemyStateMachine.DeathState());
 
+        }
+        internal void NotifyDeath()
+        {
+            OnDeath?.Invoke(this);
         }
 
         public virtual void Update(GameTime gameTime)

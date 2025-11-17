@@ -14,15 +14,18 @@ namespace Sprint_0.Enemies
         public OctorokEnemy(Texture2D spriteSheet, Texture2D projectileTexture, Vector2 startPos)
             : base(SpriteFactory.CreateOctorokAnimations(spriteSheet), startPos)
         {
+            this.SpriteSheet = spriteSheet;
             this.CanMove = false;
             this.CanJump = true;
             this.CanAttack = true;
             this.CanCrouch = false;
+            this.DropItemOnDeath = true;
 
             this.projectileAnimation = GetAnimation("Projectile");
 
             this.projectiles = new List<Projectile>();
             this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 16, 16);
+            XPReward = 10;
 
             ChangeState(new IdleState());
             SetAnimation("Idle");

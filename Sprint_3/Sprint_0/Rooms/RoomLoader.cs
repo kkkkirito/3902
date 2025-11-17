@@ -26,7 +26,14 @@ namespace Sprint_0.Rooms
                 new Room(5, "Dungeon Room 4", 1024, 480),
                 new Room(6, "Dungeon Room 5", 1024, 480),
                 new Room(7, "Dungeon Room 6", 1024, 480),
-                new Room(8, "Dungeon Room 7", 1024, 480)
+                new Room(8, "Dungeon Room 7", 1024, 480),
+                new Room(9, "Dungeon Room 8", 1024, 480),
+                new Room(10, "Dungeon Room 9", 1024, 480),
+                new Room(11, "Dungeon Room 10", 1024, 480),
+                new Room(12, "Dungeon Room 11", 1024, 480),
+                new Room(13, "Dungeon Room 12", 1024, 480),
+                new Room(14, "Dungeon Room 13", 1024, 480),
+
             ];
         }
 
@@ -40,6 +47,14 @@ namespace Sprint_0.Rooms
             AddCsv(rooms[5], "Content/Dungeon Room 5.csv", game.BlockTextures);
             AddCsv(rooms[6], "Content/Dungeon Room 6.csv", game.BlockTextures);
             AddCsv(rooms[7], "Content/Dungeon Room 7.csv", game.BlockTextures);
+            AddCsv(rooms[8], "Content/Dungeon Room 8.csv", game.BlockTextures);
+            AddCsv(rooms[9], "Content/Dungeon Room 9.csv", game.BlockTextures);
+            AddCsv(rooms[10], "Content/Dungeon Room 10.csv", game.BlockTextures);
+            AddCsv(rooms[11], "Content/Dungeon Room 11.csv", game.BlockTextures);
+            AddCsv(rooms[12], "Content/Dungeon Room 12.csv", game.BlockTextures);
+            AddCsv(rooms[13], "Content/Dungeon Room 13.csv", game.BlockTextures);
+
+
         }
 
         private void PopulateEntities(List<Room> rooms)

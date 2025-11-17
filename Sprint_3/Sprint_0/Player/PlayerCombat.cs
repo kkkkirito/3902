@@ -34,6 +34,8 @@ namespace Sprint_0.Player_Namespace
 
         public void TakeDamage(int damage)
         {
+            if (_player.CurrentState is DeadState)
+                return;
             if (_player.IsInvulnerable)
                 return;
 
@@ -41,7 +43,28 @@ namespace Sprint_0.Player_Namespace
             _player.IsInvulnerable = true;
             _player.InvulnerabilityTimer = 0.5f;
 
-            _player.ChangeState(_player.CurrentHealth <= 0 ? new DeadState() : new HurtState());
+
+            if (_player.CurrentHealth <= 0)
+            {
+                
+                if (_player.Lives > 1)
+                {
+                    _player.Lives -= 1;                          
+                   
+                    _player.LivesAvailable = true;
+                }
+                else
+                {
+
+                    _player.LivesAvailable = false;
+                }
+                _player.IsDying = true;
+                _player.ChangeState(new DeadState());
+            }
+            else
+            {
+                _player.ChangeState(new HurtState());
+            }
         }
 
         public void UpdateInvulnerability(GameTime gameTime)

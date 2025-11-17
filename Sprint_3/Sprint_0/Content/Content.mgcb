@@ -25,6 +25,18 @@
 /processorParam:Quality=Best
 /build:Audio/BGM_01.wav
 
+#begin Audio/death_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/death_01.wav
+
+#begin Audio/death_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/death_01.wav
+
 #begin Audio/enemyAttack_01.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -48,6 +60,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Audio/fireball_01.wav
+
+#begin Audio/gameover_01.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/gameover_01.wav
 
 #begin Audio/hurt_01.wav
 /importer:WavImporter
@@ -133,6 +151,13 @@
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:gameFont.spritefont
+
+#begin Triforce.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Triforce.spritefont
 
 #begin Zelda_2_Overworld_Enemies.png
 /importer:TextureImporter

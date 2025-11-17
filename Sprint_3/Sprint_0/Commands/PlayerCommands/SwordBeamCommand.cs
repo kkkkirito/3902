@@ -8,6 +8,7 @@ namespace Sprint_0.Commands.PlayerCommands
     {
         private readonly IPlayer _player;
         private readonly IProjectileManager _proj;
+        private int MagicCost = 1;
 
         public SwordBeamCommand(IPlayer player, IProjectileManager proj)
         {
@@ -21,10 +22,16 @@ namespace Sprint_0.Commands.PlayerCommands
                 return;
             if (!CooldownManager.CanExecute("Beam", 0.5))
                 return;
-            AudioManager.PlaySound(AudioManager.BeamSound, 0.7f);
-            // play the same stab animation regardless; projectile spawns only if allowed
+            if (_player.CurrentMagic < MagicCost)
+                return;
             _player.Attack(_player.FacingDirection, AttackMode.Swordbeam);
-            _proj.TrySpawnSwordBeam(_player); 
+            if (_proj.TrySpawnSwordBeam(_player))
+            {
+                if (_player.TrySpendMagic(MagicCost))
+                {
+                    AudioManager.PlaySound(AudioManager.BeamSound, 0.7f);
+                }
+            }
         }
     }
 }

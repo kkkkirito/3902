@@ -10,6 +10,7 @@ namespace Sprint_0.Enemies
         public HorseHeadEnemy(Texture2D spriteSheet, Vector2 startPos)
             : base(SpriteFactory.CreateHorseHeadAnimations(spriteSheet), startPos)
         {
+            this.SpriteSheet = spriteSheet;
             this.CanMove = true;
             this.CanJump = false;
             this.CanAttack = false;
@@ -17,6 +18,8 @@ namespace Sprint_0.Enemies
             this.LockFacing = true;
             this.Position = startPos;
             this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 15, 47);
+
+            XPReward = 50;
 
             ChangeState(new BossIdleState());
         }

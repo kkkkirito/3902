@@ -32,8 +32,9 @@ namespace Sprint_0.Items
         {
             if (!IsCollected)
             {
-                keyCount++;
                 IsCollected = true;
+                if (player != null)
+                    player.KeyCount++;
             }
         }
 

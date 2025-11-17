@@ -9,6 +9,7 @@ namespace Sprint_0.Commands.PlayerCommands
     {
         private readonly IPlayer _player;
         private readonly IProjectileManager _proj;
+        private int MagicCost = 2;
 
         public FireballCommand(IPlayer player, IProjectileManager proj)
         {
@@ -22,9 +23,16 @@ namespace Sprint_0.Commands.PlayerCommands
                 return;
             if (!CooldownManager.CanExecute("Fireball", 0.5))
                 return;
-            AudioManager.PlaySound(AudioManager.FireballSound, 0.7f);
+            if (_player.CurrentMagic < MagicCost)
+                return;
             _player.Attack(_player.FacingDirection, AttackMode.Fireball);
-            _proj.TrySpawnFireball(_player); // capped at 2
+            if (_proj.TrySpawnFireball(_player))
+            {
+                if (_player.TrySpendMagic(MagicCost))
+                {
+                    AudioManager.PlaySound(AudioManager.FireballSound, 0.7f);
+                }
+            }
         }
     }
 }
