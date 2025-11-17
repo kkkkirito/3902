@@ -581,7 +581,7 @@ namespace Sprint_0
 
             dict["LockedDoor"] = new Animation(spriteSheet, new List<Rectangle>
             {
-                new Rectangle(183, 42, 7, 42)
+                new Rectangle(183, 42, 8, 48)
             }, 0.25f, false);
 
             var UnlockDoor = new List<Rectangle>

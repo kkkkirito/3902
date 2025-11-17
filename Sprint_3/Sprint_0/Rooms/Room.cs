@@ -65,7 +65,7 @@ namespace Sprint_0.Rooms
         public void AddBlock(IBlock block)
         {
 
-            if (block is TrapBlock)
+            if (block is TrapBlock || block is LockedDoor)
             {
                 originalEntityBlocks.Add(block);
             }
@@ -209,6 +209,11 @@ namespace Sprint_0.Rooms
                 if (entityBlock is TrapBlock trapBlock)
                 {
                     trapBlock.Reset();
+                }
+
+                else if (entityBlock is LockedDoor lockedDoor)
+                {
+                    lockedDoor.Reset();
                 }
             }
 

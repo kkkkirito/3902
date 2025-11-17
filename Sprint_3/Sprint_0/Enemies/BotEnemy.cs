@@ -16,7 +16,7 @@ namespace Sprint_0.Enemies
             this.CanAttack = false;
             this.CanCrouch = false;
             this.Position = startPos;
-            this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 14, 13);
+            this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 17, 17);
 
             XPReward = 2;
 
