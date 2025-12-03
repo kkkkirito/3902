@@ -12,7 +12,7 @@ namespace Sprint_0.Blocks
         private bool isLocked;
         private bool isUnlocking;
         private float unlockTimer;
-        private const float UNLOCK_DURATION = 0.5f; // Animation duration in seconds
+        private const float UNLOCK_DURATION = 1.8f; // Animation duration in seconds
 
         public bool IsSolid => isLocked || isUnlocking;
         public Vector2 Position { get; set; }

@@ -3,12 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sprint_0.Collision_System;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 using Sprint_0.Player_Namespace;
 using Sprint_0.Rooms;
 using Sprint_0.States.LinkStates;
-using Sprint_0.Managers;
 using Sprint_0.Systems;
 using System;
+using static Sprint_0.States.Gameplay.InputBinder;
 
 
 namespace Sprint_0.States.Gameplay
@@ -31,6 +32,7 @@ namespace Sprint_0.States.Gameplay
         private MouseState _prevMouse;
         private Camera _camera;
 
+        private readonly InputSelector _inputSelector;
 
         private bool _isTransitioning = false;
         private float _transitionTimer = 0f;
@@ -58,6 +60,7 @@ namespace Sprint_0.States.Gameplay
 
             _entityManager = new RoomEntityManager(_game.LinkTextures, _game.EnemyTextures, _game.BossTextures,
                 _game.OverworldEnemyTextures, _game.ItemTextures, game.BlockTextures, _keyboard);
+            _inputSelector = new InputSelector();
         }
 
         public void Enter()
@@ -79,6 +82,8 @@ namespace Sprint_0.States.Gameplay
 
         public void Update(GameTime gameTime)
         {
+            _inputSelector.Update();
+            PauseState.Update();
             if (_isTransitioning)
             {
                 _transitionTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -95,11 +100,12 @@ namespace Sprint_0.States.Gameplay
             XPManager.UpdateAll(gameTime);
 
             _navigator.Current.Update(gameTime);
+            if (!PauseState.IsPaused) { 
             _projectiles?.Update(gameTime);
             _collisions.Step(_navigator.Current, _player, _projectiles);
 
             _camera?.Update(_player, gameTime);
-
+                }
             if (_player != null && !_isTransitioning)
             {
                 var transition = _transitionManager.CheckTransition(
@@ -179,58 +185,59 @@ namespace Sprint_0.States.Gameplay
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            Color drawColor = Color.White;
-            if (_isTransitioning)
-            {
-                float fadeAmount = 1.0f - Math.Abs(_transitionTimer - TRANSITION_DURATION / 2f) / (TRANSITION_DURATION / 2f);
-                drawColor = Color.Lerp(Color.White, Color.Black, fadeAmount);
-            }
-
-            spriteBatch.Begin(
-                samplerState: SamplerState.PointClamp,
-                transformMatrix: _camera?.TransformMatrix
-            );
-
-            XPManager.DrawAll(spriteBatch);
-
-            if (!_isTransitioning || _transitionTimer < TRANSITION_DURATION / 2f)
-            {
-                _navigator.Current?.Draw(spriteBatch);
-                _projectiles?.Draw(spriteBatch);
-            }
-
-            spriteBatch.End();
-            if (_isTransitioning)
-            {
-                spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-
-                var viewport = _game.GraphicsDevice.Viewport;
-                var fadeRect = new Rectangle(0, 0, viewport.Width, viewport.Height);
-
-                float fadeAlpha = Math.Min(1.0f, _transitionTimer * 2 / TRANSITION_DURATION);
-                if (_transitionTimer > TRANSITION_DURATION / 2f)
-                    fadeAlpha = Math.Max(0f, 2.0f - _transitionTimer * 2 / TRANSITION_DURATION);
-
-                using (var pixel = new Texture2D(_game.GraphicsDevice, 1, 1))
+                Color drawColor = Color.White;
+                if (_isTransitioning)
                 {
-                    pixel.SetData(new[] { Color.White });
-                    spriteBatch.Draw(pixel, fadeRect, Color.Black * fadeAlpha);
+                    float fadeAmount = 1.0f - Math.Abs(_transitionTimer - TRANSITION_DURATION / 2f) / (TRANSITION_DURATION / 2f);
+                    drawColor = Color.Lerp(Color.White, Color.Black, fadeAmount);
+                }
+
+                spriteBatch.Begin(
+                    samplerState: SamplerState.PointClamp,
+                    transformMatrix: _camera?.TransformMatrix
+                );
+
+                XPManager.DrawAll(spriteBatch);
+
+                if (!_isTransitioning || _transitionTimer < TRANSITION_DURATION / 2f)
+                {
+                    _navigator.Current?.Draw(spriteBatch);
+                    _projectiles?.Draw(spriteBatch);
                 }
 
                 spriteBatch.End();
-            }
+                if (_isTransitioning)
+                {
+                    spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+                    var viewport = _game.GraphicsDevice.Viewport;
+                    var fadeRect = new Rectangle(0, 0, viewport.Width, viewport.Height);
 
-            _hud.Draw(
-                spriteBatch,
-                _game.Font,
-                _game.GraphicsDevice,
-                _navigator.Current,
-                _player
-            );
+                    float fadeAlpha = Math.Min(1.0f, _transitionTimer * 2 / TRANSITION_DURATION);
+                    if (_transitionTimer > TRANSITION_DURATION / 2f)
+                        fadeAlpha = Math.Max(0f, 2.0f - _transitionTimer * 2 / TRANSITION_DURATION);
 
-            spriteBatch.End();
+                    using (var pixel = new Texture2D(_game.GraphicsDevice, 1, 1))
+                    {
+                        pixel.SetData(new[] { Color.White });
+                        spriteBatch.Draw(pixel, fadeRect, Color.Black * fadeAlpha);
+                    }
+
+                    spriteBatch.End();
+                }
+
+                spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+                _hud.Draw(
+                    spriteBatch,
+                    _game.Font,
+                    _game.GraphicsDevice,
+                    _navigator.Current,
+                    _player
+                );
+
+                spriteBatch.End();
+            PauseState.Draw(spriteBatch, _game.Font, _game.GraphicsDevice);
         }
 
         public void Reset()

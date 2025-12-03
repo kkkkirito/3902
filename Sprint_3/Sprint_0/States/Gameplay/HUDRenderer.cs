@@ -18,6 +18,10 @@ namespace Sprint_0.States.Gameplay
         private const int MagicBarWidth = 90;
         private const int MagicBarHeight = 10;
         private const int MagicBarPad = 1;
+        private const int MapX = 678;
+        private const int MapY = 5;
+        private const int MapRoomSize = 9;
+        
 
         private const int TopHudStripHeight = 30;
 
@@ -60,6 +64,8 @@ namespace Sprint_0.States.Gameplay
 
             string lives = $"LIVES {player.Lives}";
             sb.DrawString(font, lives, cursor, Color.White);
+
+            DrawMap(sb, MapX, MapY);
 
 
             if (currentRoom != null)
@@ -135,6 +141,41 @@ namespace Sprint_0.States.Gameplay
                 var filled = new Rectangle(inner.X, inner.Y, filledW, innerH);
                 sb.Draw(_pixel, filled, fillColor);
             }
+        }
+
+        private void DrawMap(SpriteBatch sb, int startingX, int startingY)
+        {
+            sb.Draw(_pixel, new Rectangle(startingX, startingY, 117, 45), Color.Beige);
+
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 8, startingY, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 9, startingY + 3, 9, 3), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 10, startingY, MapRoomSize, MapRoomSize), Color.Black);
+
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 8 + 3, startingY + 9 * 1, 3, 9), Color.Black);
+
+            sb.Draw(_pixel, new Rectangle(startingX, startingY + 9 * 2, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 1, startingY + 9 * 2 + 3, 9, 3), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 2, startingY + 9 * 2, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 3, startingY + 9 * 2 + 3, 9, 3), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 4, startingY + 9 * 2, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 5, startingY + 9 * 2 + 3, 9, 3), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 6, startingY + 9 * 2, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 7, startingY + 9 * 2 + 3, 9, 3), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 8, startingY + 9 * 2, MapRoomSize, MapRoomSize), Color.Black);
+
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 6 + 3, startingY + 9 * 3, 3, 9), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 8 + 3, startingY + 9 * 3, 3, 9), Color.Black);
+
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 2, startingY + 9 * 4, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 3, startingY + 9 * 4 + 3, 9, 3), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 4, startingY + 9 * 4, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 5, startingY + 9 * 4 + 3, 9, 3), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 6, startingY + 9 * 4, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 8, startingY + 9 * 4, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 9, startingY + 9 * 4 + 3, 9, 3), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 10, startingY + 9 * 4, MapRoomSize, MapRoomSize), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 11, startingY + 9 * 4 + 3, 9, 3), Color.Black);
+            sb.Draw(_pixel, new Rectangle(startingX + 9 * 12, startingY + 9 * 4, MapRoomSize, MapRoomSize), Color.Black);
         }
     }
 }

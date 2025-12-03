@@ -8,6 +8,8 @@ using Sprint_0.Managers;
 using Sprint_0.Player_Namespace;
 using System.Collections.Generic;
 using Sprint_0.States.LinkStates;
+using System;
+using Sprint_0.States;
 
 namespace Sprint_0.Rooms
 {
@@ -132,6 +134,7 @@ namespace Sprint_0.Rooms
 
         public void Update(GameTime gameTime)
         {
+            if (PauseState.IsPaused) return;
             player?.Update(gameTime);
 
             foreach (var block in blocks)
@@ -210,7 +213,6 @@ namespace Sprint_0.Rooms
                 {
                     trapBlock.Reset();
                 }
-
                 else if (entityBlock is LockedDoor lockedDoor)
                 {
                     lockedDoor.Reset();
@@ -273,6 +275,10 @@ namespace Sprint_0.Rooms
                 if (entityBlock is TrapBlock trapBlock)
                 {
                     trapBlock.Reset();
+                }
+                else if (entityBlock is LockedDoor lockedDoor)
+                {
+                    lockedDoor.Reset();
                 }
             }
 

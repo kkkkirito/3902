@@ -67,11 +67,13 @@ namespace Sprint_0
             var menuState = new MenuState(this, Font, stateManager);
             var gameplayState = new GameplayState(this);
             var gameOverState = new GameOverState(this, Font, stateManager);
+            var victoryState = new VictoryState(this, Font, stateManager);
 
             // Add states
             stateManager.AddState("menu", menuState);
             stateManager.AddState("gameplay", gameplayState);
             stateManager.AddState("gameover", gameOverState);
+            stateManager.AddState("victory", victoryState);
 
             // Start with menu
             stateManager.ChangeState("menu");

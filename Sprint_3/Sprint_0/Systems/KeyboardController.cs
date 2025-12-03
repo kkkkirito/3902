@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using Sprint_0.Interfaces;
+using Sprint_0.States;
 using System.Collections.Generic;
 
 
@@ -44,33 +45,35 @@ namespace Sprint_0
         {
 
             var currentState = Keyboard.GetState();
-
-            //logic for holding keys down. different than other loop.
-            foreach (var kvp in held)
+            if (!PauseState.IsPaused)
             {
-                if (currentState.IsKeyDown(kvp.Key))
-                    kvp.Value.Execute();
-            }
-
-            //executes on transition from up to down.
-            foreach (var k in pressed)
-            {
-                Keys key = k.Key;
-                ICommand command = k.Value;
-                if (currentState.IsKeyDown(key) && !_prev.IsKeyDown(key))
+                //logic for holding keys down. different than other loop.
+                foreach (var kvp in held)
                 {
-                    command.Execute();
+                    if (currentState.IsKeyDown(kvp.Key))
+                        kvp.Value.Execute();
                 }
-            }
 
-            foreach (var (key, cmd) in released)
-            {
-                if (_prev.IsKeyDown(key) && currentState.IsKeyUp(key))
-                    cmd.Execute();
+                //executes on transition from up to down.
+                foreach (var k in pressed)
+                {
+                    Keys key = k.Key;
+                    ICommand command = k.Value;
+                    if (currentState.IsKeyDown(key) && !_prev.IsKeyDown(key))
+                    {
+                        command.Execute();
+                    }
+                }
+
+                foreach (var (key, cmd) in released)
+                {
+                    if (_prev.IsKeyDown(key) && currentState.IsKeyUp(key))
+                        cmd.Execute();
+                }
+                _prev = currentState;
+                // Damage (E) and Attack (B) are handled via command bindings in Game1
             }
-            _prev = currentState;
-            // Damage (E) and Attack (B) are handled via command bindings in Game1
-        }
+            }
     }
 
 }

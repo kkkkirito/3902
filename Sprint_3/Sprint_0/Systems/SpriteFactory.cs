@@ -586,25 +586,26 @@ namespace Sprint_0
 
             var UnlockDoor = new List<Rectangle>
             {
-                new Rectangle(183, 42, 7, 47),
-                new Rectangle(192, 43, 7, 45),
-                new Rectangle(201, 44, 7, 43),
-                new Rectangle(210, 45, 7, 41),
-                new Rectangle(219, 46, 7, 39),
-                new Rectangle(228, 47, 7, 37),
-                new Rectangle(237, 48, 7, 35),
-                new Rectangle(246, 49, 7, 33),
-                new Rectangle(255, 50, 7, 31),
-                new Rectangle(264, 51, 7, 29),
-                new Rectangle(273, 52, 7, 27),
-                new Rectangle(282, 53, 7, 25),
-                new Rectangle(291, 54, 7, 23),
-                new Rectangle(300, 55, 7, 21),
-                new Rectangle(309, 56, 7, 19),
-                new Rectangle(318, 57, 7, 17),
-                new Rectangle(327, 58, 7, 15)
+                new Rectangle(183, 42, 7, 48),
+                new Rectangle(192, 42, 7, 48),
+                new Rectangle(201, 42, 7, 48),
+                new Rectangle(210, 42, 7, 48),
+                new Rectangle(219, 42, 7, 48),
+                new Rectangle(228, 42, 7, 48),
+                new Rectangle(237, 42, 7, 48),
+                new Rectangle(246, 42, 7, 48),
+                new Rectangle(255, 42, 7, 48),
+                new Rectangle(264, 42, 7, 48),
+                new Rectangle(273, 42, 7, 48),
+                new Rectangle(282, 42, 7, 48),
+                new Rectangle(291, 42, 7, 48),
+                new Rectangle(300, 42, 7, 48),
+                new Rectangle(309, 42, 7, 48),
+                new Rectangle(318, 42, 7, 48),
+                new Rectangle(327, 42, 7, 48)
             };
-            dict["UnlockDoor"] = new Animation(spriteSheet, UnlockDoor, 0.05f, false);
+
+            dict["UnlockDoor"] = new Animation(spriteSheet, UnlockDoor, 0.1f, false);
 
             return dict;
         }
