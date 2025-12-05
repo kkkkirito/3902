@@ -22,6 +22,8 @@ namespace Sprint_0.Player_Namespace
                 ApplyGravity(dt);
                 ApplyPosition(dt);
                 ResetHorizontalVelocity();
+
+                _player.IsGrounded = false;
             }
             else if (_player.GameMode == GameModeType.TopDown)
             {
@@ -32,8 +34,13 @@ namespace Sprint_0.Player_Namespace
 
         private void ApplyGravity(float dt)
         {
-            if (!_player.IsGrounded)
-                _player.VerticalVelocity += PlayerConstants.Gravity * dt;
+            _player.VerticalVelocity += PlayerConstants.Gravity * dt;
+
+            const float MaxFallSpeed = 600f;
+            if (_player.VerticalVelocity > MaxFallSpeed)
+            {
+                _player.VerticalVelocity = MaxFallSpeed;
+            }
         }
 
         private void ApplyPosition(float dt)
@@ -51,8 +58,12 @@ namespace Sprint_0.Player_Namespace
 
         public void Jump()
         {
-            if (_player.GameMode != GameModeType.Platformer || !_player.IsGrounded)
+            if (_player.GameMode != GameModeType.Platformer)
                 return;
+
+            bool canJump = _player.IsGrounded || Math.Abs(_player.VerticalVelocity) < 1f;
+
+            
 
             _player.VerticalVelocity = PlayerConstants.JumpStrength;
             _player.IsGrounded = false;

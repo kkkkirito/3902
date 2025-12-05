@@ -170,6 +170,7 @@ public class Player : IPlayer, ICollidable
                     ChangeState(new IdleState());
             }
         }
+
         _movement.ApplyMovement(gameTime);
         _animation.Update(gameTime);
         BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, 16, 32);
@@ -264,6 +265,14 @@ public class Player : IPlayer, ICollidable
     public void Attack(Direction direction, AttackMode mode = AttackMode.Normal)
     {
         _combat.Attack(direction, mode);
+    }
+    public void ResetPhysics(Vector2 spawnPosition)
+    {
+        Position = spawnPosition;
+        Velocity = Vector2.Zero;
+        VerticalVelocity = 0f;
+        IsGrounded = true;
+        IsCrouching = false;
     }
 }
 

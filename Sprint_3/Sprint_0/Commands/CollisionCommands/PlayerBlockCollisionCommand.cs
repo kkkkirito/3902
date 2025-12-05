@@ -10,13 +10,13 @@ namespace Sprint_0.Commands.CollisionCommands
 {
     public sealed class PlayerBlockCollisionCommand : ICollisionCommand
     {
-        
+
         public void Execute(CollisionInfo info)
         {
 
             // Identify sides without assuming order
             var player = info.A as IPlayer ?? info.B as IPlayer;
-            var block  = info.A as IBlock  ?? info.B as IBlock;
+            var block = info.A as IBlock ?? info.B as IBlock;
             if (player == null || block == null || !block.IsSolid) return;
 
             // Skip left/right collision for trap blocks
@@ -44,6 +44,10 @@ namespace Sprint_0.Commands.CollisionCommands
                 case CollisionDirection.Top:      // player landed on top
                     player.Velocity = new Vector2(v.X, 0f);
                     player.IsGrounded = true;
+                    if (player is Sprint_0.Player_Namespace.Player p)
+                    {
+                        p.VerticalVelocity = 0f;
+                    }
 
                     if (block is TrapBlock trap)
                     {
@@ -53,6 +57,10 @@ namespace Sprint_0.Commands.CollisionCommands
                     break;
                 case CollisionDirection.Bottom:   // hit ceiling
                     player.Velocity = new Vector2(v.X, 0f);
+                    if (player is Sprint_0.Player_Namespace.Player pCeiling && pCeiling.VerticalVelocity < 0)
+                    {
+                        pCeiling.VerticalVelocity = 0f;
+                    }
                     break;
             }
         }

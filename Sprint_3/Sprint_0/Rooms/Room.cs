@@ -182,10 +182,10 @@ namespace Sprint_0.Rooms
         {
             if (player != null)
             {
-                player.Position = playerStartPosition;
+                player.ResetPhysics(playerStartPosition);
+
                 player.CurrentHealth = player.MaxHealth;
                 player.IsInvulnerable = false;
-                player.Velocity = Vector2.Zero;
                 player.CurrentMagic = player.MaxMagic;
                 player.CurrentXP = 0;
                 player.GameMode = GameModeType.Platformer;
@@ -252,10 +252,10 @@ namespace Sprint_0.Rooms
         {
             if (player != null)
             {
-                player.Position = playerStartPosition;
+                player.ResetPhysics(playerStartPosition);
+
                 player.CurrentHealth = player.MaxHealth;
                 player.IsInvulnerable = false;
-                player.Velocity = Vector2.Zero;
                 //player.CurrentMagic = player.MaxMagic;
                 //player.CurrentXP = 0;
 
