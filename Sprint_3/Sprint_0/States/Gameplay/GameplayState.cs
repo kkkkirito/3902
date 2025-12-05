@@ -39,9 +39,9 @@ namespace Sprint_0.States.Gameplay
         private const float TRANSITION_DURATION = 0.5f;
         private RoomTransition _pendingTransition;
 
-        private bool _isDeadAnimating = false;                 
-        private float _deathTimer = 0f;                        
-        private const float DEATH_DURATION = 2.0f;             
+        private bool _isDeadAnimating = false;
+        private float _deathTimer = 0f;
+        private const float DEATH_DURATION = 2.0f;
 
         public GameplayState(Game1 game)
         {
@@ -99,13 +99,19 @@ namespace Sprint_0.States.Gameplay
             _gamepad.Update();
             XPManager.UpdateAll(gameTime);
 
-            _navigator.Current.Update(gameTime);
-            if (!PauseState.IsPaused) { 
-            _projectiles?.Update(gameTime);
-            _collisions.Step(_navigator.Current, _player, _projectiles);
+            if (_player != null && _player.GameMode == GameModeType.Platformer)
+            {
+                _player.IsGrounded = false;
+            }
 
-            _camera?.Update(_player, gameTime);
-                }
+            _navigator.Current.Update(gameTime);
+            if (!PauseState.IsPaused)
+            {
+                _projectiles?.Update(gameTime);
+                _collisions.Step(_navigator.Current, _player, _projectiles);
+
+                _camera?.Update(_player, gameTime);
+            }
             if (_player != null && !_isTransitioning)
             {
                 var transition = _transitionManager.CheckTransition(
@@ -120,27 +126,27 @@ namespace Sprint_0.States.Gameplay
             }
             if (_player != null && _player.CurrentHealth <= 0)
             {
-                
-               if (_player != null && _player.CurrentHealth <= 0)
-                    {
-                        if (_player.CurrentState is DeadState || (_player is Player p && p.IsDying))
-                        {
-                            if (_player is Player pClear) pClear.IsDying = false;
 
-                            if (_player is Player concretePlayer && concretePlayer.LivesAvailable)
-                            {
-                                _navigator.Current.Die();
-                                _projectiles = new ProjectileManager(_game.LinkTextures, _game);
-                                _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
-                                _camera?.SnapToTarget(_player);
-                                concretePlayer.LivesAvailable = false;
-                            }
-                            else
-                            {
-                                _game.StateManager.ChangeState("gameover");
-                                return;
-                            }
+                if (_player != null && _player.CurrentHealth <= 0)
+                {
+                    if (_player.CurrentState is DeadState || (_player is Player p && p.IsDying))
+                    {
+                        if (_player is Player pClear) pClear.IsDying = false;
+
+                        if (_player is Player concretePlayer && concretePlayer.LivesAvailable)
+                        {
+                            _navigator.Current.Die();
+                            _projectiles = new ProjectileManager(_game.LinkTextures, _game);
+                            _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
+                            _camera?.SnapToTarget(_player);
+                            concretePlayer.LivesAvailable = false;
                         }
+                        else
+                        {
+                            _game.StateManager.ChangeState("gameover");
+                            return;
+                        }
+                    }
                 }
             }
             var ms = Mouse.GetState();
@@ -177,6 +183,12 @@ namespace Sprint_0.States.Gameplay
                 {
                     _player.Position = _pendingTransition.SpawnPosition;
                     _player.Velocity = Vector2.Zero;
+
+                    if (_player is Player concretePlayer)
+                    {
+                        concretePlayer.VerticalVelocity = 0f;
+                    }
+                    _player.IsGrounded = false;
                 }
 
                 _pendingTransition = null;
@@ -185,58 +197,58 @@ namespace Sprint_0.States.Gameplay
 
         public void Draw(SpriteBatch spriteBatch)
         {
-                Color drawColor = Color.White;
-                if (_isTransitioning)
-                {
-                    float fadeAmount = 1.0f - Math.Abs(_transitionTimer - TRANSITION_DURATION / 2f) / (TRANSITION_DURATION / 2f);
-                    drawColor = Color.Lerp(Color.White, Color.Black, fadeAmount);
-                }
+            Color drawColor = Color.White;
+            if (_isTransitioning)
+            {
+                float fadeAmount = 1.0f - Math.Abs(_transitionTimer - TRANSITION_DURATION / 2f) / (TRANSITION_DURATION / 2f);
+                drawColor = Color.Lerp(Color.White, Color.Black, fadeAmount);
+            }
 
-                spriteBatch.Begin(
-                    samplerState: SamplerState.PointClamp,
-                    transformMatrix: _camera?.TransformMatrix
-                );
+            spriteBatch.Begin(
+                samplerState: SamplerState.PointClamp,
+                transformMatrix: _camera?.TransformMatrix
+            );
 
-                XPManager.DrawAll(spriteBatch);
+            XPManager.DrawAll(spriteBatch);
 
-                if (!_isTransitioning || _transitionTimer < TRANSITION_DURATION / 2f)
-                {
-                    _navigator.Current?.Draw(spriteBatch);
-                    _projectiles?.Draw(spriteBatch);
-                }
+            if (!_isTransitioning || _transitionTimer < TRANSITION_DURATION / 2f)
+            {
+                _navigator.Current?.Draw(spriteBatch);
+                _projectiles?.Draw(spriteBatch);
+            }
 
-                spriteBatch.End();
-                if (_isTransitioning)
-                {
-                    spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-
-                    var viewport = _game.GraphicsDevice.Viewport;
-                    var fadeRect = new Rectangle(0, 0, viewport.Width, viewport.Height);
-
-                    float fadeAlpha = Math.Min(1.0f, _transitionTimer * 2 / TRANSITION_DURATION);
-                    if (_transitionTimer > TRANSITION_DURATION / 2f)
-                        fadeAlpha = Math.Max(0f, 2.0f - _transitionTimer * 2 / TRANSITION_DURATION);
-
-                    using (var pixel = new Texture2D(_game.GraphicsDevice, 1, 1))
-                    {
-                        pixel.SetData(new[] { Color.White });
-                        spriteBatch.Draw(pixel, fadeRect, Color.Black * fadeAlpha);
-                    }
-
-                    spriteBatch.End();
-                }
-
+            spriteBatch.End();
+            if (_isTransitioning)
+            {
                 spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-                _hud.Draw(
-                    spriteBatch,
-                    _game.Font,
-                    _game.GraphicsDevice,
-                    _navigator.Current,
-                    _player
-                );
+                var viewport = _game.GraphicsDevice.Viewport;
+                var fadeRect = new Rectangle(0, 0, viewport.Width, viewport.Height);
+
+                float fadeAlpha = Math.Min(1.0f, _transitionTimer * 2 / TRANSITION_DURATION);
+                if (_transitionTimer > TRANSITION_DURATION / 2f)
+                    fadeAlpha = Math.Max(0f, 2.0f - _transitionTimer * 2 / TRANSITION_DURATION);
+
+                using (var pixel = new Texture2D(_game.GraphicsDevice, 1, 1))
+                {
+                    pixel.SetData(new[] { Color.White });
+                    spriteBatch.Draw(pixel, fadeRect, Color.Black * fadeAlpha);
+                }
 
                 spriteBatch.End();
+            }
+
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+            _hud.Draw(
+                spriteBatch,
+                _game.Font,
+                _game.GraphicsDevice,
+                _navigator.Current,
+                _player
+            );
+
+            spriteBatch.End();
             PauseState.Draw(spriteBatch, _game.Font, _game.GraphicsDevice);
         }
 
@@ -265,9 +277,9 @@ namespace Sprint_0.States.Gameplay
             if (previous != null && _player != null && !ReferenceEquals(previous, _player))
             {
                 _player.CurrentHealth = previous.CurrentHealth;
-                _player.CurrentMagic  = previous.CurrentMagic;
-                _player.CurrentXP     = previous.CurrentXP;
-                _player.Lives         = previous.Lives;
+                _player.CurrentMagic = previous.CurrentMagic;
+                _player.CurrentXP = previous.CurrentXP;
+                _player.Lives = previous.Lives;
             }
 
             if (_player != null)
