@@ -146,7 +146,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 6,
                 TriggerArea = new Rectangle(624, 120, DOOR_WIDTH, 64),
-                SpawnPosition = new Vector2(160, 160), 
+                SpawnPosition = new Vector2(192, 160), 
                 Direction = TransitionDirection.Door
             });
 
