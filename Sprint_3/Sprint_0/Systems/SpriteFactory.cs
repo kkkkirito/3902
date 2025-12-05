@@ -501,6 +501,12 @@ namespace Sprint_0
                 new Rectangle(101, 12, 8, 15)
             }, 0.25f, false);
 
+            // TopDownKey 
+            dict["TopDownKey"] = new Animation(spriteSheet, new List<Rectangle>
+            {
+                new Rectangle(192, 11, 8, 15)
+            }, 0.25f, false);
+
             // Candle
             dict["Candle"] = new Animation(spriteSheet, new List<Rectangle>
             {
@@ -692,12 +698,12 @@ namespace Sprint_0
             dict["bw"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(52, 50, 16, 16)
-            }, 0.25f, false);   
+            }, 0.25f, false);
 
             dict["br"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(69, 50, 16, 16)
-            }, 0.25f, false);   
+            }, 0.25f, false);
 
             dict["pl"] = new Animation(spriteSheet, new List<Rectangle>
             {

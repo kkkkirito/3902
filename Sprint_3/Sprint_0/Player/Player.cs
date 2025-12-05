@@ -39,6 +39,7 @@ namespace Sprint_0.Player_Namespace
 
         public bool HasTorch { get; private set; }
         public float TorchLightRadius { get; private set; }
+        public bool HasTopDownKey { get; set; } = false;
 
         private GameModeType _gameMode = GameModeType.Platformer;
         public bool IsDying { get; set; } = false;
@@ -259,6 +260,7 @@ namespace Sprint_0.Player_Namespace
             CurrentHealth = MaxHealth;
             IsInvulnerable = false;
             Velocity = Vector2.Zero;
+            HasTopDownKey = false; 
 
             if (!keepMagic) CurrentMagic = MaxMagic;
             if (!keepXP) CurrentXP = 0;

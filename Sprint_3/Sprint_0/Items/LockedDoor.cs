@@ -17,7 +17,7 @@ namespace Sprint_0.Blocks
         public bool IsSolid => isLocked || isUnlocking;
         public Vector2 Position { get; set; }
 
-        public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, 7, 42);
+        public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, 8, 48);
         public bool IsLocked => isLocked;
 
         public LockedDoor(Vector2 position, Texture2D itemTextures)

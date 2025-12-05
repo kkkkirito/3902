@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿// Rooms/RoomEntityManager.cs
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Sprint_0.Blocks;
 using Sprint_0.Blocks;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
@@ -121,6 +121,20 @@ namespace Sprint_0.Rooms
                         case "door":
                             CreateDoor(room, position);
                             break;
+
+                        case "tdk":
+                        case "topdownkey":
+                            CreateTopDownKey(room, position);
+                            break;
+
+                        case "tdd":
+                        case "topdowndoor":
+                            CreateTopDownDoor(room, position);
+                            break;
+
+                        case "trophy":
+                            CreateTrophy(room, position);
+                            break;
                     }
                 }
             }
@@ -142,11 +156,33 @@ namespace Sprint_0.Rooms
             }
             return layout;
         }
+
         private void CreateDoor(Room room, Vector2 position)
         {
             var door = new LockedDoor(position, itemTextures);
             room.AddBlock(door);
             Debug.WriteLine($"[RoomEntityManager] Added LockedDoor in room {room?.Id} at {position}");
+        }
+
+        private void CreateTopDownDoor(Room room, Vector2 position)
+        {
+            var door = new TopDownDoor(position, itemTextures);
+            room.AddBlock(door);
+            Debug.WriteLine($"[RoomEntityManager] Added TopDownDoor in room {room?.Id} at {position}");
+        }
+
+        private void CreateTopDownKey(Room room, Vector2 position)
+        {
+            var key = new TopDownKeyItem(position, itemTextures);
+            room.AddItem(key);
+            Debug.WriteLine($"[RoomEntityManager] Added TopDownKey in room {room?.Id} at {position}");
+        }
+
+        private void CreateTrophy(Room room, Vector2 position)
+        {
+            var trophy = new TrophyItem(position, itemTextures);
+            room.AddItem(trophy);
+            Debug.WriteLine($"[RoomEntityManager] Added Trophy in room {room?.Id} at {position}");
         }
 
         private void CreatePlayer(Room room, Vector2 position)
@@ -192,7 +228,6 @@ namespace Sprint_0.Rooms
                     break;
                 case "Stalfos":
                     enemy = new StalfosEnemy(enemyTextures, position);
-                    //enemy.ChangeState(new Sprint_0.EnemyStateMachine.StalfosFallState());
                     break;
                 case "Octorok":
                     enemy = new OctorokEnemy(overworldEnemyTextures, enemyTextures, position);
