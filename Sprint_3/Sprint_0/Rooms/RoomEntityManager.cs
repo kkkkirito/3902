@@ -121,6 +121,21 @@ namespace Sprint_0.Rooms
                         case "door":
                             CreateDoor(room, position);
                             break;
+
+                        case "tdk":
+                        case "topdownkey":
+                            CreateTopDownKey(room, position);
+                            break;
+
+                        case "tdd":
+                        case "topdowndoor":
+                            CreateTopDownDoor(room, position);
+                            break;
+
+                        case "trophy":
+                        case "tr":
+                            CreateTrophy(room, position);
+                            break;
                     }
                 }
             }
@@ -147,6 +162,27 @@ namespace Sprint_0.Rooms
             var door = new LockedDoor(position, itemTextures);
             room.AddBlock(door);
             Debug.WriteLine($"[RoomEntityManager] Added LockedDoor in room {room?.Id} at {position}");
+        }
+
+        private void CreateTopDownDoor(Room room, Vector2 position)
+        {
+            var door = new TopDownDoor(position, itemTextures);
+            room.AddBlock(door);
+            Debug.WriteLine($"[RoomEntityManager] Added TopDownDoor in room {room?.Id} at {position}");
+        }
+
+        private void CreateTopDownKey(Room room, Vector2 position)
+        {
+            var key = new TopDownKeyItem(position, itemTextures);
+            room.AddItem(key);
+            Debug.WriteLine($"[RoomEntityManager] Added TopDownKey in room {room?.Id} at {position}");
+        }
+
+        private void CreateTrophy(Room room, Vector2 position)
+        {
+            var trophy = new TrophyItem(position, itemTextures);
+            room.AddItem(trophy);
+            Debug.WriteLine($"[RoomEntityManager] Added Trophy in room {room?.Id} at {position}");
         }
 
         private void CreatePlayer(Room room, Vector2 position)

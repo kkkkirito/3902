@@ -32,6 +32,7 @@ public class Player : IPlayer, ICollidable
     public int NextLevelXP { get; private set; } = 100;
     public int Lives { get; set; } = 3;
     public int KeyCount { get; set; } = 0;
+    public int TopDownKeyCount { get; set; } = 0;
 
     public float groundY;
     public bool IsGrounded { get; set; } = true;
@@ -51,12 +52,6 @@ public class Player : IPlayer, ICollidable
         {
             if (_gameMode == value) return;
             _gameMode = value;
-
-            // When entering Platformer, snap the "floor" to the player's current feet Y
-            if (_gameMode == GameModeType.Platformer)
-            {
-                groundY = Position.Y;
-            }
 
             // normalize state when modes change
             IsCrouching = false;
@@ -130,7 +125,7 @@ public class Player : IPlayer, ICollidable
             CurrentXP -= NextLevelXP;
             NextLevelXP = (int)(NextLevelXP * 1.5f);
 
-            
+
             MaxMagic += 1;
             CurrentMagic = Math.Max(CurrentMagic + 1, MaxMagic);
             Lives += 1;

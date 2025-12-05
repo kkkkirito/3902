@@ -67,7 +67,7 @@ namespace Sprint_0.Rooms
         public void AddBlock(IBlock block)
         {
 
-            if (block is TrapBlock || block is LockedDoor)
+            if (block is TrapBlock || block is LockedDoor || block is TopDownDoor)
             {
                 originalEntityBlocks.Add(block);
             }
@@ -175,7 +175,7 @@ namespace Sprint_0.Rooms
 
             player?.Draw(spriteBatch);
 
-            
+
         }
 
         public void Reset()
@@ -187,7 +187,8 @@ namespace Sprint_0.Rooms
                 player.IsInvulnerable = false;
                 player.Velocity = Vector2.Zero;
                 player.CurrentMagic = player.MaxMagic;
-                player.CurrentXP  = 0;
+                player.CurrentXP = 0;
+                player.GameMode = GameModeType.Platformer;
 
                 if (player.CurrentState != null)
                 {
@@ -217,12 +218,18 @@ namespace Sprint_0.Rooms
                 {
                     lockedDoor.Reset();
                 }
+                else if (entityBlock is TopDownDoor topDownDoor)
+                {
+                    topDownDoor.Reset();
+                }
             }
 
             foreach (var item in items)
             {
                 if (item is HeartItem heart) heart.IsCollected = false;
                 else if (item is KeyItem key) key.IsCollected = false;
+                else if (item is TopDownKeyItem tdKey) tdKey.IsCollected = false;
+                else if (item is TrophyItem trophy) trophy.IsCollected = false;
             }
 
             foreach (var enemy in enemies)
@@ -236,7 +243,7 @@ namespace Sprint_0.Rooms
                     var anim = enemy.GetAnimation("Idle");
                     if (anim != null)
                     {
-                        enemy.BoundingBox = new Rectangle((int)enemy.Position.X,(int)enemy.Position.Y,anim.FrameWidth,anim.FrameHeight);
+                        enemy.BoundingBox = new Rectangle((int)enemy.Position.X, (int)enemy.Position.Y, anim.FrameWidth, anim.FrameHeight);
                     }
                 }
             }
@@ -280,12 +287,18 @@ namespace Sprint_0.Rooms
                 {
                     lockedDoor.Reset();
                 }
+                else if (entityBlock is TopDownDoor topDownDoor)
+                {
+                    topDownDoor.Reset();
+                }
             }
 
             foreach (var item in items)
             {
                 if (item is HeartItem heart) heart.IsCollected = false;
                 else if (item is KeyItem key) key.IsCollected = false;
+                else if (item is TopDownKeyItem tdKey) tdKey.IsCollected = false;
+                else if (item is TrophyItem trophy) trophy.IsCollected = false;
             }
 
             foreach (var enemy in enemies)

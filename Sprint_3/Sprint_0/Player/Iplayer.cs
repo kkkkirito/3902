@@ -29,6 +29,7 @@ public interface IPlayer : ICollidable
     int Lives { get; set; }
     bool IsInvulnerable { get; }
     int KeyCount { get; set; }
+    int TopDownKeyCount { get; set; }
     int CurrentFrame { get; set; }
 
     IPlayerState CurrentState { get; set; }
