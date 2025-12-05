@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.EnemyStateMachine;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.Enemies
 {
@@ -23,5 +24,8 @@ namespace Sprint_0.Enemies
 
             ChangeState(new BossIdleState());
         }
+
+        protected override IEnemyState GetDefaultState()
+            => new Sprint_0.EnemyStateMachine.BossIdleState();
     }
 }

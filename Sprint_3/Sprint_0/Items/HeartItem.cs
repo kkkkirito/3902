@@ -1,10 +1,11 @@
 ﻿// Items/HeartItem.cs
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.Items
 {
-    public class HeartItem : IConsumable
+    public class HeartItem : IConsumable, IResettable
     {
         public string Name => "Heart";
         public bool IsConsumable => true;
@@ -23,20 +24,14 @@ namespace Sprint_0.Items
             texture = itemTextures;
 
             var animations = SpriteFactory.CreateItemAnimations(itemTextures);
-            if (animations.ContainsKey("Heart"))
-            {
-                this.animation = animations["Heart"];
-            }
+            if (animations.ContainsKey("Heart")) this.animation = animations["Heart"];
         }
 
         public void Consume(IPlayer player)
         {
             if (!IsCollected)
             {
-                player.CurrentHealth = System.Math.Min(
-                    player.CurrentHealth + healAmount,
-                    player.MaxHealth
-                );
+                player.CurrentHealth = System.Math.Min(player.CurrentHealth + healAmount, player.MaxHealth);
                 IsCollected = true;
             }
         }
@@ -46,34 +41,14 @@ namespace Sprint_0.Items
         public Texture2D Texture => texture;
         public Rectangle Source => animation?.CurrentFrame ?? new Rectangle(0, 0, 0, 0);
         public bool Celebration => false;
-        public void Collect(IPlayer player)
-        {
-            // Hearts are immediate use; delegate to Consume
-            Consume(player);
-        }
+        public void Collect(IPlayer player) => Consume(player);
 
-        public void Update(GameTime gameTime)
-        {
-            if (!IsCollected)
-            {
-                animation?.Update(gameTime);
-            }
-        }
-
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (!IsCollected)
-            {
-                animation?.Draw(spriteBatch, Position, SpriteEffects.None);
-            }
-        }
-
-        public Rectangle GetBoundingBox()
-        {
-            return new Rectangle((int)Position.X, (int)Position.Y, 16, 16);
-        }
-
-        // ICollidable implementation
+        public void Update(GameTime gameTime) { if (!IsCollected) animation?.Update(gameTime); }
+        public void Draw(SpriteBatch spriteBatch) { if (!IsCollected) animation?.Draw(spriteBatch, Position, SpriteEffects.None); }
+        public Rectangle GetBoundingBox() => new Rectangle((int)Position.X, (int)Position.Y, 16, 16);
         public Rectangle BoundingBox => GetBoundingBox();
+
+        // IResettable
+        public void ResetState() => IsCollected = false;
     }
 }

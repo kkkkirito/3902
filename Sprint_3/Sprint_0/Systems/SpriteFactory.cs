@@ -543,7 +543,7 @@ namespace Sprint_0
                 new Rectangle(183, 13, 8, 12)
             }, 0.25f, false);
 
-            // Magic Key (used for TopDownKey - different appearance)
+            // Magic Key
             dict["MagicKey"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(192, 11, 8, 15)
@@ -606,34 +606,6 @@ namespace Sprint_0
             };
 
             dict["UnlockDoor"] = new Animation(spriteSheet, UnlockDoor, 0.1f, false);
-
-            dict["TopDownLockedDoor"] = new Animation(spriteSheet, new List<Rectangle>
-            {
-                new Rectangle(183, 42, 8, 48)
-            }, 0.25f, false);
-
-            var TopDownUnlockDoor = new List<Rectangle>
-            {
-                new Rectangle(183, 42, 7, 48),
-                new Rectangle(192, 42, 7, 48),
-                new Rectangle(201, 42, 7, 48),
-                new Rectangle(210, 42, 7, 48),
-                new Rectangle(219, 42, 7, 48),
-                new Rectangle(228, 42, 7, 48),
-                new Rectangle(237, 42, 7, 48),
-                new Rectangle(246, 42, 7, 48),
-                new Rectangle(255, 42, 7, 48),
-                new Rectangle(264, 42, 7, 48),
-                new Rectangle(273, 42, 7, 48),
-                new Rectangle(282, 42, 7, 48),
-                new Rectangle(291, 42, 7, 48),
-                new Rectangle(300, 42, 7, 48),
-                new Rectangle(309, 42, 7, 48),
-                new Rectangle(318, 42, 7, 48),
-                new Rectangle(327, 42, 7, 48)
-            };
-
-            dict["TopDownUnlockDoor"] = new Animation(spriteSheet, TopDownUnlockDoor, 0.15f, false);
 
             return dict;
         }
@@ -720,12 +692,12 @@ namespace Sprint_0
             dict["bw"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(52, 50, 16, 16)
-            }, 0.25f, false);
+            }, 0.25f, false);   
 
             dict["br"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(69, 50, 16, 16)
-            }, 0.25f, false);
+            }, 0.25f, false);   
 
             dict["pl"] = new Animation(spriteSheet, new List<Rectangle>
             {

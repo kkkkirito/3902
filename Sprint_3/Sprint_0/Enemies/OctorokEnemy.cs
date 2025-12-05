@@ -38,7 +38,16 @@ namespace Sprint_0.Enemies
             var proj = new Projectile(animClone, this.Position, direction * 100f);
             projectiles.Add(proj);
         }
+
         public IEnumerable<IEnemyProjectile> GetActiveProjectiles()
+        {
+            foreach (var p in projectiles)
+            {
+                if (p.IsActive) yield return p;
+            }
+        }
+
+        public override IEnumerable<ICollidable> GetExtraCollidables()
         {
             foreach (var p in projectiles)
             {
@@ -50,18 +59,14 @@ namespace Sprint_0.Enemies
         {
             base.Update(gameTime);
 
-            foreach (var proj in projectiles)
-                proj.Update(gameTime);
-
+            foreach (var proj in projectiles) proj.Update(gameTime);
             projectiles.RemoveAll(p => !p.IsActive);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-
-            foreach (var proj in projectiles)
-                proj.Draw(spriteBatch);
+            foreach (var proj in projectiles) proj.Draw(spriteBatch);
         }
     }
 }

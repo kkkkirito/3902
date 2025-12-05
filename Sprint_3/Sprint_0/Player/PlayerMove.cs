@@ -21,26 +21,20 @@ namespace Sprint_0.Player_Namespace
             {
                 ApplyGravity(dt);
                 ApplyPosition(dt);
+                HandleLanding();
                 ResetHorizontalVelocity();
-
-                _player.IsGrounded = false;
             }
             else if (_player.GameMode == GameModeType.TopDown)
             {
                 _player.Position += _player.Velocity * dt;
-                _player.Velocity = Vector2.Zero;
+                _player.Velocity = Vector2.Zero; 
             }
         }
 
         private void ApplyGravity(float dt)
         {
-            _player.VerticalVelocity += PlayerConstants.Gravity * dt;
-
-            const float MaxFallSpeed = 600f;
-            if (_player.VerticalVelocity > MaxFallSpeed)
-            {
-                _player.VerticalVelocity = MaxFallSpeed;
-            }
+            if (!_player.IsGrounded)
+                _player.VerticalVelocity += PlayerConstants.Gravity * dt;
         }
 
         private void ApplyPosition(float dt)
@@ -51,6 +45,22 @@ namespace Sprint_0.Player_Namespace
             );
         }
 
+        private void HandleLanding()
+        {
+            if (_player.Position.Y < _player.groundY)
+            {
+                _player.IsGrounded = false;
+                return;
+            }
+
+            _player.Position = new Vector2(_player.Position.X, _player.groundY);
+            _player.VerticalVelocity = 0;
+            _player.IsGrounded = true;
+
+            if (_player.CurrentState is JumpState)
+                _player.ChangeState(new IdleState());
+        }
+
         private void ResetHorizontalVelocity()
         {
             _player.Velocity = new Vector2(0, _player.Velocity.Y);
@@ -58,12 +68,8 @@ namespace Sprint_0.Player_Namespace
 
         public void Jump()
         {
-            if (_player.GameMode != GameModeType.Platformer)
+            if (_player.GameMode != GameModeType.Platformer || !_player.IsGrounded)
                 return;
-
-            bool canJump = _player.IsGrounded || Math.Abs(_player.VerticalVelocity) < 1f;
-
-            
 
             _player.VerticalVelocity = PlayerConstants.JumpStrength;
             _player.IsGrounded = false;

@@ -29,7 +29,6 @@ public interface IPlayer : ICollidable
     int Lives { get; set; }
     bool IsInvulnerable { get; }
     int KeyCount { get; set; }
-    int TopDownKeyCount { get; set; }
     int CurrentFrame { get; set; }
 
     IPlayerState CurrentState { get; set; }
@@ -43,7 +42,8 @@ public interface IPlayer : ICollidable
     GameModeType GameMode { get; set; }
 
     ICollectible HeldItem { get; }
-
+    bool HasTorch { get; }
+    float TorchLightRadius { get; }
 
     void Jump();
     void Pickup(ICollectible item);
@@ -58,4 +58,5 @@ public interface IPlayer : ICollidable
     void SetCrouch(bool crouch);
     IEnumerable<ICollidable> GetCollidables();
     bool TrySpendMagic(int amount);
+    void EnableTorch(float radius);
 }

@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Sprint_0.Interfaces;
 
 namespace Sprint_0.Items
 {
-    public class KeyItem : ICollectible
+    public class KeyItem : ICollectible, IResettable
     {
         public string Name => "Key";
         public bool IsConsumable => false;
@@ -12,7 +13,6 @@ namespace Sprint_0.Items
         public bool IsCollected { get; set; }
 
         private Animation animation;
-        
         private Texture2D texture;
 
         public KeyItem(Vector2 position, Texture2D itemTextures)
@@ -22,10 +22,7 @@ namespace Sprint_0.Items
             texture = itemTextures;
 
             var animations = SpriteFactory.CreateItemAnimations(itemTextures);
-            if (animations.ContainsKey("Key"))
-            {
-                this.animation = animations["Key"];
-            }
+            if (animations.ContainsKey("Key")) this.animation = animations["Key"];
         }
 
         public void Consume(IPlayer player)
@@ -33,46 +30,34 @@ namespace Sprint_0.Items
             if (!IsCollected)
             {
                 IsCollected = true;
-                if (player != null)
-                    player.KeyCount++;
+                if (player != null) player.KeyCount++;
             }
         }
 
         public void Update(GameTime gameTime)
         {
-            if (!IsCollected)
-            {
-                animation?.Update(gameTime);
-            }
+            if (!IsCollected) animation?.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!IsCollected)
-            {
-                animation?.Draw(spriteBatch, Position, SpriteEffects.None);
-            }
+            if (!IsCollected) animation?.Draw(spriteBatch, Position, SpriteEffects.None);
         }
 
-        public Rectangle GetBoundingBox()
-        {
-            return new Rectangle((int)Position.X, (int)Position.Y, 16, 16);
-        }
-
-        // ICollidable implementation
+        public Rectangle GetBoundingBox() => new Rectangle((int)Position.X, (int)Position.Y, 16, 16);
         public Rectangle BoundingBox => GetBoundingBox();
-
-        // ICollectible implementation
         public Rectangle Bounds => GetBoundingBox();
         public Texture2D Texture => texture;
         public Rectangle Source => animation?.CurrentFrame ?? new Rectangle(0, 0, 0, 0);
         public bool Celebration => true;
+
         public void Collect(IPlayer player)
         {
             if (IsCollected) return;
             Consume(player);
-
             System.Diagnostics.Debug.WriteLine($"[KeyItem] Collected by player; keys now={(player != null ? player.KeyCount.ToString() : "null")}");
         }
+
+        public void ResetState() => IsCollected = false;
     }
 }

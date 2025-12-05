@@ -5,26 +5,19 @@ using System;
 
 namespace Sprint_0.Blocks
 {
-    public class LockedDoor : IBlock, ICollidable
+    public class LockedDoor : IBlock, ICollidable, IResettable
     {
         private Animation lockedAnimation;
         private Animation unlockingAnimation;
         private bool isLocked;
         private bool isUnlocking;
         private float unlockTimer;
-        private const float UNLOCK_DURATION = 1.8f; // Animation duration in seconds
+        private const float UNLOCK_DURATION = 1.8f;
 
         public bool IsSolid => isLocked || isUnlocking;
         public Vector2 Position { get; set; }
 
-        // Only the top portion is solid (adjust height as needed)
-        public Rectangle BoundingBox => new Rectangle(
-            (int)Position.X,
-            (int)Position.Y,
-            7,
-            42
-        );
-
+        public Rectangle BoundingBox => new Rectangle((int)Position.X, (int)Position.Y, 7, 42);
         public bool IsLocked => isLocked;
 
         public LockedDoor(Vector2 position, Texture2D itemTextures)
@@ -35,14 +28,8 @@ namespace Sprint_0.Blocks
             unlockTimer = 0f;
 
             var animations = SpriteFactory.CreateItemAnimations(itemTextures);
-            if (animations.ContainsKey("LockedDoor"))
-            {
-                this.lockedAnimation = animations["LockedDoor"];
-            }
-            if (animations.ContainsKey("UnlockDoor"))
-            {
-                this.unlockingAnimation = animations["UnlockDoor"];
-            }
+            if (animations.ContainsKey("LockedDoor")) this.lockedAnimation = animations["LockedDoor"];
+            if (animations.ContainsKey("UnlockDoor")) this.unlockingAnimation = animations["UnlockDoor"];
         }
 
         public void Unlock()
@@ -68,11 +55,7 @@ namespace Sprint_0.Blocks
             {
                 unlockTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
                 unlockingAnimation?.Update(gameTime);
-
-                if (unlockTimer <= 0f)
-                {
-                    isUnlocking = false;
-                }
+                if (unlockTimer <= 0f) isUnlocking = false;
             }
             else if (isLocked)
             {
@@ -82,15 +65,8 @@ namespace Sprint_0.Blocks
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (isLocked)
-            {
-                lockedAnimation?.Draw(spriteBatch, Position, SpriteEffects.None);
-            }
-            else if (isUnlocking)
-            {
-                unlockingAnimation?.Draw(spriteBatch, Position, SpriteEffects.None);
-            }
-            // Door disappears after unlocking animation
+            if (isLocked) lockedAnimation?.Draw(spriteBatch, Position, SpriteEffects.None);
+            else if (isUnlocking) unlockingAnimation?.Draw(spriteBatch, Position, SpriteEffects.None);
         }
 
         public void Reset()
@@ -99,5 +75,6 @@ namespace Sprint_0.Blocks
             isUnlocking = false;
             unlockTimer = 0f;
         }
+        public void ResetState() => Reset();
     }
 }

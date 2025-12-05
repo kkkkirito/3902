@@ -5,14 +5,14 @@ using System;
 
 namespace Sprint_0.Blocks
 {
-    public class TrapBlock : IBlock, ICollidable
+    public class TrapBlock : IBlock, ICollidable, IResettable
     {
         private ISprite solidSprite;
         private ISprite breakingSprite;
         private TrapState state;
         private float breakTimer;
         private Texture2D blockTextures;
-        private const float delay = .5f; 
+        private const float delay = .5f;
 
         // Keep solid during both Solid AND Breaking states
         public bool IsSolid => state == TrapState.Solid || state == TrapState.Breaking;
@@ -91,5 +91,7 @@ namespace Sprint_0.Blocks
             state = TrapState.Solid;
             breakTimer = 0f;
         }
+
+        public void ResetState() => Reset();
     }
 }
