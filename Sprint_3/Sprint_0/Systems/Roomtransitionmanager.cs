@@ -27,7 +27,6 @@ namespace Sprint_0.Systems
         private readonly Dictionary<int, List<RoomTransition>> _transitions = new();
         private const int EDGE_WIDTH = 32;  // Width of edge trigger zones
         private const int DOOR_WIDTH = 48;  // Width of door areas
-        private const int SAFE_DISTANCE = 144; // Safe distance from edge to avoid immediate re-trigger
 
         public RoomTransitionManager()
         {
@@ -60,7 +59,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 2,
                 TriggerArea = new Rectangle(0, 0, EDGE_WIDTH, 480), //Left edge
-                SpawnPosition = new Vector2(976, 160),
+                SpawnPosition = new Vector2(128, 160),
                 Direction = TransitionDirection.Left
             });
 

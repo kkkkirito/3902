@@ -23,6 +23,10 @@ namespace Sprint_0.Rooms
         //0 = very dark note, do not use 0.00 because it WILL cause issues with multiplication, 1 = fully lit
         public float AmbientLightLevel { get; set; } = 0.5f;
 
+        // Fall damage configuration
+        private const int FALL_DAMAGE = 50;
+        private const int FALL_BOUNDARY_Y = 480; // Y position that triggers fall damage
+
         private Player player;
         private Vector2 playerStartPosition;
         private readonly List<IBlock> blocks = new();
@@ -59,6 +63,8 @@ namespace Sprint_0.Rooms
         }
 
         public Player GetPlayer() => player;
+
+        public Vector2 GetPlayerStartPosition() => playerStartPosition;
 
         public IEnumerable<IItem> GetItems() => items;
 
@@ -157,6 +163,40 @@ namespace Sprint_0.Rooms
             foreach (var block in blocks) block.Draw(spriteBatch);
             foreach (var item in items) item.Draw(spriteBatch);
             foreach (var enemy in enemies) enemy.Draw(spriteBatch);
+        }
+
+        /// <summary>
+        /// Checks if the player has fallen out of bounds (below the map)
+        /// </summary>
+        /// <returns>True if player is out of bounds</returns>
+        public bool IsPlayerOutOfBounds()
+        {
+            if (player == null) return false;
+
+            // Check if player has fallen below the map boundary
+            return player.Position.Y > FALL_BOUNDARY_Y;
+        }
+
+        /// <summary>
+        /// Applies fall damage to player and resets their position to start
+        /// </summary>
+        public void HandlePlayerFallOutOfBounds()
+        {
+            if (player == null) return;
+            if (player.GameMode == GameModeType.Platformer)
+            {
+                player.TakeDamage(FALL_DAMAGE);
+
+                player.Position = playerStartPosition;
+                player.Velocity = Vector2.Zero;
+
+                if (player is Player p)
+                {
+                    p.VerticalVelocity = 0f;
+                }
+
+                player.IsGrounded = true;
+            }
         }
 
         private void ResetRoom(bool keepMagic, bool keepXP)

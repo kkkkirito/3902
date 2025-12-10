@@ -98,9 +98,10 @@ namespace Sprint_0.States.Gameplay
             XPManager.UpdateAll(gameTime);
 
             _navigator.Current.Update(gameTime);
-            if (!PauseState.IsPaused) { 
-            _projectiles?.Update(gameTime);
-            _collisions.Step(_navigator.Current, _player, _projectiles);
+            if (!PauseState.IsPaused)
+            {
+                _projectiles?.Update(gameTime);
+                _collisions.Step(_navigator.Current, _player, _projectiles);
 
                 if (_player != null && _camera != null)
                 {
@@ -115,6 +116,9 @@ namespace Sprint_0.States.Gameplay
                     }
                 }
                 _camera?.Update(_player, gameTime);
+
+                // Check if player has fallen out of bounds
+                CheckPlayerFallOutOfBounds();
             }
             if (_player != null && !_isTransitioning)
             {
@@ -130,27 +134,27 @@ namespace Sprint_0.States.Gameplay
             }
             if (_player != null && _player.CurrentHealth <= 0)
             {
-                
-               if (_player != null && _player.CurrentHealth <= 0)
-                    {
-                        if (_player.CurrentState is DeadState || (_player is Player p && p.IsDying))
-                        {
-                            if (_player is Player pClear) pClear.IsDying = false;
 
-                            if (_player is Player concretePlayer && concretePlayer.LivesAvailable)
-                            {
-                                _navigator.Current.Die();
-                                _projectiles = new ProjectileManager(_game.LinkTextures, _game);
-                                _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
-                                _camera?.SnapToTarget(_player);
-                                concretePlayer.LivesAvailable = false;
-                            }
-                            else
-                            {
-                                _game.StateManager.ChangeState("gameover");
-                                return;
-                            }
+                if (_player != null && _player.CurrentHealth <= 0)
+                {
+                    if (_player.CurrentState is DeadState || (_player is Player p && p.IsDying))
+                    {
+                        if (_player is Player pClear) pClear.IsDying = false;
+
+                        if (_player is Player concretePlayer && concretePlayer.LivesAvailable)
+                        {
+                            _navigator.Current.Die();
+                            _projectiles = new ProjectileManager(_game.LinkTextures, _game);
+                            _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
+                            _camera?.SnapToTarget(_player);
+                            concretePlayer.LivesAvailable = false;
                         }
+                        else
+                        {
+                            _game.StateManager.ChangeState("gameover");
+                            return;
+                        }
+                    }
                 }
             }
             var ms = Mouse.GetState();
@@ -165,6 +169,20 @@ namespace Sprint_0.States.Gameplay
                 Reset();
             }
             _prevMouse = ms;
+        }
+
+        /// <summary>
+        /// Checks if the player has fallen out of bounds and handles the fall damage/reset
+        /// </summary>
+        private void CheckPlayerFallOutOfBounds()
+        {
+            if (_navigator.Current == null || _player == null) return;
+
+            if (_navigator.Current.IsPlayerOutOfBounds())
+            {
+                _navigator.Current.HandlePlayerFallOutOfBounds();
+                _camera?.SnapToTarget(_player);
+            }
         }
 
         private void StartTransition(RoomTransition transition)
@@ -212,7 +230,7 @@ namespace Sprint_0.States.Gameplay
             }
 
             //Draw the actual level
-            spriteBatch.Begin( samplerState: SamplerState.PointClamp, transformMatrix: _camera?.TransformMatrix);
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp, transformMatrix: _camera?.TransformMatrix);
 
             XPManager.DrawAll(spriteBatch);
 
@@ -287,9 +305,10 @@ namespace Sprint_0.States.Gameplay
             if (previous != null && _player != null && !ReferenceEquals(previous, _player))
             {
                 _player.CurrentHealth = previous.CurrentHealth;
-                _player.CurrentMagic  = previous.CurrentMagic;
-                _player.CurrentXP     = previous.CurrentXP;
-                _player.Lives         = previous.Lives;
+                _player.CurrentMagic = previous.CurrentMagic;
+                _player.CurrentXP = previous.CurrentXP;
+                _player.Lives = previous.Lives;
+                _player.GameMode = previous.GameMode;
             }
 
             if (_player != null)
