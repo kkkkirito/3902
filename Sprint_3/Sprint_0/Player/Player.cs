@@ -46,6 +46,7 @@ namespace Sprint_0.Player_Namespace
         public bool IsDying { get; set; } = false;
 
         public float Speed { get; set; } = PlayerConstants.MaxHorizontalSpeed;
+
         public GameModeType GameMode
         {
             get => _gameMode;
@@ -54,16 +55,10 @@ namespace Sprint_0.Player_Namespace
                 if (_gameMode == value) return;
                 _gameMode = value;
 
-                // When entering Platformer, snap the "floor" to the player's current feet Y
-                if (_gameMode == GameModeType.Platformer)
-                {
-                    groundY = Position.Y;
-                }
-
                 // normalize state when modes change
                 IsCrouching = false;
                 VerticalVelocity = 0f;
-                IsGrounded = true;
+                IsGrounded = (_gameMode == GameModeType.TopDown); // Only grounded in TopDown mode initially
 
                 // don't interrupt pickup when changing modes
                 if (!(_currentState is PickupState))
@@ -72,6 +67,7 @@ namespace Sprint_0.Player_Namespace
                 }
             }
         }
+
         public IPlayerState CurrentState
         {
             get => _currentState;
@@ -106,7 +102,7 @@ namespace Sprint_0.Player_Namespace
             AnimationTimer = 0;
             SpriteSheet = spriteSheet;
             Position = startPosition;
-            groundY = startPosition.Y;
+            groundY = startPosition.Y;  // Set initial ground level at spawn
             CurrentHealth = MaxHealth;
             _controller = controller;
             attackHitBox = new PlayerAttackHitbox(this);
@@ -258,10 +254,14 @@ namespace Sprint_0.Player_Namespace
         public void ResetToStart(Vector2 startPos, bool keepMagic, bool keepXP)
         {
             Position = startPos;
+            groundY = startPos.Y;  // Reset groundY to spawn position
             CurrentHealth = MaxHealth;
             IsInvulnerable = false;
             Velocity = Vector2.Zero;
+            VerticalVelocity = 0f;
             HasTopDownKey = false;
+            IsGrounded = true;  // Start grounded
+
             if (!keepMagic) CurrentMagic = MaxMagic;
             if (!keepXP) CurrentXP = 0;
 
@@ -270,4 +270,3 @@ namespace Sprint_0.Player_Namespace
         }
     }
 }
-
