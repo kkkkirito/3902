@@ -291,7 +291,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 15,
                 TriggerArea = new Rectangle(80, 80, 16, 16), // Top edge
-                SpawnPosition = new Vector2(32, 192),
+                SpawnPosition = new Vector2(16, 160),
                 Direction = TransitionDirection.Up
             });
 
@@ -309,7 +309,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 16,
                 TriggerArea = new Rectangle(640, 512, 16, 16), 
-                SpawnPosition = new Vector2(32, 192),
+                SpawnPosition = new Vector2(16, 160),
                 Direction = TransitionDirection.Down
             });
 
@@ -327,7 +327,7 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 17,
                 TriggerArea = new Rectangle(368, 144, 16, 16),
-                SpawnPosition = new Vector2(32, 192),
+                SpawnPosition = new Vector2(16, 128),
                 Direction = TransitionDirection.Right
             });
 
