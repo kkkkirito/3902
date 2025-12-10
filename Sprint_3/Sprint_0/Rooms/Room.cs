@@ -20,6 +20,8 @@ namespace Sprint_0.Rooms
         public string Name { get; }
         public int Width { get; }
         public int Height { get; }
+        //0 = very dark note, do not use 0.00 because it WILL cause issues with multiplication, 1 = fully lit
+        public float AmbientLightLevel { get; set; } = 0.5f;
 
         private Player player;
         private Vector2 playerStartPosition;
@@ -29,6 +31,7 @@ namespace Sprint_0.Rooms
         private readonly List<IItem> items = new();
         private readonly List<ICollidable> collidables = new();
         private readonly List<IStaticCollider> mergedStatics = new();
+        private readonly Dictionary<Enemy, Vector2> enemyStartPositions;
 
         public Room(int id, string name, int width, int height)
         {
@@ -36,6 +39,14 @@ namespace Sprint_0.Rooms
             Name = name;
             Width = width;
             Height = height;
+            blocks = new List<IBlock>();
+            originalEntityBlocks = new List<IBlock>();
+            enemies = new List<Enemy>();
+            enemyStartPositions = new Dictionary<Enemy, Vector2>();
+            items = new List<IItem>();
+            collidables = new List<ICollidable>();
+            AmbientLightLevel = 0.5f;
+
         }
 
         public void SetPlayer(Player p)
@@ -50,6 +61,17 @@ namespace Sprint_0.Rooms
         public Player GetPlayer() => player;
 
         public IEnumerable<IItem> GetItems() => items;
+
+        public IEnumerable<ILightSource> GetActiveLightSources()
+        {
+            foreach (var item in items)
+            {
+                if (item is ILightSource light && light.IsLightActive)
+                {
+                    yield return light;
+                }
+            }
+        }
 
         public void AddBlock(IBlock block)
         {
@@ -67,8 +89,6 @@ namespace Sprint_0.Rooms
 
         public void AddEnemy(Enemy enemy)
         {
-            enemy.StartPosition = enemy.Position;
-
             enemies.Add(enemy);
             if (enemy is ICollidable collidable)
             {

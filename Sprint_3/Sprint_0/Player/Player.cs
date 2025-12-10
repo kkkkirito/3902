@@ -9,6 +9,7 @@ using System.Collections.Generic;
 namespace Sprint_0.Player_Namespace
 {
     public class Player : IPlayer, ICollidable
+
     {
         private readonly IController _controller;
         private IPlayerState _currentState;
@@ -30,9 +31,7 @@ namespace Sprint_0.Player_Namespace
         public int Lives { get; set; } = 3;
         public int KeyCount { get; set; } = 0;
 
-        private Vector2 _startPosition;
-        private const float FALL_DEATH_Y = 500f;
-
+        public float groundY;
         public bool IsGrounded { get; set; } = true;
         public bool IsCrouching { get; private set; } = false;
 
@@ -54,12 +53,19 @@ namespace Sprint_0.Player_Namespace
             {
                 if (_gameMode == value) return;
                 _gameMode = value;
-                VerticalVelocity = 0f;
 
-                if (_gameMode == GameModeType.TopDown)
+                // When entering Platformer, snap the "floor" to the player's current feet Y
+                if (_gameMode == GameModeType.Platformer)
                 {
-                    IsGrounded = true;
+                    groundY = Position.Y;
                 }
+
+                // normalize state when modes change
+                IsCrouching = false;
+                VerticalVelocity = 0f;
+                IsGrounded = true;
+
+                // don't interrupt pickup when changing modes
                 if (!(_currentState is PickupState))
                 {
                     ChangeState(new IdleState());
@@ -100,10 +106,11 @@ namespace Sprint_0.Player_Namespace
             AnimationTimer = 0;
             SpriteSheet = spriteSheet;
             Position = startPosition;
-            _startPosition = startPosition;
+            groundY = startPosition.Y;
             CurrentHealth = MaxHealth;
             _controller = controller;
             attackHitBox = new PlayerAttackHitbox(this);
+
 
             // Start in idle state
             ChangeState(new IdleState());
@@ -167,22 +174,6 @@ namespace Sprint_0.Player_Namespace
             _movement.ApplyMovement(gameTime);
             _animation.Update(gameTime);
             BoundingBox = new Rectangle((int)Position.X, (int)Position.Y, 16, 32);
-
-            CheckFallDeath();
-        }
-        private void CheckFallDeath()
-        {
-            if (Position.Y > FALL_DEATH_Y && !IsDying)
-            {
-                TakeDamage(20); 
-                if (CurrentHealth > 0)
-                {
-                    Position = _startPosition;
-                    VerticalVelocity = 0f;
-                    Velocity = Vector2.Zero;
-                    IsGrounded = false; 
-                }
-            }
         }
 
         public void ChangeState(IPlayerState newState) => CurrentState = newState;
@@ -239,8 +230,10 @@ namespace Sprint_0.Player_Namespace
         {
             var list = new List<ICollidable> { this };
 
+            // Add the attack hitbox while attacking
             if (CurrentState is AttackState)
             {
+                // Empty hitbox means inactive; only add if non-empty
                 var hb = attackHitBox.BoundingBox;
                 if (!hb.IsEmpty) list.Add(attackHitBox);
             }
@@ -253,23 +246,22 @@ namespace Sprint_0.Player_Namespace
         public bool CanMove(Vector2 direction) => true;
         public void Attack(Direction direction, AttackMode mode = AttackMode.Normal) => _combat.Attack(direction, mode);
 
+        // Exposed so CandleItem can light the player; minimal implementation
         public void EnableTorch(float radius)
         {
             if (radius <= 0f) radius = 1f;
             TorchLightRadius = Math.Max(TorchLightRadius, radius);
             HasTorch = true;
         }
+
+        // New: reset helper so Room doesn't manipulate player internals
         public void ResetToStart(Vector2 startPos, bool keepMagic, bool keepXP)
         {
             Position = startPos;
-            _startPosition = startPos;
             CurrentHealth = MaxHealth;
             IsInvulnerable = false;
             Velocity = Vector2.Zero;
-            VerticalVelocity = 0f;
             HasTopDownKey = false;
-            IsGrounded = false; 
-
             if (!keepMagic) CurrentMagic = MaxMagic;
             if (!keepXP) CurrentXP = 0;
 

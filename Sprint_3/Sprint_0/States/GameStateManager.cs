@@ -7,10 +7,23 @@ namespace Sprint_0.States
 {
     public class GameStateManager
     {
+        private static GameStateManager instance;
+        public static GameStateManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new GameStateManager();
+                }
+                return instance;
+            }
+        }
+
         private Dictionary<string, IGameState> states;
         private IGameState currentState;
 
-        public GameStateManager()
+        private GameStateManager()
         {
             states = new Dictionary<string, IGameState>();
         }

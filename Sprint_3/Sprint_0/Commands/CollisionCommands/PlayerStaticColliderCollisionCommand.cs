@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint_0.Collision_System;
 using Sprint_0.Interfaces;
-using Sprint_0.Player_Namespace;
 
 namespace Sprint_0.Commands.CollisionCommands
 {
@@ -15,7 +14,6 @@ namespace Sprint_0.Commands.CollisionCommands
 
             var mtv = ReferenceEquals(player, info.A) ? info.MinimumTranslationVector : -info.MinimumTranslationVector;
             player.Position += mtv;
-            var concretePlayer = player as Player;
 
             // Kill only the velocity component into the surface
             var v = player.Velocity;
@@ -27,21 +25,10 @@ namespace Sprint_0.Commands.CollisionCommands
                     break;
                 case CollisionDirection.Top:
                     player.Velocity = new Vector2(v.X, 0f);
-
-                    if (concretePlayer != null)
-                    {
-                        concretePlayer.VerticalVelocity = 0f;
-                    }
-
                     player.IsGrounded = true;
                     break;
                 case CollisionDirection.Bottom:
                     player.Velocity = new Vector2(v.X, 0f);
-
-                    if (concretePlayer != null && concretePlayer.VerticalVelocity < 0)
-                    {
-                        concretePlayer.VerticalVelocity = 0f;
-                    }
                     break;
             }
         }

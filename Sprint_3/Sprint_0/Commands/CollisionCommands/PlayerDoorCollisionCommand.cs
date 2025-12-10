@@ -21,15 +21,12 @@ namespace Sprint_0.Commands.CollisionCommands
                 // Check if player has a key
                 if (player.KeyCount > 0)
                 {
-                    // Has a key - unlock the door and consume the key
                     door.Unlock();
                     player.KeyCount--;
                     var pos = (player is Sprint_0.Player_Namespace.Player p) ? p.Position : Vector2.Zero;
-                    Debug.WriteLine($"[PlayerLockedDoorCollision] Door opened at {pos} by player (keys remaining: {player.KeyCount})");
                 }
                 else
                 {
-                    // No key - door stays solid, block player
                     var delta = SeparationFor(player, info);
                     player.Position += delta;
 

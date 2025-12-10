@@ -4,20 +4,19 @@ using Sprint_0.Collision_System;
 using Sprint_0.Enemies;
 using Sprint_0.Blocks;
 using Sprint_0.Interfaces;
-using Sprint_0.Player_Namespace;
 using System;
 
 namespace Sprint_0.Commands.CollisionCommands
 {
     public sealed class PlayerBlockCollisionCommand : ICollisionCommand
     {
-
+        
         public void Execute(CollisionInfo info)
         {
 
             // Identify sides without assuming order
             var player = info.A as IPlayer ?? info.B as IPlayer;
-            var block = info.A as IBlock ?? info.B as IBlock;
+            var block  = info.A as IBlock  ?? info.B as IBlock;
             if (player == null || block == null || !block.IsSolid) return;
 
             // Skip left/right collision for trap blocks
@@ -32,8 +31,6 @@ namespace Sprint_0.Commands.CollisionCommands
 
             // 2) Remove velocity into the surface
             var v = player.Velocity;
-            var concretePlayer = player as Player;
-
             switch (info.Direction)
             {
                 case CollisionDirection.Left:
@@ -46,12 +43,6 @@ namespace Sprint_0.Commands.CollisionCommands
                     break;
                 case CollisionDirection.Top:      // player landed on top
                     player.Velocity = new Vector2(v.X, 0f);
-
-                    if (concretePlayer != null)
-                    {
-                        concretePlayer.VerticalVelocity = 0f;
-                    }
-
                     player.IsGrounded = true;
 
                     if (block is TrapBlock trap)
@@ -62,11 +53,6 @@ namespace Sprint_0.Commands.CollisionCommands
                     break;
                 case CollisionDirection.Bottom:   // hit ceiling
                     player.Velocity = new Vector2(v.X, 0f);
-
-                    if (concretePlayer != null && concretePlayer.VerticalVelocity < 0)
-                    {
-                        concretePlayer.VerticalVelocity = 0f;
-                    }
                     break;
             }
         }

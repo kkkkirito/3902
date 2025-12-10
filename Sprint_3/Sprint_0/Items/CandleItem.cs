@@ -4,7 +4,9 @@ using Sprint_0.Interfaces;
 
 namespace Sprint_0.Items
 {
-    public class CandleItem : ICollectible, IResettable
+    public class CandleItem : ICollectible, ILightSource, IResettable
+
+
     {
         public string Name => "Candle";
         public bool IsConsumable => false;
@@ -14,6 +16,8 @@ namespace Sprint_0.Items
 
         private Animation animation;
         private Texture2D texture;
+        private const float CandleGlowRadius = 200f;
+        private const float PlayerTorchRadius = 300f;
 
         public CandleItem(Vector2 position, Texture2D itemTextures)
         {
@@ -27,7 +31,7 @@ namespace Sprint_0.Items
 
         public void Consume(IPlayer player)
         {
-            if (!IsCollected) IsCollected = true;
+            Collect(player);
         }
 
         public void Update(GameTime gameTime) { if (!IsCollected) animation?.Update(gameTime); }
@@ -45,9 +49,16 @@ namespace Sprint_0.Items
             if (!IsCollected)
             {
                 IsCollected = true;
+                player?.EnableTorch(PlayerTorchRadius);
             }
         }
 
+        // ILightSource implementation
+        public Vector2 LightPosition => Position + new Vector2(8f, 8f);
+        public float LightRadius => CandleGlowRadius;
+        public float Intensity => 1.0f;
+        public Color LightColor => new Color(1f, 0.85f, 0.6f, 0.6f);
+        public bool IsLightActive => !IsCollected;
         public void ResetState() => IsCollected = false;
     }
 }

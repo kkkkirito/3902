@@ -1,5 +1,4 @@
-﻿// Rooms/RoomEntityManager.cs
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Blocks;
 using Sprint_0.Enemies;
@@ -73,6 +72,12 @@ namespace Sprint_0.Rooms
                             CreateCandle(room, position);
                             break;
 
+                        case "t":
+                        case "triforce":
+                        case "tri":
+                            CreateTriforce(room, position);
+                            break;
+
                         case "trap":
                         case "bb":
                             CreateTrapBlock(room, position);
@@ -101,14 +106,14 @@ namespace Sprint_0.Rooms
                             CreateEnemy(room, "Bubble", position);
                             break;
 
-                        case "obot":
-                        case "overworldbot":
-                            CreateEnemy(room, "OverworldBot", position);
+                        case "tdbot":
+                        case "topdownbot":
+                            CreateEnemy(room, "TopDownBot", position);
                             break;
 
-                        case "oman":
-                        case "overworldman":
-                            CreateEnemy(room, "OverworldMan", position);
+                        case "tdman":
+                        case "topdownman":
+                            CreateEnemy(room, "TopDownMan", position);
                             break;
 
                         case "boss":
@@ -161,7 +166,6 @@ namespace Sprint_0.Rooms
         {
             var door = new LockedDoor(position, itemTextures);
             room.AddBlock(door);
-            Debug.WriteLine($"[RoomEntityManager] Added LockedDoor in room {room?.Id} at {position}");
         }
 
         private void CreateTopDownDoor(Room room, Vector2 position)
@@ -210,6 +214,12 @@ namespace Sprint_0.Rooms
             room.AddItem(candle);
         }
 
+        private void CreateTriforce(Room room, Vector2 position)
+        {
+            var triforce = new TriforceItem(position, itemTextures);
+            room.AddItem(triforce);
+        }
+
         private void CreateTrapBlock(Room room, Vector2 position)
         {
             var trapBlock = new TrapBlock(position, blockTextures);
@@ -238,11 +248,11 @@ namespace Sprint_0.Rooms
                 case "Bubble":
                     enemy = new BubbleEnemy(enemyTextures, position);
                     break;
-                case "OverworldBot":
-                    enemy = new OverworldBotEnemy(overworldEnemyTextures, position);
+                case "TopDownBot":
+                    enemy = new TopDownBotEnemy(overworldEnemyTextures, position);
                     break;
-                case "OverworldMan":
-                    enemy = new OverworldManEnemy(overworldEnemyTextures, position);
+                case "TopDownMan":
+                    enemy = new TopDownManEnemy(overworldEnemyTextures, position);
                     break;
                 case "HorseHead":
                     enemy = new HorseHeadEnemy(bossTextures, position);

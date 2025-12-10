@@ -8,24 +8,24 @@ namespace Sprint_0.Enemies
     public class StalfosEnemy : Enemy
     {
         public StalfosEnemy(Texture2D spriteSheet, Vector2 startPos)
-            : base(SpriteFactory.CreateStalfosAnimations(spriteSheet), startPos)
-
+            : base(SpriteFactory.CreateStalfosAnimations(spriteSheet), startPos, new EnemyConfig
+            {
+                CanMove = true,
+                CanAttack = true,
+                CanCrouch = true,
+                DropItemOnDeath = true,
+                XPReward = 30,
+                BoundingBoxSize = new Rectangle(0, 0, 13, 30),
+                UseGravity = true
+            })
         {
             this.SpriteSheet = spriteSheet;
-            this.CanMove = true;
-            this.CanJump = false;
-            this.CanAttack = true;
-            this.CanCrouch = true;
-            this.DropItemOnDeath = true;
-            this.Position = startPos;
-            this.BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y, 13, 30);
-            XPReward = 30;
-            this.IsGrounded = false; 
-
+            this.IsGrounded = false;
             ChangeState(new StalfosFallState());
         }
-
         protected override IEnemyState GetDefaultState()
-            => new Sprint_0.EnemyStateMachine.StalfosFallState();
+        {
+            return new StalfosFallState();
+        }
     }
 }

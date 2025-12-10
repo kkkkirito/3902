@@ -132,4 +132,13 @@ public sealed class ProjectileManager : IProjectileManager
         }
         return (pos, dir * speed);
     }
+
+    public IEnumerable<ILightSource> GetActiveLightSources()
+    {
+        foreach (var p in _projectiles)
+        {
+            if (p.IsActive && p is ILightSource ls && ls.IsLightActive)
+                yield return ls;
+        }
+    }
 }

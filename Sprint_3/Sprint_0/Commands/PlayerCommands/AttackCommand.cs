@@ -7,17 +7,9 @@ using Sprint_0.Managers;
 
 namespace Sprint_0.Commands.PlayerCommands
 {
-    public class AttackCommand : ICommand
+    public class AttackCommand(IPlayer player) : ICommand
     {
-        private readonly IPlayer player;
-        private readonly SoundEffect attackSound;
-
-        public AttackCommand(IPlayer player)
-        {
-            this.player = player;
-            this.attackSound = attackSound;
-        }
-
+        private readonly IPlayer player = player;
         public void Execute()
         {
             if (player != null)

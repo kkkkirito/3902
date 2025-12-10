@@ -12,4 +12,5 @@ public interface IProjectileManager
     void Update(GameTime gameTime);
     void Draw(SpriteBatch spriteBatch);
     IEnumerable<ICollidable> GetCollidables();
+    IEnumerable<ILightSource> GetActiveLightSources();
 }

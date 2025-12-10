@@ -7,9 +7,7 @@ namespace Sprint_0.States.LinkStates
 {
     public class MovingState : IPlayerState
     {
-        private Vector2 movementDirection;
         private InputState state = new InputState();
-        private SpriteEffects s = SpriteEffects.None;
         public void Enter(IPlayer player)
         {
             AudioManager.PlayRunningSound();

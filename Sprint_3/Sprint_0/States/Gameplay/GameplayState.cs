@@ -8,6 +8,7 @@ using Sprint_0.Player_Namespace;
 using Sprint_0.Rooms;
 using Sprint_0.States.LinkStates;
 using Sprint_0.Systems;
+using Sprint_0.Systems.Lighting;
 using System;
 using static Sprint_0.States.Gameplay.InputBinder;
 
@@ -31,6 +32,7 @@ namespace Sprint_0.States.Gameplay
         private IHotbar _hotbar;
         private MouseState _prevMouse;
         private Camera _camera;
+        private readonly LightingRenderer _lighting;
 
         private readonly InputSelector _inputSelector;
 
@@ -38,11 +40,6 @@ namespace Sprint_0.States.Gameplay
         private float _transitionTimer = 0f;
         private const float TRANSITION_DURATION = 0.5f;
         private RoomTransition _pendingTransition;
-
-        private bool _isDeadAnimating = false;
-        private float _deathTimer = 0f;
-        private const float DEATH_DURATION = 2.0f;
-
         public GameplayState(Game1 game)
         {
             _game = game;
@@ -61,6 +58,7 @@ namespace Sprint_0.States.Gameplay
             _entityManager = new RoomEntityManager(_game.LinkTextures, _game.EnemyTextures, _game.BossTextures,
                 _game.OverworldEnemyTextures, _game.ItemTextures, game.BlockTextures, _keyboard);
             _inputSelector = new InputSelector();
+            _lighting = new LightingRenderer(_game.GraphicsDevice);
         }
 
         public void Enter()
@@ -99,17 +97,23 @@ namespace Sprint_0.States.Gameplay
             _gamepad.Update();
             XPManager.UpdateAll(gameTime);
 
-            if (_player != null && _player.GameMode == GameModeType.Platformer)
-            {
-                _player.IsGrounded = false;
-            }
-
             _navigator.Current.Update(gameTime);
-            if (!PauseState.IsPaused)
-            {
-                _projectiles?.Update(gameTime);
-                _collisions.Step(_navigator.Current, _player, _projectiles);
+            if (!PauseState.IsPaused) { 
+            _projectiles?.Update(gameTime);
+            _collisions.Step(_navigator.Current, _player, _projectiles);
 
+                if (_player != null && _camera != null)
+                {
+                    var newMode = _player.GameMode == GameModeType.TopDown
+                        ? CameraMode.TopDown
+                        : CameraMode.Platformer;
+                    if (_camera.Mode != newMode)
+                    {
+                        _camera.Mode = newMode;
+                        _camera.SetBounds(_navigator.Current.Width, _navigator.Current.Height);
+                        _camera.SnapToTarget(_player);
+                    }
+                }
                 _camera?.Update(_player, gameTime);
             }
             if (_player != null && !_isTransitioning)
@@ -126,27 +130,27 @@ namespace Sprint_0.States.Gameplay
             }
             if (_player != null && _player.CurrentHealth <= 0)
             {
-
-                if (_player != null && _player.CurrentHealth <= 0)
-                {
-                    if (_player.CurrentState is DeadState || (_player is Player p && p.IsDying))
+                
+               if (_player != null && _player.CurrentHealth <= 0)
                     {
-                        if (_player is Player pClear) pClear.IsDying = false;
+                        if (_player.CurrentState is DeadState || (_player is Player p && p.IsDying))
+                        {
+                            if (_player is Player pClear) pClear.IsDying = false;
 
-                        if (_player is Player concretePlayer && concretePlayer.LivesAvailable)
-                        {
-                            _navigator.Current.Die();
-                            _projectiles = new ProjectileManager(_game.LinkTextures, _game);
-                            _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
-                            _camera?.SnapToTarget(_player);
-                            concretePlayer.LivesAvailable = false;
+                            if (_player is Player concretePlayer && concretePlayer.LivesAvailable)
+                            {
+                                _navigator.Current.Die();
+                                _projectiles = new ProjectileManager(_game.LinkTextures, _game);
+                                _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
+                                _camera?.SnapToTarget(_player);
+                                concretePlayer.LivesAvailable = false;
+                            }
+                            else
+                            {
+                                _game.StateManager.ChangeState("gameover");
+                                return;
+                            }
                         }
-                        else
-                        {
-                            _game.StateManager.ChangeState("gameover");
-                            return;
-                        }
-                    }
                 }
             }
             var ms = Mouse.GetState();
@@ -183,12 +187,6 @@ namespace Sprint_0.States.Gameplay
                 {
                     _player.Position = _pendingTransition.SpawnPosition;
                     _player.Velocity = Vector2.Zero;
-
-                    if (_player is Player concretePlayer)
-                    {
-                        concretePlayer.VerticalVelocity = 0f;
-                    }
-                    _player.IsGrounded = false;
                 }
 
                 _pendingTransition = null;
@@ -204,20 +202,34 @@ namespace Sprint_0.States.Gameplay
                 drawColor = Color.Lerp(Color.White, Color.Black, fadeAmount);
             }
 
-            spriteBatch.Begin(
-                samplerState: SamplerState.PointClamp,
-                transformMatrix: _camera?.TransformMatrix
-            );
+            bool shouldRenderRoom = !_isTransitioning || _transitionTimer < TRANSITION_DURATION / 2f;
+
+            //ok, sandwich scene with dimming and lighting
+            if (shouldRenderRoom)
+            {
+                // Generate light map before drawing the room
+                _lighting?.GenerateLightMap(_camera, _navigator.Current, _player, _projectiles);
+            }
+
+            //Draw the actual level
+            spriteBatch.Begin( samplerState: SamplerState.PointClamp, transformMatrix: _camera?.TransformMatrix);
 
             XPManager.DrawAll(spriteBatch);
 
-            if (!_isTransitioning || _transitionTimer < TRANSITION_DURATION / 2f)
+            if (shouldRenderRoom)
             {
                 _navigator.Current?.Draw(spriteBatch);
                 _projectiles?.Draw(spriteBatch);
             }
 
             spriteBatch.End();
+
+            //now we draw lighting/shadows on top
+            if (shouldRenderRoom)
+            {
+                _lighting?.DrawShadows(spriteBatch, _navigator.Current);
+            }
+
             if (_isTransitioning)
             {
                 spriteBatch.Begin(samplerState: SamplerState.PointClamp);
@@ -240,13 +252,7 @@ namespace Sprint_0.States.Gameplay
 
             spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-            _hud.Draw(
-                spriteBatch,
-                _game.Font,
-                _game.GraphicsDevice,
-                _navigator.Current,
-                _player
-            );
+            _hud.Draw(spriteBatch, _game.Font, _game.GraphicsDevice, _navigator.Current, _player);
 
             spriteBatch.End();
             PauseState.Draw(spriteBatch, _game.Font, _game.GraphicsDevice);
@@ -270,6 +276,10 @@ namespace Sprint_0.States.Gameplay
 
         private void OnRoomChanged(Room room)
         {
+            if (_camera != null && room != null)
+            {
+                _camera.SetIgnoreBounds(room.Id == 15);
+            }
             var previous = _player;
             _player = room?.GetPlayer();
 
@@ -277,9 +287,9 @@ namespace Sprint_0.States.Gameplay
             if (previous != null && _player != null && !ReferenceEquals(previous, _player))
             {
                 _player.CurrentHealth = previous.CurrentHealth;
-                _player.CurrentMagic = previous.CurrentMagic;
-                _player.CurrentXP = previous.CurrentXP;
-                _player.Lives = previous.Lives;
+                _player.CurrentMagic  = previous.CurrentMagic;
+                _player.CurrentXP     = previous.CurrentXP;
+                _player.Lives         = previous.Lives;
             }
 
             if (_player != null)
@@ -290,8 +300,19 @@ namespace Sprint_0.States.Gameplay
 
             if (room != null && _camera != null)
             {
-                _camera.SetBounds(room.Width, room.Height);
+                _camera.SetBounds(
+                room.Width * 16,
+                room.Height * 16
+                );
                 _camera.SnapToTarget(_player);
+            }
+            if (room.Id == 15)
+            {
+                _camera.SetFixedZoom(4.0f);
+            }
+            else
+            {
+                _camera.SetFixedZoom(-1f);
             }
         }
     }

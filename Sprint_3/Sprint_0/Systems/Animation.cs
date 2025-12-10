@@ -17,7 +17,7 @@ namespace Sprint_0
         private float timer;
 
 
-        public Animation(Texture2D spriteSheet, List<Rectangle> frames, float frameTime, bool isLooping, List<Vector2>? offsets = null)
+        public Animation(Texture2D spriteSheet, List<Rectangle> frames, float frameTime, bool isLooping, List<Vector2> offsets = null)
         {
             this.spriteSheet = spriteSheet;
             this.frames = frames;

@@ -12,11 +12,12 @@ namespace Sprint_0.EnemyStateMachine
 
         public void Start(Enemy enemy)
         {
+            Random rnd = new Random();
             enemy.SetAnimation("Idle");
             enemy.Velocity = Vector2.Zero;
 
             stateTimer = 0f;
-            stateDuration = 1.0f;
+            stateDuration = (float)(rnd.Next(1, 4));
         }
         public void Update(Enemy enemy, GameTime gameTime)
         {

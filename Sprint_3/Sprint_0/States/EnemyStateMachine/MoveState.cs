@@ -9,7 +9,6 @@ namespace Sprint_0.EnemyStateMachine
     {
         private float stateTimer;
         private float stateDuration;
-        private Vector2 playerPosition;
 
         public void Start(Enemy enemy)
         {

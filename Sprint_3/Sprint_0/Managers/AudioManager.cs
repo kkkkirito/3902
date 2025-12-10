@@ -25,7 +25,6 @@ namespace Sprint_0.Managers
         public static SoundEffectInstance BgmInstance;
         private static bool bgmMuted = false;
 
-        private static double bgmDuration = 96.0;
         private static DateTime bgmStartTime;
         public static void Load(ContentManager content)
         {
@@ -53,7 +52,6 @@ namespace Sprint_0.Managers
             if (BgmInstance.State != SoundState.Playing)
             {
                 BgmInstance.Play();
-                bgmStartTime = DateTime.Now;
             }
         }
 

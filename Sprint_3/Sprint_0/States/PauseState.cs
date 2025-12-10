@@ -1,19 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Sprint_0.Interfaces;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Sprint_0.States
 {
     public static class PauseState
     {
-        private static KeyboardState previousState;
         public static bool IsPaused { get; private set; }
-        public static void Update()
-        {
-        }
+        public static void Update(){}
 
         public static void setPaused(bool paused) => IsPaused = paused;
         public static void Toggle() => IsPaused = !IsPaused;

@@ -8,7 +8,6 @@ namespace Sprint_0.EnemyStateMachine
     {
         //Jump Variables
         private const float JumpVelocity = -150f;
-        private const float Gravity = 500f;
         private const float GroundY = 200f;
 
         private double attackCooldown;
@@ -18,7 +17,7 @@ namespace Sprint_0.EnemyStateMachine
         {
             enemy.Velocity = new Vector2(enemy.Velocity.X, JumpVelocity);
             enemy.SetAnimation("Attack");
-            attackCooldown = 0.5;
+            attackCooldown = .2;
             hasFired = false;
         }
 
@@ -39,7 +38,7 @@ namespace Sprint_0.EnemyStateMachine
             }
 
 
-            if (hasFired && enemy.Position.Y >= GroundY)
+            if (hasFired)
             {
                 enemy.ChangeState(new IdleState());
             }

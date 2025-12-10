@@ -217,7 +217,7 @@ namespace Sprint_0
                 { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
             };
         }
-        internal static Dictionary<string, Animation> CreateOverworldBotAnimations(Texture2D spriteSheet)
+        internal static Dictionary<string, Animation> CreateTopDownBotAnimations(Texture2D spriteSheet)
         {
             var idleFrames = new List<Rectangle>
             {
@@ -229,18 +229,25 @@ namespace Sprint_0
                 new Rectangle(448, 426, 18, 15),
                 new Rectangle(468, 426, 18, 15)
             };
+            var deathFrames = new List<Rectangle>
+            {
+                new Rectangle(544, 397, 18, 18),
+                new Rectangle(561, 397, 18, 18),
+                new Rectangle(578, 397, 18, 18),
+                new Rectangle(595, 397, 18, 18),
+                new Rectangle(544, 397, 18, 18),
+                new Rectangle(561, 397, 18, 18)
+            };
 
             return new Dictionary<string, Animation>
             {
                 { "Idle", new Animation(spriteSheet, idleFrames, 0.25f, true) },
-                { "MoveLeft", new Animation(spriteSheet, movingFrames, 0.15f, true) },
-                { "MoveRight", new Animation(spriteSheet, movingFrames, 0.15f, true) },
-                { "MoveUp", new Animation(spriteSheet, movingFrames, 0.15f, true) },
-                { "MoveDown", new Animation(spriteSheet, movingFrames, 0.15f, true) },
+                { "Walk", new Animation(spriteSheet, movingFrames, 0.15f, true) },
+                { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
             };
         }
 
-        internal static Dictionary<string, Animation> CreateOverworldManAnimations(Texture2D spriteSheet)
+        internal static Dictionary<string, Animation> CreateTopDownManAnimations(Texture2D spriteSheet)
         {
             var idleFrames = new List<Rectangle>
             {
@@ -252,14 +259,21 @@ namespace Sprint_0
                 new Rectangle(448, 399, 18, 24),
                 new Rectangle(468, 399, 18, 24)
             };
+            var deathFrames = new List<Rectangle>
+            {
+                new Rectangle(544, 397, 18, 18),
+                new Rectangle(561, 397, 18, 18),
+                new Rectangle(578, 397, 18, 18),
+                new Rectangle(595, 397, 18, 18),
+                new Rectangle(544, 397, 18, 18),
+                new Rectangle(561, 397, 18, 18)
+            };
 
             return new Dictionary<string, Animation>
             {
                 { "Idle", new Animation(spriteSheet, idleFrames, 0.25f, true) },
-                { "MoveLeft", new Animation(spriteSheet, movingFrames, 0.15f, true) },
-                { "MoveRight", new Animation(spriteSheet, movingFrames, 0.15f, true) },
-                { "MoveUp", new Animation(spriteSheet, movingFrames, 0.15f, true) },
-                { "MoveDown", new Animation(spriteSheet, movingFrames, 0.15f, true) },
+                { "Walk", new Animation(spriteSheet, movingFrames, 0.15f, true) },
+                { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }
             };
         }
 
@@ -613,6 +627,11 @@ namespace Sprint_0
 
             dict["UnlockDoor"] = new Animation(spriteSheet, UnlockDoor, 0.1f, false);
 
+            dict["Triforce"] = new Animation(spriteSheet, new List<Rectangle>
+            {
+                new Rectangle(290, 12, 14, 13)
+            }, 0.25f, false);
+
             return dict;
         }
         #endregion
@@ -698,12 +717,12 @@ namespace Sprint_0
             dict["bw"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(52, 50, 16, 16)
-            }, 0.25f, false);
+            }, 0.25f, false);   
 
             dict["br"] = new Animation(spriteSheet, new List<Rectangle>
             {
                 new Rectangle(69, 50, 16, 16)
-            }, 0.25f, false);
+            }, 0.25f, false);   
 
             dict["pl"] = new Animation(spriteSheet, new List<Rectangle>
             {

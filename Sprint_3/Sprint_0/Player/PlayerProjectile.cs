@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprint_0;
 using Sprint_0.Interfaces;
 
-internal class PlayerProjectile : ICollidable
+internal class PlayerProjectile : ICollidable, ILightSource
 {
 
     private Game game;
@@ -31,7 +31,6 @@ internal class PlayerProjectile : ICollidable
         position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
         animation.Update(gameTime);
 
-        
         if (position.X < 0 || position.X > game.GraphicsDevice.Viewport.Width || position.Y < 0 || position.Y > 500)
             IsActive = false;
     }
@@ -50,4 +49,9 @@ internal class PlayerProjectile : ICollidable
             return new Rectangle((int)position.X, (int)position.Y, w, h);
         }
     }
+    public Vector2 LightPosition => position + new Vector2(animation.FrameWidth / 2f, animation.FrameHeight / 2f);
+    public float LightRadius => Type == ProjectileType.Fireball ? 48f : 0f;
+    public float Intensity => Type == ProjectileType.Fireball && IsActive ? 1.0f : 0f;
+    public Color LightColor => Type == ProjectileType.Fireball ? new Color(1f, 0.55f, 0.15f, 0.9f) : Color.White;
+    public bool IsLightActive => Type == ProjectileType.Fireball && IsActive;
 }

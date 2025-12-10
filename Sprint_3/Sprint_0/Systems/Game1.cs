@@ -35,7 +35,7 @@ namespace Sprint_0
 
         protected override void Initialize()
         {
-            stateManager = new GameStateManager();
+            stateManager = GameStateManager.Instance;
             base.Initialize();
 
         }

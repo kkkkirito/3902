@@ -13,10 +13,8 @@ namespace Sprint_0.Enemies
         private BotEnemy botEnemy;
         private StalfosEnemy stalfosEnemy;
         private OctorokEnemy octorokEnemy;
-        private OverworldBotEnemy overworldBotEnemy;
-        private OverworldManEnemy overworldManEnemy;
-
-
+        private TopDownBotEnemy TopDownBotEnemy;
+        private TopDownManEnemy TopDownManEnemy;
 
         internal EnemySelector(Texture2D enemyTextures, Texture2D overworldEnemyTextures)
         {
@@ -25,8 +23,8 @@ namespace Sprint_0.Enemies
             this.botEnemy = new BotEnemy(enemyTextures, new Vector2(500, 100));
             this.stalfosEnemy = new StalfosEnemy(enemyTextures, new Vector2(500, 0));
             this.octorokEnemy = new OctorokEnemy(overworldEnemyTextures, enemyTextures, new Vector2(500, 200));
-            this.overworldBotEnemy = new OverworldBotEnemy(overworldEnemyTextures, new Vector2(500, 300));
-            this.overworldManEnemy = new OverworldManEnemy(overworldEnemyTextures, new Vector2(500, 400));
+            this.TopDownBotEnemy = new TopDownBotEnemy(overworldEnemyTextures, new Vector2(500, 300));
+            this.TopDownManEnemy = new TopDownManEnemy(overworldEnemyTextures, new Vector2(500, 400));
 
         }
 
@@ -62,10 +60,10 @@ namespace Sprint_0.Enemies
                     octorokEnemy.Update(gameTime);
                     break;
                 case 3:
-                    overworldBotEnemy.Update(gameTime);
+                    TopDownBotEnemy.Update(gameTime);
                     break;
                 case 4:
-                    overworldManEnemy.Update(gameTime);
+                    TopDownManEnemy.Update(gameTime);
                     break;
             }
 
@@ -86,20 +84,13 @@ namespace Sprint_0.Enemies
                     octorokEnemy.Draw(spriteBatch);
                     break;
                 case 3:
-                    overworldBotEnemy.Draw(spriteBatch);
+                    TopDownBotEnemy.Draw(spriteBatch);
                     break;
                 case 4:
-                    overworldManEnemy.Draw(spriteBatch);
+                    TopDownManEnemy.Draw(spriteBatch);
                     break;
             }
         }
-
-
-
-
-
-
-
 
     }
 }

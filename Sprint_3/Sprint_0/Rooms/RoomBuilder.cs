@@ -8,6 +8,7 @@ using System.IO;
 using Sprint_0.Interfaces;
 using Microsoft.Xna.Framework.Content;
 using Sprint_0.Collision_System;
+using System.Linq;
 
 namespace Sprint_0.Rooms
 {
@@ -98,12 +99,13 @@ namespace Sprint_0.Rooms
         private static bool[,] BuildSolidityGrid(List<List<string>> layout)
         {
             int height = layout.Count;
-            int width = layout[0].Count;
+            int width = layout.Max(row => row.Count);
             var grid = new bool[height, width];
             for (int y = 0; y < height; y++)
                 for (int x = 0; x < width; x++)
                 {
-                    string key = layout[y][x].ToLowerInvariant();
+                    string key = x < layout[y].Count ? layout[y][x] : string.Empty;
+                    key = key?.Trim().ToLowerInvariant() ?? string.Empty;
 
                     if (key == "bb")
                     {

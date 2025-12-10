@@ -21,7 +21,7 @@ namespace Sprint_0.Collision_System
             system.Provider.Register<IPlayer, IStaticCollider>(new PlayerStaticColliderCollisionCommand());
             system.Provider.Register<Enemy, IStaticCollider>(new EnemyStaticColliderCollisionCommand());
             system.Provider.Register<PlayerProjectile, Enemy>(new PlayerProjectileEnemyCollisionCommand());
-
+            
         }
     }
 }

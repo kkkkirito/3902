@@ -55,7 +55,6 @@ namespace Sprint_0.Items
         {
             if (IsCollected) return;
             Consume(player);
-            System.Diagnostics.Debug.WriteLine($"[KeyItem] Collected by player; keys now={(player != null ? player.KeyCount.ToString() : "null")}");
         }
 
         public void ResetState() => IsCollected = false;

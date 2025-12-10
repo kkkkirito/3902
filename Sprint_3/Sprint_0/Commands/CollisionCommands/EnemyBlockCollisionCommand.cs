@@ -19,8 +19,8 @@ namespace Sprint_0.Commands.CollisionCommands
 
             enemy.LastCollisionDirection = info.Direction;
 
-            // Bubble enemies have different collision behavior
-            if (enemy is BubbleEnemy)
+            // Bubble and TopDown enemies have different collision behavior
+            if (enemy is BubbleEnemy || enemy is TopDownBotEnemy || enemy is TopDownManEnemy)
             {
                 return;
             }
