@@ -40,6 +40,11 @@ namespace Sprint_0.Blocks
         {
             Position = position;
             this.blockTextures = blockTextures;
+            state = TrapState.Solid;
+            breakTimer = 0f;
+            var blockAnimations = SpriteFactory.CreateBlockTextures(blockTextures);
+            solidSprite = blockAnimations["bb"].Clone();
+            breakingSprite = blockAnimations["bbBreak"].Clone();
         }
 
         public void TriggerBreak()

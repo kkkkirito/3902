@@ -26,7 +26,7 @@ namespace Sprint_0.Commands.CollisionCommands
                 case CollisionDirection.Top:
                     player.Velocity = new Vector2(v.X, 0f);
                     player.IsGrounded = true;
-                    if (player is Sprint_0.Player_Namespace.Player p)
+                    if (player is Player_Namespace.Player p)
                     {
                         p.VerticalVelocity = 0f;
                     }

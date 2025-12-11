@@ -32,8 +32,8 @@ namespace Sprint_0.Player_Namespace
 
         private void ApplyGravity(float dt)
         {
-                _player.VerticalVelocity += PlayerConstants.Gravity * dt;
-                _player.VerticalVelocity = Math.Min(_player.VerticalVelocity, 600f);
+            _player.VerticalVelocity += PlayerConstants.Gravity * dt;
+            _player.VerticalVelocity = Math.Min(_player.VerticalVelocity, 600f);
 
         }
 

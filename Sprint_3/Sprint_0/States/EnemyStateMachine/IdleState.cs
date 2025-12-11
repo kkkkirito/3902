@@ -17,7 +17,7 @@ namespace Sprint_0.EnemyStateMachine
             enemy.Velocity = Vector2.Zero;
 
             stateTimer = 0f;
-            stateDuration = (float)(rnd.Next(1, 4));
+            stateDuration = (float)(rnd.Next(1,4));
         }
         public void Update(Enemy enemy, GameTime gameTime)
         {

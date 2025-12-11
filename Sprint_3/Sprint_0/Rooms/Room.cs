@@ -25,7 +25,7 @@ namespace Sprint_0.Rooms
 
         // Fall damage configuration
         private const int FALL_DAMAGE = 50;
-        private const int FALL_BOUNDARY_Y = 480; // Y position that triggers fall damage
+        private const int FALL_BOUNDARY_Y = 560; // Y position that triggers fall damage
 
         private Player player;
         private Vector2 playerStartPosition;
@@ -73,6 +73,13 @@ namespace Sprint_0.Rooms
             foreach (var item in items)
             {
                 if (item is ILightSource light && light.IsLightActive)
+                {
+                    yield return light;
+                }
+            }
+            foreach (var block in blocks)
+            {
+                if (block is ILightSource light && light.IsLightActive)
                 {
                     yield return light;
                 }

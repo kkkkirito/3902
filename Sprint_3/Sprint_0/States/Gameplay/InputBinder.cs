@@ -34,7 +34,7 @@ namespace Sprint_0.States.Gameplay
                 kb.Press(Keys.Z, new AttackCommand(player));
                 kb.Press(Keys.N, new AttackCommand(player));
                 kb.Press(Keys.Space, new JumpCommand(player));
-                kb.Press(Keys.Tab, new ToggleGameModeCommand(player));
+                //kb.Press(Keys.Tab, new ToggleGameModeCommand(player));
                 kb.Press(Keys.X, new SwordBeamCommand(player, projectiles));
                 kb.Press(Keys.C, new FireballCommand(player, projectiles));
 

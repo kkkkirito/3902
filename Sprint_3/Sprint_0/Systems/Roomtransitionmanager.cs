@@ -11,6 +11,12 @@ namespace Sprint_0.Systems
         public Rectangle TriggerArea { get; set; }
         public Vector2 SpawnPosition { get; set; }
         public TransitionDirection Direction { get; set; }
+
+        //If set, this transition requires collecting a trophy in the trigger area
+        public bool RequiresTrophy { get; set; } = false;
+
+        // If set, this transition requires unlocking a TopDownDoor in the trigger area
+        public bool RequiresTopDownDoor { get; set; } = false;
     }
 
     public enum TransitionDirection
@@ -130,7 +136,7 @@ namespace Sprint_0.Systems
             AddTransition(5, new RoomTransition
             {
                 TargetRoomId = 6,
-                TriggerArea = new Rectangle(640, 64, 32, 16),
+                TriggerArea = new Rectangle(640, 80, 32, 16),
                 SpawnPosition = new Vector2(144, 144), 
                 Direction = TransitionDirection.Up
             });
@@ -291,8 +297,9 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 15,
                 TriggerArea = new Rectangle(80, 80, 16, 16), // Top edge
-                SpawnPosition = new Vector2(16, 160),
-                Direction = TransitionDirection.Up
+                SpawnPosition = new Vector2(16,160),
+                Direction = TransitionDirection.Up,
+                RequiresTrophy = true
             });
 
             //Maze Room 1  -> Maze
@@ -301,7 +308,8 @@ namespace Sprint_0.Systems
                 TargetRoomId = 14,
                 TriggerArea = new Rectangle(16, 16, 16, 32),
                 SpawnPosition = new Vector2(96, 96),
-                Direction = TransitionDirection.Down
+                Direction = TransitionDirection.Down,
+                RequiresTopDownDoor = true
             });
 
             //Maze -> Maze Room 2 (16)
@@ -309,8 +317,9 @@ namespace Sprint_0.Systems
             {
                 TargetRoomId = 16,
                 TriggerArea = new Rectangle(640, 512, 16, 16), 
-                SpawnPosition = new Vector2(16, 160),
-                Direction = TransitionDirection.Down
+                SpawnPosition = new Vector2(16,160),
+                Direction = TransitionDirection.Down,
+                RequiresTrophy = true
             });
 
             //Maze Room 2 -> Maze
@@ -319,7 +328,8 @@ namespace Sprint_0.Systems
                 TargetRoomId = 14,
                 TriggerArea = new Rectangle(464, 16, 16, 32),
                 SpawnPosition = new Vector2(624, 464),
-                Direction = TransitionDirection.Down
+                Direction = TransitionDirection.Down,
+                RequiresTopDownDoor = true
             });
 
             //Maze -> Maze Room 3 (17)
@@ -328,7 +338,8 @@ namespace Sprint_0.Systems
                 TargetRoomId = 17,
                 TriggerArea = new Rectangle(368, 144, 16, 16),
                 SpawnPosition = new Vector2(16, 128),
-                Direction = TransitionDirection.Right
+                Direction = TransitionDirection.Right,
+                RequiresTrophy = true
             });
 
             //Maze Room 3 -> Maze
@@ -337,7 +348,8 @@ namespace Sprint_0.Systems
                 TargetRoomId = 14,
                 TriggerArea = new Rectangle(512, 112, 16, 32),
                 SpawnPosition = new Vector2(384, 176),
-                Direction = TransitionDirection.Down
+                Direction = TransitionDirection.Down,
+                RequiresTopDownDoor = true
             });
 
             
@@ -356,27 +368,67 @@ namespace Sprint_0.Systems
             }
             _transitions[roomId].Add(transition);
 
-            Debug.WriteLine($"Added transition: Room {roomId} -> Room {transition.TargetRoomId} at {transition.TriggerArea}");
         }
 
         public RoomTransition CheckTransition(int currentRoomId, Rectangle playerBounds)
         {
             if (!_transitions.ContainsKey(currentRoomId))
             {
-                Debug.WriteLine($"No transitions defined for room {currentRoomId}");
                 return null;
             }
 
             foreach (var transition in _transitions[currentRoomId])
             {
+                if (transition.RequiresTrophy || transition.RequiresTopDownDoor)
+                    continue;
                 if (transition.TriggerArea.Intersects(playerBounds))
                 {
-                    Debug.WriteLine($"Transition triggered: Room {currentRoomId} -> Room {transition.TargetRoomId}");
-                    Debug.WriteLine($"  Player will spawn at: {transition.SpawnPosition}");
                     return transition;
                 }
             }
 
+            return null;
+        }
+        public RoomTransition CheckTrophyTransition(int currentRoomId, Rectangle itemBounds)
+        {
+            if (!_transitions.ContainsKey(currentRoomId))
+            {
+                return null;
+            }
+
+            foreach (var transition in _transitions[currentRoomId])
+            {
+                if (transition.RequiresTrophy)
+                {
+                    bool intersects = transition.TriggerArea.Intersects(itemBounds);
+                    if (intersects)
+                    {
+                        return transition;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public RoomTransition CheckTopDownDoorTransition(int currentRoomId, Rectangle doorBounds)
+        {
+            if (!_transitions.ContainsKey(currentRoomId))
+            {
+                return null;
+            }
+
+            foreach (var transition in _transitions[currentRoomId])
+            {
+
+                if (transition.RequiresTopDownDoor)
+                {
+                    bool intersects = transition.TriggerArea.Intersects(doorBounds);
+                    if (intersects)
+                    {
+                        return transition;
+                    }
+                }
+            }
             return null;
         }
     }

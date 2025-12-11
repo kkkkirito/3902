@@ -840,11 +840,6 @@ namespace Sprint_0
                 new Rectangle(35, 113, 16, 16)
             }, 0.25f, false);
 
-            dict["bb"] = new Animation(spriteSheet, new List<Rectangle>
-            {
-                new Rectangle(35, 113, 16, 16)
-            }, 0.25f, false);
-
             var bbBreakingFrames = new List<Rectangle>
             {
                 new Rectangle(35, 113, 16, 16),

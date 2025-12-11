@@ -55,7 +55,7 @@ namespace Sprint_0.Systems
         {
             get
             {
-                if (_fixedZoom >= 0f)
+                if (_fixedZoom > 0f)
                 {
                     return Matrix.CreateTranslation(
                                new Vector3(-_position.X, -_position.Y, 0)) *
@@ -63,7 +63,6 @@ namespace Sprint_0.Systems
                            Matrix.CreateTranslation(
                                new Vector3(_viewport.Width / 2f, _viewport.Height / 2f, 0));
                 }
-
                 float scaleToFit = GetScaleToFitContent();
                 float effectiveZoom = _zoom * scaleToFit;
 

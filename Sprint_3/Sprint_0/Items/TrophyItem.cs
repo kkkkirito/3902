@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Interfaces;
+using System;
 
 namespace Sprint_0.Items
 {
@@ -8,52 +9,54 @@ namespace Sprint_0.Items
     {
         public string Name => "Trophy";
         public bool IsConsumable => false;
-
         public Vector2 Position { get; set; }
         public bool IsCollected { get; set; }
-
         private Animation animation;
         private Texture2D texture;
+
+
+        // Event fired when trophy is collected - passes the trophy's bounding box for transition check
+        public static event Action<Rectangle> OnTrophyCollected;
 
         public TrophyItem(Vector2 position, Texture2D itemTextures)
         {
             Position = position;
             IsCollected = false;
             texture = itemTextures;
-
             var animations = SpriteFactory.CreateItemAnimations(itemTextures);
             if (animations.ContainsKey("Trophy"))
                 this.animation = animations["Trophy"];
         }
-
         public void Update(GameTime gameTime)
         {
             if (!IsCollected)
                 animation?.Update(gameTime);
         }
-
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!IsCollected)
                 animation?.Draw(spriteBatch, Position, SpriteEffects.None);
         }
-
         public Rectangle GetBoundingBox() => new Rectangle((int)Position.X, (int)Position.Y, 14, 15);
         public Rectangle BoundingBox => GetBoundingBox();
         public Rectangle Bounds => GetBoundingBox();
         public Texture2D Texture => texture;
         public Rectangle Source => animation?.CurrentFrame ?? new Rectangle(0, 0, 0, 0);
         public bool Celebration => true;
-
         public void Collect(IPlayer player)
         {
             if (IsCollected) return;
+            Rectangle itemBounds = GetBoundingBox();
+
             IsCollected = true;
+
             player.GameMode = GameModeType.Platformer;
+
             if (player is Sprint_0.Player_Namespace.Player p)
             {
                 p.HasTopDownKey = false;
             }
+            OnTrophyCollected?.Invoke(itemBounds);
         }
 
         public void ResetState()

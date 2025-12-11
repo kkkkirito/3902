@@ -82,8 +82,16 @@ namespace Sprint_0.Rooms
                     if (blockSprites.TryGetValue(key, out var sprite))
                     {
                         var position = new Vector2(x * TILE, y * TILE);
-                        bool isSolid = BlockSolidity.TryGetValue(key, out bool solid) && solid;
-                        row.Add(new Block(sprite, position, isSolid));
+                        if (string.Equals(key, "la", StringComparison.OrdinalIgnoreCase) ||
+                            string.Equals(key, "tla", StringComparison.OrdinalIgnoreCase))
+                        {
+                            row.Add(new LavaBlock(sprite, position));
+                        }
+                        else
+                        {
+                            bool isSolid = BlockSolidity.TryGetValue(key, out bool solid) && solid;
+                            row.Add(new Block(sprite, position, isSolid));
+                        }
                     }
                     else
                     {

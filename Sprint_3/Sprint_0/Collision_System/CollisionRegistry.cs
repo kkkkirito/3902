@@ -12,6 +12,7 @@ namespace Sprint_0.Collision_System
         {
             system.Provider.Register<IPlayer, LockedDoor>(new PlayerLockedDoorCollisionCommand());
             system.Provider.Register<IPlayer, TopDownDoor>(new PlayerTopDownDoorCollisionCommand());
+            system.Provider.Register<IPlayer, LavaBlock>(new PlayerLavaCollisionCommand());
             system.Provider.Register<IPlayer, IBlock>(new PlayerBlockCollisionCommand());
             system.Provider.Register<IPlayer, Enemy>(new PlayerEnemyCollisionCommand());
             system.Provider.Register<IPlayer, IItem>(new PlayerItemCollisionCommand());

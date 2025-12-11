@@ -17,7 +17,7 @@ namespace Sprint_0.EnemyStateMachine
         {
             enemy.Velocity = new Vector2(enemy.Velocity.X, JumpVelocity);
             enemy.SetAnimation("Attack");
-            attackCooldown = .2;
+            attackCooldown = 0.2;
             hasFired = false;
         }
 

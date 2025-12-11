@@ -58,7 +58,7 @@ namespace Sprint_0.Player_Namespace
                 // normalize state when modes change
                 IsCrouching = false;
                 VerticalVelocity = 0f;
-                IsGrounded = (_gameMode == GameModeType.TopDown); // Only grounded in TopDown mode initially
+                IsGrounded = true;
 
                 // don't interrupt pickup when changing modes
                 if (!(_currentState is PickupState))
@@ -102,7 +102,7 @@ namespace Sprint_0.Player_Namespace
             AnimationTimer = 0;
             SpriteSheet = spriteSheet;
             Position = startPosition;
-            groundY = startPosition.Y;  // Set initial ground level at spawn
+            groundY = startPosition.Y;
             CurrentHealth = MaxHealth;
             _controller = controller;
             attackHitBox = new PlayerAttackHitbox(this);

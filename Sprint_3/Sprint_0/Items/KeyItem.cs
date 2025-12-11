@@ -4,7 +4,7 @@ using Sprint_0.Interfaces;
 
 namespace Sprint_0.Items
 {
-    public class KeyItem : ICollectible, IResettable
+    public class KeyItem : ICollectible
     {
         public string Name => "Key";
         public bool IsConsumable => false;
@@ -56,7 +56,5 @@ namespace Sprint_0.Items
             if (IsCollected) return;
             Consume(player);
         }
-
-        public void ResetState() => IsCollected = false;
     }
 }

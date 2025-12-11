@@ -5,7 +5,7 @@ using System;
 
 namespace Sprint_0.Blocks
 {
-    public class LockedDoor : IBlock, ICollidable, IResettable
+    public class LockedDoor : IBlock, ICollidable
     {
         private Animation lockedAnimation;
         private Animation unlockingAnimation;
@@ -69,12 +69,5 @@ namespace Sprint_0.Blocks
             else if (isUnlocking) unlockingAnimation?.Draw(spriteBatch, Position, SpriteEffects.None);
         }
 
-        public void Reset()
-        {
-            isLocked = true;
-            isUnlocking = false;
-            unlockTimer = 0f;
-        }
-        public void ResetState() => Reset();
     }
 }
