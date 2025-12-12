@@ -10,10 +10,8 @@ namespace Sprint_0.EnemyStateMachine
         private double duration;
         private double timer;
         private IEnemyState returnState;
-        private bool visible;
-        private double flashTimer;
 
-        public InvulnerableState(IEnemyState previousState, double durationSeconds = 1.0)
+        public InvulnerableState(IEnemyState previousState, double durationSeconds = 0.1)
         {
             this.returnState = previousState;
             this.duration = durationSeconds;
@@ -23,8 +21,6 @@ namespace Sprint_0.EnemyStateMachine
         {
             enemy.SetAnimation("Hurt");
             timer = duration;
-            visible = true;
-            flashTimer = 0.1;
         }
 
         public void Update(Enemy enemy, GameTime gameTime)
@@ -33,31 +29,15 @@ namespace Sprint_0.EnemyStateMachine
 
             timer -= dt;
 
-            flashTimer -= dt;
-            if (flashTimer <= 0)
-            {
-                flashTimer = 0.1;
-                visible = !visible;
-            }
-
             if (timer <= 0)
             {
+                enemy.Velocity = new Vector2(0, 0);
                 enemy.ChangeState(returnState);
             }
         }
 
         public void Done(Enemy enemy)
         {
-            enemy.IsDead = false;
-        }
-
-        // Helper for Draw override 
-        public void Draw(SpriteBatch spriteBatch, Enemy enemy)
-        {
-            if (visible)
-            {
-                // enemy.CurrentAnimation.Draw(spriteBatch, enemy.Position, SpriteEffects.None);
-            }
         }
     }
 }

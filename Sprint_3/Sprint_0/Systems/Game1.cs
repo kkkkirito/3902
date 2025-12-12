@@ -24,6 +24,7 @@ namespace Sprint_0
         public Texture2D HudTexture { get; private set; }
         public Texture2D PixelHud { get; private set; }
         public GameStateManager StateManager => stateManager;
+        public IAudioManager AudioManager { get; private set; }
 
 
         public Game1()
@@ -55,19 +56,22 @@ namespace Sprint_0
             try { HudTexture = Content.Load<Texture2D>("HUD"); } catch { HudTexture = null; }
             PixelHud = new Texture2D(GraphicsDevice, 1, 1);
             PixelHud.SetData([Color.White]);
+            
+
+            AudioManager = new AudioManager(Content);
+            AudioManager.PlayBgm();
+
             SetupStateManager();
 
-            AudioManager.Load(Content);
-            AudioManager.PlayBgm();
         }
 
         private void SetupStateManager()
         {
             // Create states
-            var menuState = new MenuState(this, Font, stateManager);
-            var gameplayState = new GameplayState(this);
-            var gameOverState = new GameOverState(this, Font, stateManager);
-            var victoryState = new VictoryState(this, Font, stateManager);
+            var menuState = new MenuState(this, Font, stateManager, AudioManager);
+            var gameplayState = new GameplayState(this, AudioManager);
+            var gameOverState = new GameOverState(this, Font, stateManager, AudioManager);
+            var victoryState = new VictoryState(this, Font, stateManager, AudioManager);
 
             // Add states
             stateManager.AddState("menu", menuState);

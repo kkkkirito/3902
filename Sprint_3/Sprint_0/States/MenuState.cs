@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 
 namespace Sprint_0.States
 {
@@ -12,12 +13,15 @@ namespace Sprint_0.States
         private KeyboardState previousKeyboardState;
         private GamePadState previousGamePadState;
         private GameStateManager stateManager;
+        private IAudioManager audio;
 
-        public MenuState(Game1 game, SpriteFont font, GameStateManager stateManager)
+        public MenuState(Game1 game, SpriteFont font, GameStateManager stateManager, IAudioManager audio)
         {
             this.game = game;
             this.font = font;
             this.stateManager = stateManager;
+            this.audio = audio;
+
         }
 
         public void Enter()

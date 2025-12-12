@@ -9,11 +9,13 @@ namespace Sprint_0.Commands.PlayerCommands
         private readonly IPlayer _player;
         private readonly IProjectileManager _proj;
         private int MagicCost = 1;
+        private readonly IAudioManager _audio;
 
-        public SwordBeamCommand(IPlayer player, IProjectileManager proj)
+        public SwordBeamCommand(IPlayer player, IProjectileManager proj, IAudioManager audio)
         {
             _player = player;
             _proj = proj;
+            _audio = audio;
         }
 
         public void Execute()
@@ -29,7 +31,7 @@ namespace Sprint_0.Commands.PlayerCommands
             {
                 if (_player.TrySpendMagic(MagicCost))
                 {
-                    AudioManager.PlaySound(AudioManager.BeamSound, 0.7f);
+                    _audio.PlayBeam();
                 }
             }
         }

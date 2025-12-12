@@ -2,20 +2,21 @@
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.EnemyStateMachine;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 using System;
 
 namespace Sprint_0.Enemies
 {   
     public class TopDownManEnemy : Enemy
     {
-        public TopDownManEnemy(Texture2D spriteSheet, Vector2 startPos)
+        public TopDownManEnemy(Texture2D spriteSheet, Vector2 startPos, IAudioManager audio)
             : base(SpriteFactory.CreateTopDownManAnimations(spriteSheet), startPos, new EnemyConfig
         {
                     UseGravity = false,
-                    BoundingBoxSize = new Rectangle(0, 0, 18, 24)
-                })
+                    BoundingBoxSize = new Rectangle(1, 1, 16, 22)
+                }, audio)
         {
-            this.SpriteSheet = spriteSheet;
+            this.SetSpriteSheet(spriteSheet);
             ChangeState(GetRandomTopDownMoveState());
         }
  

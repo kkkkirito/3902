@@ -15,16 +15,19 @@ namespace Sprint_0.States
         private KeyboardState _prevKbd;
         private GamePadState _prevPad;
 
-        public VictoryState(Game1 game, SpriteFont font, GameStateManager stateManager)
+        private IAudioManager _audio;
+
+        public VictoryState(Game1 game, SpriteFont font, GameStateManager stateManager, IAudioManager audio)
         {
             _game = game;
             _font = font;
             _stateManager = stateManager;
+            _audio = audio;
         }
 
         public void Enter()
         {
-            AudioManager.StopBgm();
+            _audio.StopBgm();
             _prevKbd = Keyboard.GetState();
             _prevPad = GamePad.GetState(PlayerIndex.One);
             //IMPLEMENT NEW AUDIO FOR VICTORY SCREEN
@@ -33,7 +36,7 @@ namespace Sprint_0.States
 
         public void Exit()
         {
-            AudioManager.PlayBgm();
+            _audio.PlayBgm();
         }
 
         public void Update(GameTime gameTime)
@@ -52,7 +55,7 @@ namespace Sprint_0.States
 
             if (continuePressed)
             { 
-                _stateManager.ChangeState("menu");
+                _stateManager.ChangeState("gameplay");
                 return;
             }
 

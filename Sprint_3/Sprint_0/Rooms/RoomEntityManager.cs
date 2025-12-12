@@ -8,6 +8,7 @@ using Sprint_0.Player_Namespace;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using Sprint_0.Managers;
 
 namespace Sprint_0.Rooms
 {
@@ -20,11 +21,12 @@ namespace Sprint_0.Rooms
         private readonly Texture2D itemTextures;
         private readonly Texture2D blockTextures;
         private readonly IController controller;
+        private readonly IAudioManager audio;
 
         private const int TILE_SIZE = 16;
 
         public RoomEntityManager(Texture2D linkTextures, Texture2D enemyTextures, Texture2D bossTextures,
-            Texture2D overworldEnemyTextures, Texture2D itemTextures, Texture2D blockTextures, IController controller)
+            Texture2D overworldEnemyTextures, Texture2D itemTextures, Texture2D blockTextures, IController controller, IAudioManager audio)
         {
             this.linkTextures = linkTextures;
             this.enemyTextures = enemyTextures;
@@ -33,6 +35,7 @@ namespace Sprint_0.Rooms
             this.itemTextures = itemTextures;
             this.blockTextures = blockTextures;
             this.controller = controller;
+            this.audio = audio;
         }
 
         public void LoadEntities(Room room, string entitiesCsvPath)
@@ -191,7 +194,7 @@ namespace Sprint_0.Rooms
 
         private void CreatePlayer(Room room, Vector2 position)
         {
-            var player = new Player(linkTextures, position, controller);
+            var player = new Player(linkTextures, position, controller, audio);
             room.SetPlayer(player);
         }
 
@@ -234,28 +237,28 @@ namespace Sprint_0.Rooms
             switch (enemyType)
             {
                 case "Bot":
-                    enemy = new BotEnemy(enemyTextures, position);
+                    enemy = new BotEnemy(enemyTextures, position, audio);
                     break;
                 case "Stalfos":
-                    enemy = new StalfosEnemy(enemyTextures, position);
+                    enemy = new StalfosEnemy(enemyTextures, position, audio);
                     break;
                 case "Octorok":
-                    enemy = new OctorokEnemy(overworldEnemyTextures, enemyTextures, position);
+                    enemy = new OctorokEnemy(overworldEnemyTextures, enemyTextures, position, audio);
                     break;
                 case "Wosu":
-                    enemy = new WosuEnemy(enemyTextures, position);
+                    enemy = new WosuEnemy(enemyTextures, position, audio);
                     break;
                 case "Bubble":
-                    enemy = new BubbleEnemy(enemyTextures, position);
+                    enemy = new BubbleEnemy(enemyTextures, position, audio);
                     break;
                 case "TopDownBot":
-                    enemy = new TopDownBotEnemy(overworldEnemyTextures, position);
+                    enemy = new TopDownBotEnemy(overworldEnemyTextures, position, audio);
                     break;
                 case "TopDownMan":
-                    enemy = new TopDownManEnemy(overworldEnemyTextures, position);
+                    enemy = new TopDownManEnemy(overworldEnemyTextures, position, audio);
                     break;
                 case "HorseHead":
-                    enemy = new HorseHeadEnemy(bossTextures, position);
+                    enemy = new HorseHeadEnemy(bossTextures, position, audio);
                     break;
             }
 

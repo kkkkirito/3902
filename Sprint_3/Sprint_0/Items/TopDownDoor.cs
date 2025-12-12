@@ -5,7 +5,7 @@ using System;
 
 namespace Sprint_0.Blocks
 {
-    public class TopDownDoor : IBlock, ICollidable
+    public class TopDownDoor : IBlock, ICollidable, IResettable
     {
         private Animation lockedAnimation;
         private Animation unlockAnimation;
@@ -65,6 +65,17 @@ namespace Sprint_0.Blocks
         {
             if (animationComplete) return;
             currentAnimation?.Draw(spriteBatch, Position, SpriteEffects.None);
+        }
+
+        public void ResetState()
+        {
+            isUnlocked = false;
+            unlockTimer = 0f;
+            animationComplete = false;
+            currentAnimation = lockedAnimation;
+            // Reset the animation to its first frame
+            lockedAnimation?.Reset();
+            unlockAnimation?.Reset();
         }
     }
 }

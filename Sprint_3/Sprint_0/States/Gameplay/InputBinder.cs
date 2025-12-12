@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Sprint_0.Commands.GameCommands;
 using Sprint_0.Commands.PlayerCommands;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 using Sprint_0.Systems;
 namespace Sprint_0.States.Gameplay
 {
@@ -13,7 +14,7 @@ namespace Sprint_0.States.Gameplay
         private readonly IController _gamepad = gamepad;
         private readonly GameplayState _gameplay = gameplay;
 
-        public void BindFor(IPlayer player, IProjectileManager projectiles, IHotbar hotbar, Game1 game)
+        public void BindFor(IPlayer player, IProjectileManager projectiles, IHotbar hotbar, Game1 game, IAudioManager audio)
         {
                 var kb = (KeyboardController)_keyboard;
                 var pad = (GamepadController)_gamepad;
@@ -31,12 +32,12 @@ namespace Sprint_0.States.Gameplay
                 kb.BindRelease(Keys.Down, new CrouchOffCommand(player));
 
                 // Actions
-                kb.Press(Keys.Z, new AttackCommand(player));
-                kb.Press(Keys.N, new AttackCommand(player));
-                kb.Press(Keys.Space, new JumpCommand(player));
-                //kb.Press(Keys.Tab, new ToggleGameModeCommand(player));
-                kb.Press(Keys.X, new SwordBeamCommand(player, projectiles));
-                kb.Press(Keys.C, new FireballCommand(player, projectiles));
+                kb.Press(Keys.Z, new AttackCommand(player, audio));
+                kb.Press(Keys.N, new AttackCommand(player, audio));
+                kb.Press(Keys.Space, new JumpCommand(player, audio));
+                kb.Press(Keys.Tab, new ToggleGameModeCommand(player));
+                kb.Press(Keys.X, new SwordBeamCommand(player, projectiles, audio));
+                kb.Press(Keys.C, new FireballCommand(player, projectiles, audio));
 
                 // Hotbar 1–3
                 for (int i = 1; i <= hotbar.SlotCount; i++)
@@ -53,16 +54,16 @@ namespace Sprint_0.States.Gameplay
                 pad.BindHold(Buttons.DPadDown, new MoveDownOrCrouchOnCommand(player));
                 pad.BindHold(Buttons.DPadLeft, new MoveLeftCommand(player));
                 pad.BindHold(Buttons.DPadRight, new MoveRightCommand(player));
-                pad.Press(Buttons.X, new AttackCommand(player));
-                pad.Press(Buttons.A, new JumpCommand(player));
+                pad.Press(Buttons.X, new AttackCommand(player, audio));
+                pad.Press(Buttons.A, new JumpCommand(player, audio));
                 pad.BindRelease(Buttons.DPadDown, new CrouchOffCommand(player));
-                pad.Press(Buttons.Y, new SwordBeamCommand(player, projectiles));
-                pad.Press(Buttons.B, new FireballCommand(player, projectiles));
+                pad.Press(Buttons.Y, new SwordBeamCommand(player, projectiles, audio));
+                pad.Press(Buttons.B, new FireballCommand(player, projectiles, audio));
                 pad.BindJoystick(player);
 
                 //Sound
-                kb.Press(Keys.M, new ToggleBgmCommand());
-                pad.Press(Buttons.LeftShoulder, new ToggleBgmCommand());
+                kb.Press(Keys.M, new ToggleBgmCommand(audio));
+                pad.Press(Buttons.LeftShoulder, new ToggleBgmCommand(audio));
         }
         public sealed class InputSelector
         {

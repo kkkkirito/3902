@@ -12,13 +12,19 @@ namespace Sprint_0.States.LinkStates
         private const int totalFrames = 4;
         private const float frameTime = 0.25f; // seconds per frame
         private float timer;
+        private readonly IAudioManager _audio;
+
+        public PickupState(IAudioManager audio)
+        {
+            _audio = audio;
+        }
 
         public void Enter(IPlayer player)
         {
             player.Velocity = Vector2.Zero;
             player.CurrentFrame = 0;
             timer = 0f;
-            AudioManager.PlaySound(AudioManager.PickupSound, 0.9f);
+            _audio.PlayPickup();
         }
 
     public void Exit(IPlayer player) { }

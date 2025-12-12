@@ -172,10 +172,6 @@ namespace Sprint_0.Rooms
             foreach (var enemy in enemies) enemy.Draw(spriteBatch);
         }
 
-        /// <summary>
-        /// Checks if the player has fallen out of bounds (below the map)
-        /// </summary>
-        /// <returns>True if player is out of bounds</returns>
         public bool IsPlayerOutOfBounds()
         {
             if (player == null) return false;
@@ -184,9 +180,6 @@ namespace Sprint_0.Rooms
             return player.Position.Y > FALL_BOUNDARY_Y;
         }
 
-        /// <summary>
-        /// Applies fall damage to player and resets their position to start
-        /// </summary>
         public void HandlePlayerFallOutOfBounds()
         {
             if (player == null) return;
@@ -234,6 +227,31 @@ namespace Sprint_0.Rooms
         public void Reset() => ResetRoom(keepMagic: false, keepXP: false);
         public void Die() => ResetRoom(keepMagic: true, keepXP: true);
 
+        public void ResetMazeItems()
+        {
+            // Reset Trophy items
+            foreach (var item in items)
+            {
+                if (item is TrophyItem trophy)
+                {
+                    trophy.ResetState();
+                }
+                else if (item is TopDownKeyItem topDownKey)
+                {
+                    topDownKey.ResetState();
+                }
+            }
+
+            // Reset TopDownDoor blocks
+            foreach (var block in blocks)
+            {
+                if (block is TopDownDoor topDownDoor)
+                {
+                    topDownDoor.ResetState();
+                }
+            }
+        }
+
         private void CleanupBrokenTrapBlocks()
         {
             bool IsBrokenTrap(ICollidable c) => c is TrapBlock tb && tb.IsBroken;
@@ -249,6 +267,32 @@ namespace Sprint_0.Rooms
 
             collidables.RemoveAll(c => c is IBlock);
             collidables.AddRange(mergedStatics);
+        }
+
+        public void OnRoomEnter()
+        {
+            // Reset trap blocks when entering the room
+            foreach (var entityBlock in originalEntityBlocks)
+            {
+                if (entityBlock is TrapBlock trapBlock)
+                {
+                    if (!blocks.Contains(trapBlock))
+                        blocks.Add(trapBlock);
+
+                    if (!collidables.Contains(trapBlock))
+                        collidables.Add(trapBlock);
+
+                    trapBlock.ResetState();
+                }
+            }
+            // Reset enemies when entering the room
+            foreach (var enemy in enemies)
+            {
+                if (!collidables.Contains(enemy))
+                    collidables.Add(enemy);
+
+                enemy.ResetState();
+            }
         }
     }
 }

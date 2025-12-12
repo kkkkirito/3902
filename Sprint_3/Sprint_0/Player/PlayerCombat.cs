@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Sprint_0.Managers;
 using Sprint_0.States.LinkStates;
 
 namespace Sprint_0.Player_Namespace
@@ -7,10 +8,12 @@ namespace Sprint_0.Player_Namespace
     public class PlayerCombat
     {
         private readonly Player _player;
+        private readonly IAudioManager _audio;
 
-        public PlayerCombat(Player player)
+        public PlayerCombat(Player player, IAudioManager audio)
         {
             _player = player;
+            _audio = audio;
         }
 
         public void Attack(Direction direction, AttackMode mode = AttackMode.Normal)
@@ -59,11 +62,11 @@ namespace Sprint_0.Player_Namespace
                     _player.LivesAvailable = false;
                 }
                 _player.IsDying = true;
-                _player.ChangeState(new DeadState());
+                _player.ChangeState(new DeadState(_audio));
             }
             else
             {
-                _player.ChangeState(new HurtState());
+                _player.ChangeState(new HurtState(_audio));
             }
         }
 

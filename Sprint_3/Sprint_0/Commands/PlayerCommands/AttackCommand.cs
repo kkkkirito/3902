@@ -7,9 +7,17 @@ using Sprint_0.Managers;
 
 namespace Sprint_0.Commands.PlayerCommands
 {
-    public class AttackCommand(IPlayer player) : ICommand
+    public class AttackCommand: ICommand
     {
-        private readonly IPlayer player = player;
+
+        private readonly IPlayer player;
+        private readonly IAudioManager audio;
+
+        public AttackCommand(IPlayer player, IAudioManager audio)
+        {
+            this.player = player;
+            this.audio = audio;
+        }
         public void Execute()
         {
             if (player != null)
@@ -26,7 +34,7 @@ namespace Sprint_0.Commands.PlayerCommands
                 else if (player.IsGrounded && player.IsCrouching)
                     mode = AttackMode.Crouch;
 
-                AudioManager.PlaySound(AudioManager.AttackSound, 0.8f);
+                audio.PlayAttack();
                 player.Attack(player.FacingDirection, mode);
             }
         }

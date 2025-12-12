@@ -8,11 +8,17 @@ namespace Sprint_0.States.LinkStates
     public class HurtState : IPlayerState
     {
         public SpriteEffects s = SpriteEffects.None;
+        private readonly IAudioManager _audio;
+
+        public HurtState(IAudioManager audio) 
+        { 
+            _audio = audio;
+        }
 
         public void Enter(IPlayer player)
         {
             player.Velocity = Vector2.Zero;
-            AudioManager.PlaySound(AudioManager.HurtSound, 0.9f);
+            _audio.PlayHurt();
         }
 
         public void Exit(IPlayer player)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 using System;
 
 namespace Sprint_0.EnemyStateMachine
@@ -9,6 +10,12 @@ namespace Sprint_0.EnemyStateMachine
     {
         private float stateTimer;
         private float stateDuration;
+        private readonly IAudioManager _audio;
+
+        public IdleState(IAudioManager audio)
+        {
+            _audio = audio;
+        }
 
         public void Start(Enemy enemy)
         {
@@ -32,26 +39,26 @@ namespace Sprint_0.EnemyStateMachine
                 {
                     if (enemy.CanJump)
                     {
-                        enemy.ChangeState(new JumpState());
+                        enemy.ChangeState(new JumpState(_audio));
                     }
                     else if (enemy.CanCrouch)
                     {
-                        enemy.ChangeState(new CrouchState());
+                        enemy.ChangeState(new CrouchState(_audio));
                     }
 
                 }
-                else if (enemy.CanAttack && roll < .4)
+                else if (enemy.CanAttack && roll < .6)
                 {
-                    enemy.ChangeState(new AttackState());
+                    enemy.ChangeState(new AttackState(_audio));
                 }
                 else
                 {
-                    enemy.ChangeState(new MoveState());
+                    enemy.ChangeState(new MoveState(_audio));
                 }
             }
             else if (stateTimer >= stateDuration)
             {
-                enemy.ChangeState(new OctorokAttack());
+                enemy.ChangeState(new OctorokAttack(_audio));
             }
         }
         public void Done(Enemy enemy) { }

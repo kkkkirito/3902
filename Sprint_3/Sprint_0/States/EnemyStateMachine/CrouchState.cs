@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 using System;
 
 namespace Sprint_0.EnemyStateMachine
@@ -9,6 +10,13 @@ namespace Sprint_0.EnemyStateMachine
     {
         private float stateTimer;
         private float stateDuration;
+
+        private readonly IAudioManager _audio;
+
+        public CrouchState(IAudioManager audio)
+        {
+            _audio = audio;
+        }
         public void Start(Enemy enemy)
         {
             enemy.SetAnimation("Crouch");
@@ -28,15 +36,15 @@ namespace Sprint_0.EnemyStateMachine
 
                 if (roll < 0.15) // 15% chance
                 {
-                    enemy.ChangeState(new MoveState());
+                    enemy.ChangeState(new MoveState(_audio));
                 }
                 else if (roll < 0.3)
                 {
-                    enemy.ChangeState(new IdleState());
+                    enemy.ChangeState(new IdleState(_audio));
                 }
                 else
                 {
-                    enemy.ChangeState(new CrouchState());
+                    enemy.ChangeState(new CrouchState(_audio));
                 }
             }
         }

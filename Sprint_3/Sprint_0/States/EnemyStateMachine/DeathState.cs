@@ -11,13 +11,20 @@ namespace Sprint_0.EnemyStateMachine
         private float timer;
         private bool xpGranted;
 
+        private readonly IAudioManager _audio;
+
+        public DeathState(IAudioManager audio)
+        {
+            _audio = audio;
+        }   
+
         public void Start(Enemy enemy)
         {
             timer = 0f;
             enemy.SetAnimation("Death");
             enemy.Velocity = Vector2.Zero;
             enemy.BoundingBox = Rectangle.Empty;
-            AudioManager.PlaySound(AudioManager.EnemyDieSound, 0.9f);
+            _audio.PlayEnemyDie();
         }
         public void Update(Enemy enemy, GameTime gameTime)
         {
@@ -35,7 +42,7 @@ namespace Sprint_0.EnemyStateMachine
 
 
 
-                enemy.IsDead = true;
+                enemy.MarkAsDead();
             }
 
         }

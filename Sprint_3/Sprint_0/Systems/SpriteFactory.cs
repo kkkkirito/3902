@@ -175,6 +175,7 @@ namespace Sprint_0
 
             return new Dictionary<string, Animation>
             {
+                { "Idle", new Animation(spriteSheet, movingFrames, 0.15f, true) },
                 { "Move", new Animation(spriteSheet, movingFrames, 0.15f, true) },
                 { "Stunned", new Animation(spriteSheet, stunnedFrames, 0.2f, true) },
                 { "Death", new Animation(spriteSheet, deathFrames, 0.2f, false) }

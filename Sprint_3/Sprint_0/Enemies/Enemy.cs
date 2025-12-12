@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Interfaces;
 using System;
 using System.Collections.Generic;
+using Sprint_0.Managers;
 
 namespace Sprint_0.Enemies
 {
@@ -31,41 +32,45 @@ namespace Sprint_0.Enemies
         // Core properties
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
-        public Vector2 StartPosition { get; set; }
-        public float GroundY { get; set; }
+        public Vector2 StartPosition { get; private set; }
+        public float GroundY { get; private set; }
         public Rectangle BoundingBox { get; set; }
         public FacingDirection Facing { get; set; }
-        public Texture2D SpriteSheet { get; set; }
+        public Texture2D SpriteSheet { get; private set; }
 
         // State
         public IEnemyState _currentState { get; private set; }
-        public bool IsDead { get; set; }
+        public bool IsDead { get; private set; }
         public bool IsGrounded { get; set; }
         public CollisionDirection? LastCollisionDirection { get; set; }
 
         // Health
         public int MaxHealth { get; private set; }
         public int CurrentHealth { get; set; }
-        public bool IsInvulnerable { get; set; }
+        public bool IsInvulnerable { get; private set; }
         protected double invulnerableTimer;
 
         // Config properties
-        public bool CanMove { get; set; }
-        public bool CanJump { get; set; }
-        public bool CanAttack { get; set; }
-        public bool CanCrouch { get; set; }
-        public bool CanIdle { get; set; }
-        public bool LockFacing { get; set; }
-        public bool DropItemOnDeath { get; set; }
-        public int XPReward { get; set; }
-        public bool UseGravity { get; set; }
+        public bool CanMove { get; private set; }
+        public bool CanJump { get; private set; }
+        public bool CanAttack { get; private set; }
+        public bool CanCrouch { get; private set; }
+        public bool CanIdle { get; private set; }
+        public bool LockFacing { get; private set; }
+        public bool DropItemOnDeath { get; private set; }
+        public int XPReward { get; private set; }
+        public bool UseGravity { get; private set; }
 
         public event Action<Enemy> OnDeath;
 
         private Dictionary<string, Animation> animations;
         private Animation CurrentAnimation { get; set; }
 
-        internal Enemy(Dictionary<string, Animation> animations, Vector2 startPos, EnemyConfig config)
+        private readonly IAudioManager _audio;
+
+        
+
+        internal Enemy(Dictionary<string, Animation> animations, Vector2 startPos, EnemyConfig config, IAudioManager audio)
         {
             this.animations = animations;
             Position = StartPosition = startPos;
@@ -86,10 +91,12 @@ namespace Sprint_0.Enemies
 
             BoundingBox = new Rectangle((int)startPos.X, (int)startPos.Y,
                 config.BoundingBoxSize.Width, config.BoundingBoxSize.Height);
+
+            _audio = audio;
         }
 
-        internal Enemy(Dictionary<string, Animation> animations, Vector2 startPos)
-            : this(animations, startPos, new EnemyConfig()) { }
+        internal Enemy(Dictionary<string, Animation> animations, Vector2 startPos, IAudioManager audio)
+            : this(animations, startPos, new EnemyConfig(), audio) { }
 
         public void ChangeState(IEnemyState newState)
         {
@@ -112,7 +119,7 @@ namespace Sprint_0.Enemies
             }
         }
 
-        protected virtual void Die() => ChangeState(new EnemyStateMachine.DeathState());
+        protected virtual void Die() => ChangeState(new EnemyStateMachine.DeathState(_audio));
 
         internal void NotifyDeath() => OnDeath?.Invoke(this);
 
@@ -146,6 +153,11 @@ namespace Sprint_0.Enemies
                 CurrentAnimation = animations[key];
         }
 
+        public void SetSpriteSheet(Texture2D spriteSheet)
+        {
+            SpriteSheet = spriteSheet;
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (IsDead || CurrentAnimation == null) return;
@@ -177,9 +189,13 @@ namespace Sprint_0.Enemies
         }
 
         protected virtual IEnemyState GetDefaultState()
-            => new EnemyStateMachine.IdleState();
+            => new EnemyStateMachine.IdleState(_audio);
 
         public virtual IEnumerable<ICollidable> GetExtraCollidables()
         { yield break; }
+
+        internal void MarkAsDead() => IsDead = true;
+
+
     }
 }

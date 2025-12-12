@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 using System;
 
 namespace Sprint_0.EnemyStateMachine
@@ -9,6 +10,12 @@ namespace Sprint_0.EnemyStateMachine
     {
         private float stateTimer;
         private float stateDuration;
+        private readonly IAudioManager _audio;
+
+        public MoveState(IAudioManager audio)
+        {
+            _audio = audio;
+        }
 
         public void Start(Enemy enemy)
         {
@@ -33,27 +40,27 @@ namespace Sprint_0.EnemyStateMachine
                 {
                     if (enemy.CanJump)
                     {
-                        enemy.ChangeState(new JumpState());
+                        enemy.ChangeState(new JumpState(_audio));
                     }
                     else if (enemy.CanCrouch)
                     {
-                        enemy.ChangeState(new CrouchState());
+                        enemy.ChangeState(new CrouchState(_audio));
                     }
                 }
                 else if (roll < 0.15 && enemy.CanIdle)
                 {
-                    enemy.ChangeState(new IdleState());
+                    enemy.ChangeState(new IdleState(_audio));
                 }
-                else if (roll < 0.5 && enemy.CanAttack)
+                else if (roll < 0.6 && enemy.CanAttack)
                 {
-                    enemy.ChangeState(new AttackState());
+                    enemy.ChangeState(new AttackState(_audio));
                 }
-                else if (roll < 0.6 && !enemy.LockFacing)
+                else if (roll < 0.7 && !enemy.LockFacing)
                 {
                     enemy.Facing = (enemy.Facing == FacingDirection.Left)
                         ? FacingDirection.Right
                         : FacingDirection.Left;
-                    enemy.ChangeState(new MoveState());
+                    enemy.ChangeState(new MoveState(_audio));
                 }
             }
             //boundary checks
@@ -67,7 +74,7 @@ namespace Sprint_0.EnemyStateMachine
             {
                 enemy.Position = new Vector2(SCREEN_LEFT, enemy.Position.Y);
                 enemy.Facing = FacingDirection.Right;
-                enemy.ChangeState(new MoveState());
+                enemy.ChangeState(new MoveState(_audio));
                 return;
             }
 
@@ -75,7 +82,7 @@ namespace Sprint_0.EnemyStateMachine
             {
                 enemy.Position = new Vector2(SCREEN_RIGHT - enemyWidth, enemy.Position.Y);
                 enemy.Facing = FacingDirection.Left;
-                enemy.ChangeState(new MoveState());
+                enemy.ChangeState(new MoveState(_audio));
                 return;
             }
         }

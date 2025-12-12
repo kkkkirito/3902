@@ -15,24 +15,27 @@ namespace Sprint_0.States
         private KeyboardState _prevKbd;
         private GamePadState _prevPad;
 
-        public GameOverState(Game1 game, SpriteFont font, GameStateManager stateManager)
+        private IAudioManager _audio;
+
+        public GameOverState(Game1 game, SpriteFont font, GameStateManager stateManager, IAudioManager audio)
         {
             _game = game;
             _font = font;
             _stateManager = stateManager;
+            _audio = audio;
         }
 
         public void Enter()
         {
-            AudioManager.StopBgm();
+            _audio.StopBgm();
             _prevKbd = Keyboard.GetState();
             _prevPad = GamePad.GetState(PlayerIndex.One);
-            AudioManager.PlaySound(AudioManager.GameoverSound, 0.9f);
+            _audio.PlayGameOver();
         }
 
         public void Exit()
         {
-            AudioManager.PlayBgm();
+            _audio.PlayBgm();
         }
 
         public void Update(GameTime gameTime)

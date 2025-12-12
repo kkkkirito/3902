@@ -9,6 +9,13 @@ namespace Sprint_0.EnemyStateMachine
     {
         private float attackDuration = 0.5f; // half a second attack
         private float timer;
+        private readonly IAudioManager _audio;
+
+
+        public AttackState(IAudioManager audio)
+        {
+            _audio = audio;
+        }
 
         public void Start(Enemy enemy)
         {
@@ -21,7 +28,7 @@ namespace Sprint_0.EnemyStateMachine
             {
                 enemy.SetAnimation("IdleAttack");
             }
-            AudioManager.PlaySound(AudioManager.EnemyAttackSound, 0.9f);
+            _audio.PlayEnemyAttack();
             // Hit Box Later                              
         }
 
@@ -33,11 +40,11 @@ namespace Sprint_0.EnemyStateMachine
             {
                 if (enemy.Velocity != Vector2.Zero)
                 {
-                    enemy.ChangeState(new MoveState());
+                    enemy.ChangeState(new MoveState(_audio));
                 }
                 else
                 {
-                    enemy.ChangeState(new IdleState());
+                    enemy.ChangeState(new IdleState(_audio));
                 }
             }
         }

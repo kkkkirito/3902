@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Sprint_0.Enemies;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 
 namespace Sprint_0.EnemyStateMachine
 {
@@ -12,6 +13,13 @@ namespace Sprint_0.EnemyStateMachine
 
         private double attackCooldown;
         private bool hasFired;
+
+        private readonly IAudioManager _audio;
+
+        public OctorokAttack(IAudioManager audio)
+        {
+            _audio = audio;
+        }
 
         public void Start(Enemy enemy)
         {
@@ -40,7 +48,7 @@ namespace Sprint_0.EnemyStateMachine
 
             if (hasFired)
             {
-                enemy.ChangeState(new IdleState());
+                enemy.ChangeState(new IdleState(_audio));
             }
         }
 

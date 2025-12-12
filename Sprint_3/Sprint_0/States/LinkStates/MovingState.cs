@@ -8,16 +8,23 @@ namespace Sprint_0.States.LinkStates
     public class MovingState : IPlayerState
     {
         private InputState state = new InputState();
+        private readonly IAudioManager _audio;
+
+        public MovingState(IAudioManager audio)
+        {
+            _audio = audio;
+        }
+
         public void Enter(IPlayer player)
         {
-            AudioManager.PlayRunningSound();
+            _audio.PlayRunning();
             //player.AnimationTimer = 0;
             player.CurrentFrame = 0;
         }
 
         public void Exit(IPlayer player)
         {
-            AudioManager.StopRunningSound();
+            _audio.StopRunning();
             player.Velocity = Vector2.Zero;
         }
 

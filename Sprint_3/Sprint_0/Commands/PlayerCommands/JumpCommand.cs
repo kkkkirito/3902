@@ -7,13 +7,18 @@ namespace Sprint_0.Commands.PlayerCommands
     public class JumpCommand : ICommand
     {
         private readonly IPlayer _player;
-        public JumpCommand(IPlayer player) => _player = player;
+        private readonly IAudioManager _audio;
+        public JumpCommand(IPlayer player, IAudioManager audio)
+        {
+            _player = player;
+            _audio = audio;
+        }
         public void Execute()
         {
             if (_player.IsGrounded)
             {
                 _player.Jump();
-                AudioManager.PlaySound(AudioManager.JumpSound, 0.7f);
+                _audio.PlayJump();
             }
         }
     }

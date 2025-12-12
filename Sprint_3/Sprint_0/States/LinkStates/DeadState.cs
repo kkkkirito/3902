@@ -8,11 +8,17 @@ namespace Sprint_0.States.LinkStates
     public class DeadState : IPlayerState
     {
         private SpriteEffects _effects = SpriteEffects.None;
+        private readonly IAudioManager _audio;
+
+        public DeadState(IAudioManager audio) 
+        { 
+            _audio = audio;
+        }
 
         public void Enter(IPlayer player)
         {
             player.Velocity = Vector2.Zero;
-            AudioManager.PlaySound(AudioManager.DeathSound, 0.9f);
+            _audio.PlayDeath();
         }
 
         public void Exit(IPlayer player)

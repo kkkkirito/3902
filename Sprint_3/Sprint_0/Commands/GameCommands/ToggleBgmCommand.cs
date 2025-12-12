@@ -5,9 +5,13 @@ namespace Sprint_0.Commands.GameCommands
 {
     public class ToggleBgmCommand : ICommand
     {
+        private readonly IAudioManager _audio;
+        public ToggleBgmCommand(IAudioManager audio) {
+            _audio = audio;
+        }
         public void Execute()
         {
-            AudioManager.ToggleBgmMute();
+            _audio.ToggleBgmMute();
         }
     }
 }

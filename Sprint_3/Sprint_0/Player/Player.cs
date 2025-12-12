@@ -2,9 +2,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Sprint_0.Interfaces;
+using Sprint_0.Managers;
 using Sprint_0.States.LinkStates;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Sprint_0.Player_Namespace
 {
@@ -18,6 +20,8 @@ namespace Sprint_0.Player_Namespace
         private readonly PlayerMove _movement;
         private readonly PlayerCombat _combat;
         private readonly PlayerAnimation _animation;
+
+        private readonly IAudioManager _audio;
 
         public bool LivesAvailable { get; set; } = false;
 
@@ -97,7 +101,7 @@ namespace Sprint_0.Player_Namespace
 
         public float VerticalVelocity { get; set; }
 
-        public Player(Texture2D spriteSheet, Vector2 startPosition, IController controller)
+        public Player(Texture2D spriteSheet, Vector2 startPosition, IController controller, IAudioManager audio)
         {
             AnimationTimer = 0;
             SpriteSheet = spriteSheet;
@@ -107,13 +111,14 @@ namespace Sprint_0.Player_Namespace
             _controller = controller;
             attackHitBox = new PlayerAttackHitbox(this);
 
-
+            _audio = audio;
             // Start in idle state
             ChangeState(new IdleState());
 
             _movement = new PlayerMove(this);
-            _combat = new PlayerCombat(this);
+            _combat = new PlayerCombat(this, _audio);
             _animation = new PlayerAnimation(this);
+            
         }
 
         public void AddXP(int amount)
@@ -159,7 +164,7 @@ namespace Sprint_0.Player_Namespace
                     (GameMode == GameModeType.Platformer && Math.Abs(Velocity.X) > 0.1f)
                 )
                 {
-                    if (!(_currentState is MovingState)) ChangeState(new MovingState());
+                    if (!(_currentState is MovingState)) ChangeState(new MovingState(_audio));
                 }
                 else
                 {
@@ -219,7 +224,7 @@ namespace Sprint_0.Player_Namespace
             if (_currentState is HurtState || _currentState is AttackState || _currentState is PickupState) return; // can't pick up while hurt/attacking/picking up
             _heldItem = item;
             Velocity = Vector2.Zero;
-            ChangeState(new PickupState());
+            ChangeState(new PickupState(_audio));
         }
 
         public IEnumerable<ICollidable> GetCollidables()

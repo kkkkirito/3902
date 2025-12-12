@@ -12,6 +12,7 @@ using Sprint_0.States.LinkStates;
 using Sprint_0.Systems;
 using Sprint_0.Systems.Lighting;
 using System;
+using System.Collections.Generic;
 using static Sprint_0.States.Gameplay.InputBinder;
 
 
@@ -42,8 +43,17 @@ namespace Sprint_0.States.Gameplay
         private float _transitionTimer = 0f;
         private const float TRANSITION_DURATION = 0.5f;
         private RoomTransition _pendingTransition;
-        public GameplayState(Game1 game)
-        {
+        private IAudioManager _audio;
+               // Maze room IDs (0-indexed): Room 15 = Maze Room 1, Room 16 = Maze Room 2, Room 17 = Maze Room 3
+        // Room 14 = Maze (the main maze room)
+        private static readonly HashSet<int> MazeRoomIds = new HashSet<int> { 15, 16, 17 };
+        private const int MainMazeRoomId = 14;
+
+        // Store reference to all rooms for resetting
+        private List<Room> _allRooms;
+
+        public GameplayState(Game1 game, IAudioManager audio){
+            _audio = audio;
             _game = game;
             _keyboard = new KeyboardController(_game);
             _mouse = new MouseController(_game);
@@ -58,15 +68,18 @@ namespace Sprint_0.States.Gameplay
             _transitionManager = new RoomTransitionManager();
 
             _entityManager = new RoomEntityManager(_game.LinkTextures, _game.EnemyTextures, _game.BossTextures,
-                _game.OverworldEnemyTextures, _game.ItemTextures, game.BlockTextures, _keyboard);
+                _game.OverworldEnemyTextures, _game.ItemTextures, game.BlockTextures, _keyboard, _audio);
             _inputSelector = new InputSelector();
             _lighting = new LightingRenderer(_game.GraphicsDevice);
         }
+
+        
 
         public void Enter()
         {
             var loader = new RoomLoader(_game, _entityManager);
             var (rooms, startIndex) = loader.LoadAllRooms();
+            _allRooms = rooms;
             TrophyItem.OnTrophyCollected += HandleTrophyCollected;
             TopDownDoor.OnDoorUnlocked += HandleDoorUnlocked;
 
@@ -78,6 +91,7 @@ namespace Sprint_0.States.Gameplay
             _hud = new HudRenderer(_game.PixelHud, _game.HudTexture);
             OnRoomChanged(_navigator.Current);
             _player.Lives = 3;
+            _player.GameMode = GameModeType.Platformer;
         }
 
         public void Exit()
@@ -163,27 +177,24 @@ namespace Sprint_0.States.Gameplay
             }
             if (_player != null && _player.CurrentHealth <= 0)
             {
-                
-               if (_player != null && _player.CurrentHealth <= 0)
+                if (_player.CurrentState is DeadState || (_player is Player p && p.IsDying))
+                {
+                    if (_player is Player player)
                     {
-                        if (_player.CurrentState is DeadState || (_player is Player p && p.IsDying))
+                        player.IsDying = false;
+                        if (player.LivesAvailable)
                         {
-                            if (_player is Player pClear) pClear.IsDying = false;
-
-                            if (_player is Player concretePlayer && concretePlayer.LivesAvailable)
-                            {
-                                _navigator.Current.Die();
-                                _projectiles = new ProjectileManager(_game.LinkTextures, _game);
-                                _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
-                                _camera?.SnapToTarget(_player);
-                                concretePlayer.LivesAvailable = false;
-                            }
-                            else
-                            {
-                                _game.StateManager.ChangeState("gameover");
-                                return;
-                            }
+                            _navigator.Current.Die();
+                            _projectiles = new ProjectileManager(_game.LinkTextures, _game);
+                            _inputBinder.BindFor(_player, _projectiles, _hotbar, _game, _audio);
+                            _camera?.SnapToTarget(_player);
+                            player.LivesAvailable = false;
+                            return;
                         }
+                    }
+
+                    _game.StateManager.ChangeState("gameover");
+                    return;
                 }
             }
             var ms = Mouse.GetState();
@@ -226,7 +237,24 @@ namespace Sprint_0.States.Gameplay
 
             if (_pendingTransition != null)
             {
+                int currentRoomId = _navigator.Index;
+                int targetRoomId = _pendingTransition.TargetRoomId;
+
+                if (MazeRoomIds.Contains(currentRoomId) && targetRoomId == MainMazeRoomId)
+                {
+                    // Reset maze items in the room we're leaving (TopDownDoor, TopDownKey)
+                    _navigator.Current.ResetMazeItems();
+
+                    // Reset maze items in the target room (Trophy in Room 14)
+                    if (_allRooms != null && targetRoomId < _allRooms.Count)
+                    {
+                        _allRooms[targetRoomId].ResetMazeItems();
+                    }
+                }
+
                 _navigator.SwitchTo(_pendingTransition.TargetRoomId);
+
+                _navigator.Current.OnRoomEnter();
 
                 if (_player != null)
                 {
@@ -237,6 +265,7 @@ namespace Sprint_0.States.Gameplay
                         p.VerticalVelocity = 0f;
                     }
                 }
+
 
                 _pendingTransition = null;
             }
@@ -318,7 +347,7 @@ namespace Sprint_0.States.Gameplay
 
             if (_player != null)
             {
-                _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
+                _inputBinder.BindFor(_player, _projectiles, _hotbar, _game, _audio);
                 _camera?.SnapToTarget(_player);
             }
         }
@@ -346,7 +375,7 @@ namespace Sprint_0.States.Gameplay
             if (_player != null)
             {
                 GamepadController.ControlPlayer = _player;
-                _inputBinder.BindFor(_player, _projectiles, _hotbar, _game);
+                _inputBinder.BindFor(_player, _projectiles, _hotbar, _game, _audio);
             }
 
             if (room != null && _camera != null)
